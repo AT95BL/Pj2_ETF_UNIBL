@@ -1,0 +1,70 @@
+1)	Primjetim, 
+		ovo je ovo već 2. slučaj da se u klasi koja implementira FileVisitor interface,
+			posebno piše metoda imena 'find()'				..slučajnost!??
+
+
+
+
+
+2)	Da li naziv datoteke "Sadrži(contains)" traženi pattern?
+
+	if(path.getFileName().toString().toUpperCase().contains(this.pattern /*.toUppderCase() ?? */)){
+			
+		System.out.println("Patern pronadjen u imenu datoteke:" + path.toString());
+		pronadjeno=true;
+	}
+
+
+
+
+
+3)	Želiš da pročitaš(pohraniš) sve linije iz neke datoteke?
+
+	List<String> lines;
+	lines=Files.readAllLines(path);
+
+
+
+
+
+4)	Želiš da pronađeš 'poziciju' pattern-a u nekoj od linija?
+
+			List<String> lines;
+			
+			try{
+				
+				lines=Files.readAllLines(path);
+				
+				for(int i=0; i < lines.size(); i++){
+					
+					String tmp=lines.get(i).toUpperCase();
+					for(int index=-1;(index=tmp.indexOf(this.pattern,index+1))!=-1;)
+					{
+						System.out.println("Patern pronadjen  u fajlu:"+path+" u redu "+(i+1)+" pozicija"+index);
+						pronadjeno=true;
+					}
+				}
+			}
+			catch(IOException ex){
+				ex.printStackTrace();
+			}
+
+
+
+
+
+5)	U skladu sa tekstom zadatka:
+			
+			if(pronadjeno){
+				
+				try{
+					Desktop desktop=Desktop.getDesktop();
+					desktop.edit(new File(path.toString()));
+				}
+				catch(IOException ex){
+					ex.printStackTrace();
+				}
+			}
+
+
+	

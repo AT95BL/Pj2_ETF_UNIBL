@@ -1,0 +1,123 @@
+1) Hoću da iz klase VojnoPlovilo.java zapamtiš:	this.startTime = new Date().getTime();
+
+
+
+
+
+2) Zapitaj se, hoće li tokom sljedećeg poteza prilikom kretanja vojnog plovila možda doći do probijanja granica mape!
+	Program je često rezultirao sa IndexOutOfBoundsException iz razloga što provjera udaljenosti između podmornice i njene
+	mete realizuje to da se podmornica recimo nalazi na poziciji [vrsta][0,1,2] što znači da bi se meta trebala nalaziti na
+	pozicji [vrsta][-3,-2,-1] što je i dovelo do pada programa!!	
+
+
+
+
+
+3) Hoću da savladaš Simulacija-VojnoPlovilo komunikaciju između pomenutih klasa!!
+	U klasi VojnoPlovilo, unutar run() metode imaš sljedeći code-snippet:
+
+if(Simulacija.pauza){					 
+	synchronized(Simulacija.pauzaLock){				..normalno da je "synchronized" pa neću valjda imati namjeru da milion niti pokreće .wait()..			
+		this.endTime = new Date().getTime();		
+		try{		
+			Simulacija.pauzaLock.wait();
+		}
+		catch(InterruptedException ex){
+			System.out.println("PREKID!");
+		}
+	}
+}
+
+
+	što znači da se prilikom pokretanja programa sva VojnaPlovila kreću tj. izvršava se run() metoda.
+	Izvršavanjem run() metode svako od vojnih plovila ulazi u gore code-snippet navedeni "if(..){..}" block..
+	Dakle, ako je 'Simulacija.pauza == true' zaista istinito, plovila neće navaljivati na Simulacija.pauzaLock nego će
+	zbog "synchronized" samo jedna nit(vojno plovilo) otvoriti sinhronizovani code-block gdje će se pokrenuti
+	"Simulacija.pauzaLock.wait();" ..
+	Znači, simulacija i dalje traje, main-thread i sve ostale niti rade svoj posao ali "Simulacija.pauzaLock" drži svoj ".wait()"...
+	Dalje, znači, tokom rada programa "Simulacija.pauzaLock.wait();" je realizovano tako da će svako vojno plovilo
+	čekati na poziv "notifyAll()" metode..
+	Eto tako, na taj način, realizovana je simulacija pauze simulacije!!!	--ZNAJ DA "Simulacija.pauzaLock" je taj koji drži pozvan .wait()!!!
+	--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	Objašnjenje
+	Prilikom izvršavanja run() metode svakog vojnog plovila, postoji mehanizam za pauziranje simulacije koristeći synchronized blok i wait/notifyAll metode.
+	Detaljno objašnjenje
+	Pauziranje simulacije: Kada je Simulacija.pauza postavljena na true, svako vojno plovilo treba da pauzira svoje kretanje.
+	Synchronized blok: Kada Simulacija.pauza bude true, vojno plovilo ulazi u synchronized blok, koji koristi Simulacija.pauzaLock kao ključ za sinhronizaciju.
+	Čekanje na pauzu: Unutar synchronized bloka, postavlja se this.endTime na trenutni timestamp, a zatim se vojno plovilo zaustavlja pozivajući Simulacija.pauzaLock.wait(). 
+	Ova metoda će blokirati trenutnu nit dok ne dobije notifyAll() signal.
+	Izlazak iz pauze: 
+	Kada se Simulacija.pauza postavi na false i pozove Simulacija.pauzaLock.notifyAll(), sve niti koje su čekale na Simulacija.pauzaLock će se nastaviti sa izvršavanjem.
+
+	Konačno, dakle, Nemanja je shvatio to da će pauzirati simulaciju ako sve niti(vozila) postavi u "WAIT" stanje!!
+	Kako je gore navedeni "if(){}" sastavni code-snippet .run() metode svake instance klase VojnoPlovilo jednom pokrenut WAIT će naravno uticati na sva VojnaPlovila!!
+
+
+
+
+
+4) Prilikom operacije "parsiranja" vodi računa o tome da okružujuće( wrapper ) klase Integer, Double, Boolan,.. imaju ".parseInt/Double/Boolean/.."!!!
+	-Imaš String-liniju iz koje trebaš da parsiraš podatke, recimo  'String line = "ETF UNIBL PATRE 5"' 
+	-String[] tmp = line.split();
+	 String nazivFakulteta = tmp[0];
+	 String nazivObrazovneUstanove = tmp[1];
+ 	 String nazivAdrese = tmp[2];
+	 int adresniBroj = Integer.parseInt(tmp[3]);
+
+
+
+
+
+5) U klasi Simulacija.java, treba da proučiš ovaj prirodni tok dešavanja, znaj da je isti vezan za izvršavanje Main-Thread-a!
+	while (!"END".equals(line)) {								..radPrograma <=> MainThread, traje simulacija ali to ti je MainThread!!
+                try {
+
+                    if ("WAIT".equals(line)) {							..tokom rada programa, sa tastature uneseš string WAIT i šta treba da se desi!?
+                        simulacija.aktivirajPauzuSimulacije();					..aktivira se pauziranje simulacije
+                    } else if ("NOTIFY".equals(line)) {						..tokom rada programa, sa tastature uneseš string NOTIFY i šta treba da se desi!?
+                        simulacija.deaktivirajPauzuSimulacije();				..deaktivira se pauziranje simulacije
+                    } else if (line.startsWith("INFO")) {					..type INFO IDbrojVozila
+                        if (!Simulacija.pauza) {
+                            throw new CommandNotValidException();
+                        }
+
+                        // parsiraj rijec iz linije..
+                        String[] tmp = line.split(" ");
+                        try {
+                            int id = Integer.parseInt(tmp[1]);
+                            for (var el : vojnaPlovila) {
+                                if (el.id == id) {
+                                    System.out.println(el);
+                                    break;
+                                }
+                            }
+                        } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                            System.out.println("ID nije validan!!!");
+                        }
+                    } else if (line.startsWith("TIME")) {
+                        if (!Simulacija.pauza) {
+                            throw new CommandNotValidException();
+                        }
+
+                        String[] tmp = line.split(" ");
+                        try {
+                            int id = Integer.parseInt(tmp[1]);
+                            for (var el : vojnaPlovila) {
+                                if (el.id == id) {
+                                    System.out.println(el + "Vreme kretanja: " +
+                                            (el.endTime - el.startTime) + "[ms] \n");
+                                    break;
+                                }
+                            }
+                        } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+                            System.out.println("ID nije validan!!!");
+                        }
+                    }
+
+                } catch (CommandNotValidException ex) {
+                    System.out.println(ex.getMessage());
+                }
+
+                line = scanner.nextLine();
+            }
+   

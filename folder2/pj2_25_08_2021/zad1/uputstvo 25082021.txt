@@ -1,0 +1,144 @@
+25/08/2021
+
+1. Zadatak:
+
+*Virtuelna pošta vrši raspodjelu i slanje pošiljki.
+-Čitajući tekst zadatka sam naletio na tu rečenicu i na prvu sve što mi je ušlo jeste pojam "Virtuelna pošta" ..
+
+*Svaku pošiljku karakteriše adresa primaoca, adresa pošiljaoca i težina. Pošiljke se mogu podijeliti na razglednice, pisma i vrijednosne pošiljke. Razglednice imaju sadržaj i vizuelni dio, koji može da bude fajl sa ekstenizijom .jpg, .jpeg ili .png, a njihova težina je slučajan broj u opsegu od 1 do 10. Pismo ima sadržaj koji se nalazi u tekstualnom fajlu, a njegova težina je slučajan broj u opsegu od 1 do 20. Vrijednosna pošiljka ima vrijednost izraženu u jednoj od valuta: evro, konvertibilna marka ili američki dolar, a njihova težina je slučajan broj u opsegu od 10 do 100.
+-Iz gore navedenog teksta jasno se može zaključiti to kako je Pošiljka apstraktna roditeljska klasa klasama Razglednica, Pismo 
+ i Vrijednosna Pošiljka
+-što se klase Razglednica tiče, ekstenzije .jpg, .jpeg ili .png sugerišu na mogućnost exception-throw već pri definisanju
+ konstruktora za tu klasu. Ista priča važi i za .txt kod Pismo klase.
+ Samim tim u Konstruktor metodama navedenih klasa navedena je mogućnost za exception throw u vidu IllegalArgumentException
+ Napominjem to da je za rad programa u promet pušten samo 3. definisani Konstruktor jer prethodna 2 su ništa no moji promašaji..
+-Isto tako, što se valuta tiče, eksplicitno su naglašene kroz tekst zadatka i samim tim ih treba nekako i izdvojiti..
+ Da napravim apstraktnu klasu Valuta i onda da koristim inheritence nema smisla jer eksplicitno navedene vrijednosti 
+ nemaju neke metode a ni atributa drugih osim imena -neće biti metoda pa nema smisla ni da bude interface i tako je izbor pao na "enum"..
+-UOBIČAJENA PRAKSA JESTE DA SE U RODITELJSKOM KLASI UVIJEK ODRADI OVERRIDE toString(), equals() i hashCode() METODA!!
+
+*Pošiljke je moguće spakovati u paket. Paket je generička klasa, koja u sebi sadrži listu pošiljki. Paket ima težinu, koja se računa kao zbir težina svih pošiljki u paketu. Pod slanjem pošiljki podrazumijeva se prikaz svih informacija (sadržaja metode toString) o pošiljki na konzoli. Ukoliko je težina pošiljke veća od 15, pošiljka se dijeli na tri dijela i šalje se dio po dio sa pauzom između slanja dijelova od 3 sekunde. Ista analogija primjenjuje se i na pakete.
+-Pogledaj definiciju klase Paket.java!!
+-u stvarnom životu ako bih pošiljke stavljao u paket-kutiju redao bih pošiljke jednu na drugu ..
+-postavlja se pitanje kojom strukturom podataka da predstavim-opišem takav posao -vektorskom, znači ArrayList je moj izbor za atribut
+ klase Paket..
+-za ispis paketa na standardni izlaz, statički String nije opcija pošto zavisno od paketa do paketa sve se mijenja..
+ U nekom paketu možemo imati više/manje pošiljki u odnosu na neki njemu prethodni paket..
+ Iz to razloga izbor je StringBuilder klasa:
+------------------------------------------------------------------------------------------------------------------------------------------
+ 1) Razlika između `String str = new String();` i `String str = "";` je sljedeća:
+
+- `String str = new String();`: Ova naredba stvara novi objekt tipa `String` i dodjeljuje ga varijabli `str`. Međutim, koristi se konstruktor `String()` koji stvara prazan string (string bez znakova), pa će `str` biti inicijaliziran praznim stringom `""`.
+
+- `String str = "";`: Ova naredba direktno dodjeljuje prazan string (`""`) varijabli `str`, što znači da varijabla `str` odmah ima vrijednost praznog stringa bez stvaranja dodatnog objekta.
+
+U osnovi, obje naredbe rezultiraju istim - varijabla `str` sadrži prazan string. Međutim, korištenje `String str = "";` je efikasnije jer direktno inicijalizira varijablu bez stvaranja novog objekta `String`.
+
+2) Kada koristiti `String`, `StringBuilder` i `StringBuffer`:
+
+- `String`: Koristi se kada želimo imati nemijenjivi (immutable) niz znakova. To znači da se vrijednost stringa ne može mijenjati nakon što je jednom kreirana. Primjerice, kada trebate predstaviti konstantni tekst ili kada manipulacija teksta nije potrebna.
+
+- `StringBuilder`: Koristi se kada trebate izmjenjiv (mutable) niz znakova, a performanse su vam bitne. `StringBuilder` omogućava efikasno dodavanje, brisanje i mijenjanje znakova u stringu jer omogućava promjene nad istim objektom (modifikacija se vrši direktno na istom objektu bez stvaranja novih instanci). Preporučuje se za izgradnju dinamičkih stringova kada je potrebno mnogo manipulacija nad tekstom.
+
+- `StringBuffer`: Slično kao i `StringBuilder`, `StringBuffer` je također izmjenjiv (mutable) niz znakova. Glavna razlika je što je `StringBuffer` thread-safe (višedretveno siguran), što znači da je siguran za upotrebu u višedretvenim okruženjima gdje se više dretvi može istovremeno pokušati modificirati isti objekt `StringBuffer`. Zbog dodatne sigurnosti, `StringBuffer` može biti nešto sporiji od `StringBuilder`, ali ako vam je potrebna thread-sigurnost, preporučuje se korištenje `StringBuffer`.
+
+U većini slučajeva, za jednostavne operacije s nizovima znakova koristite `String`. Ako vam je potrebna efikasna manipulacija stringova, koristite `StringBuilder` (osim ako ne radite s više dretvi, tada koristite `StringBuffer`).
+------------------------------------------------------------------------------------------------------------------------------------------
+
+*Simulacija rada virtuelne pošte odvija se na sljedeći način:
+
+*kreira se po 15 pošiljki svakog tipa i smještaju se u proizvoljno odabranu kolekciju,
+*nad dobijenom kolekcijom odradi se shuffle,
+-šablonski posao..
+
+*novodobijena kolekcija se proslijeđuje niti, koja vrši razvrstavanje dobijenih pošiljki u tri kolekcije, po tipu i serijalizuje ove kolekcije,
+-dolazim do situacije gdje trebam definisati RazvrstavanjeNit.java klasu!
+-čitajući tekst zadatka "novodobijena kolekcija se proslijeđuje niti" znam šta je argument za Konstruktor klase RazvrstavanjeNit!!
+ samim tim to mi otvara mogućnost za Ctrl+N, save sve kao RazvrstavanjeNit.java i onda unutar te klase odma imam definisan Konstruktor
+ tako da u VirtuelnaPosta.java imam mogućnost za ubacivanjem:
+ RazvrstavanjeNit razvrstavanjeNit = new RazvrstavanjeNit(posiljke);
+		razvrstavanjeNit.start();
+		try{
+			razvrstavanjeNit.join();
+		}
+		catch(InterruptedException ex){
+			ex.printStackTrace();
+		}
+ te nakon toga idem dalje da definišem klasu RazvrstavanjeNit.java
+-klasa treba da razvrsta prethodno shuffle kolekciju tako što razglednice/pisma/vr svrstava u razglednice/pisma/vr
+ što je thread posao ..
+-sve to što razvrsta kada razvrsta treba serijalizovano da upiše u datoteku..
+-posao metoda serijalizuj i run se da zaključiti čitanjem definicija istih..
+-na analogan način prethodnom dolazim do mogućnosti za ubacivanje sljedećeg code-snippet-a:
+ PaketMakerNit pmk = new PaketMakerNit(razglednice, pisma, vrijednosnePosiljke);
+		pmk.start();
+		try{
+			pmk.join();
+		}
+		catch(InterruptedException ex){
+			ex.printStackTrace();
+		}	
+
+
+*nakon razvrstavanja, kolekcije se prosljeđuju drugoj niti, koja iz svake kolekcije uzima po pet slučajno odabranih pošiljki i pakuje ih u tri paketa (paketi se uklanjaju iz kolekcija),
+-iz svake kolekcije random izdvojiš 5 pošiljki i to jednu po jednu, zatim tu jednu staviš u paket a onda je izbaciš iz same kolekcije.. logično..
+-šablonski posao koji se da obaviti jednom for-petljom pri čemu samo treba obratiti pažnju na metode ArrayList kolekcije podataka..
+
+*dobijeni paketi i kolekcije prosljeđuju se trećoj niti, koji obavlja slanje,
+-analogno kao i u prethodna 2 slučaja tako i ovdje dolazi do dodavanja sljedećeg code-snippet-a:
+	        ArrayList<ArrayList<? extends Posiljka>> kolekcija=new ArrayList<>();
+		kolekcija.add(this.razglednice);
+		kolekcija.add(this.pisma);
+		kolekcija.add(this.vrijednosnePosiljke);
+
+		ArrayList<Paket<? extends Posiljka>> paketi=new ArrayList<>();
+		paketi.add(paket1); 
+		paketi.add(paket2); 
+		paketi.add(paket3);
+
+		SenderNit sn=new SenderNit(kolekcija,paketi);
+
+		sn.start();
+
+		try
+		{
+			sn.join();
+		}
+		catch(InterruptedException e)
+		{
+			System.out.println("PREKID!!");
+		}
+
+ stim što ovdje imam malo dodatnog napora..
+
+-gledaj:
+ArrayList<ArrayList<? extends Posiljka>> kolekcija=new ArrayList<>();
+		kolekcija.add(this.razglednice);
+		kolekcija.add(this.pisma);
+		kolekcija.add(this.vrijednosnePosiljke);
+-taj code snippet je proizašao iz sljedećeg pitanja: kako jednom linijom da opišem:
+public ArrayList<Razglednica> razglednice;
+public ArrayList<Pismo> pisma;
+public ArrayList<VrijednosnaPosiljka> vrijednosnePosiljke;
+-pa ovako: ArrayList<? extends Posiljka> što znači da meni za pohranu svih prethodno navedenih kolekcija treba ArrayList<ArrayList<? extends Posiljka>> kolekcija=new ArrayList<>();
+
+ArrayList<Paket<? extends Posiljka>> paketi=new ArrayList<>();
+		paketi.add(paket1); 
+		paketi.add(paket2); 
+		paketi.add(paket3);
+-ako dovoljno dobro-pažljivo pogledaš ovo je ništa drugo no lista paketa..
+-sljedeći potez jeste davanje definicije klase SenderNit.java ..
+-petljom prolaziš kroz pakete/kolekcije ..
+-zatim još par dodatnih finesa u VirtuelnaPosta.java , naravno sve u skladu sa samim tekstom zadatka tako da to je to ..
+------------------------------------------------------------------------------------------------------------------------------------------
+
+***********************************************************************
+Java Producer Consumer,
+Thread.join();,
+
+-znači u jednoj klasi pripremiš teren za poziv konstruktora druge klase
+-start() pozvan od strane objekta te druge klase
+-try-catch block i u njemu .join()
+
+to je sva mudrost ovog zadatka!! 
+***********************************************************************

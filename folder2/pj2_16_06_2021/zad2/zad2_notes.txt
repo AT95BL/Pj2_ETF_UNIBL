@@ -1,0 +1,67 @@
+Spajanje  grupa  knjiga  -  spojiti dvije grupe knjiga, tako što se spajaju u prvu, a iz druge 
+grupe  se  svi  uklanjaju  nakon  spajanja.  Nakon  spajanja  ispisati  broj  knjiga  u  grupi  i  sve 
+različite pisce. 
+
+	// Spajanje grupa knjiga
+        prvaGrupa.dodajKnjige(drugaGrupa.getKnjige());
+        drugaGrupa.getKnjige().clear();
+
+
+
+
+
+Filtiranje  grupe  knjiga  -  filtrirati  i  grupisati  knjige  po  žanru.  Nakon  filtiranja  potrebno  je 
+ispisati grupe na konzoli.
+
+	// Filtiranje grupe knjiga
+        prvaGrupa.getKnjige().stream()   				 collect + Collectors + groupingBy
+                .collect(Collectors.groupingBy(Knjiga::getZanr))	.collect(Collectors.groupingBy(Knjiga::getZanr))	-samo zamisli šta će se desiti!?
+                .forEach((zanr, knjige) -> {
+                    System.out.println("Žanr: " + zanr);
+                    knjige.forEach(System.out::println);
+                });
+
+
+
+
+
+Sortiranje grupe knjiga po godini izdavanja od najveće ka najmanjoj - sortirati ih i ispisati na 
+konzoli korištenjem stream-a.
+
+	// Sortiranje grupe knjiga po godini izdavanja
+        prvaGrupa.getKnjige().stream()												"sortiranje ide poređenjem"
+                .sorted(Comparator.comparingInt(Knjiga::getGodinaIzdavanja))							zapamti kombinaciju "sorted + Comparator"!!
+                .forEach(System.out::println);
+
+	
+
+
+
+Sumirati godine izdavanja svih knjiga iz grupe žanra “putopis” gdje je godina je djeljiva sa 3 
+korištenjem Function interfejsa.
+
+	// Sumiranje godina izdavanja svih knjiga iz grupe žanra "putopis"							SUMIRANJE!! --zapamti, prvo je iskoristio .filter()!!
+        int sum = prvaGrupa.getKnjige().stream()
+                .filter(knjiga -> knjiga.getZanr() == Zanr.PUTOVANJE)								.filter() da napraviš novi stream na osnovu postojećeg
+                .mapToInt(Knjiga::getGodinaIzdavanja)										čemu/šta mapToInt() --Java Doc!!
+                .sum();
+	System.out.println("Suma godina izdavanja putopisa: " + sum);
+
+
+
+
+
+Prikazati knjigu sa najkraćim naslovom i sa najdužim naslovom korištenjem stream-a.
+
+	// Prikazati knjigu sa najkraćim naslovom i sa najdužim naslovom							 neka te najkraći/najduži asocira na min/max!!
+        prvaGrupa.getKnjige().stream()
+                .min(Comparator.comparingInt(knjiga -> knjiga.getNaslov().length()))
+                .ifPresent(knjiga -> System.out.println("Najkraći naslov: " + knjiga.getNaslov()));
+
+        prvaGrupa.getKnjige().stream()
+                .max(Comparator.comparingInt(knjiga -> knjiga.getNaslov().length()))
+                .ifPresent(knjiga -> System.out.println("Najduži naslov: " + knjiga.getNaslov()));
+
+
+---ZAPAMTI: ako će među elementima stream-a biti poređenja, sortiranja,..onda naravno koristiš .Comparator.comparingŠTA(..)
+---ZAPAMTI: ako se od elemenata pravi novi stream, kao što je ovdje bio slučaj da se na osnovu žanra pravi lista! Onda koristiš Collector.groupingBy(..)!!

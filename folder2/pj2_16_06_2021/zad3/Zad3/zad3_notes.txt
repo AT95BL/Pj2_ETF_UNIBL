@@ -1,0 +1,67 @@
+1) 	public class Finder implements FileVisitor<Path>
+	
+	Zašto baš <Path> ??
+	Kada koristiš FileVisitor, koristiš generički tip da bi specifikovao tip objekta koje će FileVisitor obrađivati. U ovom slučaju, FileVisitor je interfejs koji omogućava obilazak 	fajlova i direktorijuma u fajl sistemu, a Path je tip koji predstavlja putanju fajla ili direktorijuma.
+
+
+
+
+
+2)	// Da li se datoteka završava sa zadatom ekstenzijom!? 
+	private void find(Path path)
+	{
+		if(path.getFileName().toString().endsWith(this.ekstenzija))
+			paths.add(path);
+	}
+
+	Gledaj, radiš sa putanjama, ok...dakle argument metode je ujedno i putanja do datoteke..
+	Metoda kojom ispituješ ekstenziju datoteke:
+	.getFileName()  		--iz zadate putanje, počevši od korijena, vraća najdalje ime u odnosu na korijen,
+	.toString()			--taj rezultat PTRETVORI U STRING!!,
+	.endsWith(this.ekstenzija)	--logično..
+	
+	Dalje naravno znaš da će se tokom walkFileTree(..) za svaku datoteku(putanju) pozivati redefinisana metoda visitFile() FileVisitor interface-a
+	tako da pri redefinisanju te metode, navedi naravno poziv ove find(..) metode!!
+
+
+
+
+
+3)	public void copyAllFiles()
+	{
+			for(var path:this.paths)
+			{
+				try
+				{	// KREIRAJ DESTINACIONU PUTANJU!!:
+					Path dest=Paths.get(this.copyPath.toString(),path.getFileName().toString());
+					Files.copy(path,dest);
+				}
+				catch(IOException e)
+				{
+					System.out.println("Greska prilikom kopiranja fajla:"+path.getFileName().toString());
+				}
+			}	
+	}
+
+	Kernel ove metode:
+	Path dest 									-putanja do direktorijuma u koji ćemo kopirati datoteke..
+	this.copyPath 				-je pretpostavljena promjenjiva koja sadrži 'Path' objekat. Ova promjenjiva predstavlja direktorijum gde će fajl biti kopiran.
+	.toString() 									-vraća 'String' reprezentaciju putanje koju 'this.copyPath' predstavlja.
+	path.getFileName().toString()							-String reprezentacija imena fajla
+	sad idemo malo nazad..
+	Dakle, Paths.get(this.copyPath.toString(),path.getFileName().toString());	-metoda kreira Path objektu spajanjem String argumenata.
+	Iiiii kernelska ideja ove metode:
+	Files.copy(path, dest);
+	
+
+
+
+
+4)	Znači, za ovaj zadatak, izdvajam 2 metode:
+	find(Path path);
+	copyAllFiles();
+	
+	Zatim, primjetim:
+	Path path = Paths.get(..);	znači Path pa Paths.get(...);
+	
+	Ovaj zadatak se može uraditi tako što se pođe(od zamisli..) od metode main()..!?
