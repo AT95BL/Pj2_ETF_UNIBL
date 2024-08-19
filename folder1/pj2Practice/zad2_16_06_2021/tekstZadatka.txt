@@ -1,0 +1,9 @@
+2. (20) Kreirati klasu Knjiga. 
+	Svaka knjiga ima naslov, pisca, godinu izdavanja i atribut Zanr (enum tip, koji ima minimalno sljedeće četiri vrijednosti: beletristika, putopis, triler i poezija). 
+	Dvije knjige su jednaka ukoliko imaju istu godinu izdavanja i isti naslov. Grupa knjiga predstavlja HashSet knjiga. 
+	HashSet popuniti sa minimalno 20 knjiga (podatke generisati na slučajan način). Korištenjem Java Stream API-ja i lambda izraza implementirati sljedeće funkcionalnosti:
+● Spajanje grupa knjiga - spojiti dvije grupe knjiga, tako što se spajaju u prvu, a iz druge grupe se svi uklanjaju nakon spajanja. Nakon spajanja ispisati broj knjiga u grupi i sve različite pisce.
+● Filtiranje grupe knjiga - filtrirati i grupisati knjige po žanru. Nakon filtiranja potrebno je ispisati grupe na konzoli.
+● Sortiranje grupe knjiga po godini izdavanja od najveće ka najmanjoj - sortirati ih i ispisati na konzoli korištenjem stream-a.
+● Sumirati godine izdavanja svih knjiga iz grupe žanra “putopis” gdje je godina je djeljiva sa 3 korištenjem Function interfejsa.
+● Prikazati knjigu sa najkraćim naslovom i sa najdužim naslovom korištenjem stream-a.

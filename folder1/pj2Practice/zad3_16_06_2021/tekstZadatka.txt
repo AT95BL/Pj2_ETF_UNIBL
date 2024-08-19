@@ -1,0 +1,5 @@
+Napisati aplikaciju pretraga direktorijuma koja za datu ekstenziju vrši pretragu fajlova sa datom ekstenzijom u datom direktorijumu i njegovim poddirektorijumima. 
+Aplikacija bi nakon pretrage trebala da ispiše listu sa putanjom do fajlova koji imaju navedenu ekstenziju kao i broj pojavljivanja tih fajlova. 
+Svi fajlovi sa navedenom ekstenzijom se kopiraju u odvojen direktorijum (direktno u korijen tog direktorijuma). 
+Korisnik putem argumenata komandne linije unosi putanju od koje počinje pretraga, direktorijum u koji se kopiraju fajlovi sa datom ekstenzijom kao i ekstenziju za pretragu. 
+Rezultati pretrage se ispisuju na konzolu.

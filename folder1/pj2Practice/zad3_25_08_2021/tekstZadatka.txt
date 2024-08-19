@@ -1,0 +1,24 @@
+
+3. (20) Napisati generičku metodu koja kao argumente prima listu Predicate objekata koji su uslovi koji će biti testirani nad podacima, 
+	dva cjelobrojna argumenta i neodređen broj listi podataka (više njih) koje implementiraju interfejs Podatak. 
+	
+	-iz prethodnog teksta trebaš da shvatiš potpis metode koja u main klasi nosi naziv "method"!
+	 1) metoda prima 4 argumenta.
+	 
+	 2) metoda jegenerička! 
+	    dakle, njen potpis počinje sa	
+		<t extends podatak> čisto da se naglasi da se radi o generičkoj metodi, 
+		zatim ide povratni tip metode:
+		list<t>
+		
+	 3) 1. argument jeste lista predicate objekata. dakle, to bi bilo 'arraylist<predicate<t>> predicates'
+	 4) naredna dva argumenta jesu dva int-a, dakle bezveze neka imena 'int a, int b' pa kasnije preimenuj i prilagodi po potrebi.. 
+	 
+	 5) list<arraylist<t>> lists
+	 
+	Cjelobrojni argumenti predstavljaju početni i krajnji indeks u listi rezultata (krajnji indeks može biti jednak broju elemenata ili manji), 
+	koja se dobija tako što se pomoću Predicate uslova iz svake liste uzimaju samo oni elementi koji ispunjavaju sve proslijeđene uslove. 
+	
+	Lista rezultata je sortirana od elementa koji ima najveću hashCode vrijednost ka objektima sa manjim vrijednostima. 
+	
+	U main metodi potrebno je napraviti 3 liste objekata klase Student (ime, prezime, brojIndeksa) i testirati generičku metodu.

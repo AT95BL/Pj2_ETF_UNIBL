@@ -1,0 +1,7 @@
+public enum Zanr{
+	
+	BALETRISTIKA,
+	PUTOPIS,
+	TRILER,
+	POEZIJA
+}

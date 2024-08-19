@@ -1,0 +1,10 @@
+Napisati interfejs koji ima metode Double getValue(), String getName() i Status getStatus(). Status
+je enumaracija sa vrijednostima: NEW, PROCESSING, DONE. Napraviti 3 klase koje implementiraju ovaj
+interfejs. Nazive klasa odrediti proizvoljno. Napraviti tri niza objekata ovih klasa sa po 10 objekata.
+Statuse postaviti naizmjenično. Napisati generičku metodu koja u proslijeđenih n nizova grupiše
+podatke na način da ostanu samo jedinstveni name atributi, sa sumarnim value vrijednostima. Metoda
+vraća jedan niz, a prima argument Status po kojem filtrira podatke iz ulaznih nizova. Iskoristiti ovu
+metodu da sumirate tri niza u jedan. Primjer:
+A = [{name:’pj2’, value: 100, status: NEW}, {name:’java’, value: 20, status: PROCESSING},...]
+B = [{name:’ispit’, value: 100, status: DONE}, {name: 'pj2', value: 200, status: NEW},...]
+REZ = [{name: 'pj2', value: 300}, {name: 'java', value: 20}, {name: 'ispit', value: 100}, …]

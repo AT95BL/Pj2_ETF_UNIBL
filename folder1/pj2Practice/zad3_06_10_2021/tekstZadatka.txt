@@ -1,0 +1,13 @@
+Agencija za zapоšljavanje čuva sljedeće podatke o potencijalnim poslovima koje nudi kroz oglase: naziv oglasa, 
+kratak opis posla, datum objavljivanja oglasa, vrijeme trajanja oglasa (u danima), ponuđenu platu, broj godina radnog iskustva,
+grad i kategoriju posla. 
+Kategorija posla može da bude: IT, ekonomija, medicina, novinarstvo i pravo.
+Pripremiti izvještaj koji se sastoji od sljedećeg:
+· Ukupan broj objavljenih oglasa u jednom danu (za svaki datum pojedinačno),
+· Prosječnu ponuđenu platu u kategoriji IT,
+· Najčešći grad u kom se nudi posao,
+· Prikaz svih oglasa grupisanih po mjesecima (mjesec odrediti iz datuma),
+· Prikaz svih oglasa sortiranih po vremenu trajanja u opadajućem redoslijedu,
+· Prikaz najbolje plaćenog posla za svaku kategoriju,
+· Prosječan broj godina radnog iskustva ukupno i posebno za svaku kategoriju.
+Prije testiranja svih implementiranih metoda, generisati automatski minimalno 60 oglasa (po 12 od svake kategorije).

@@ -1,0 +1,5 @@
+Ovo je drugi testni dokument za pretragu i zamjenu riječi.
+U ovom dokumentu ćemo testirati zamjenu riječi kao što su provjera i staraRiječ.
+Zamjena riječi je važna funkcionalnost koja omogućava ažuriranje sadržaja datoteka.
+Provjera ispravnosti zamjene riječi pomaže u održavanju kvaliteta podataka.
+Ovaj dokument služi kao dodatni primjer za testiranje.

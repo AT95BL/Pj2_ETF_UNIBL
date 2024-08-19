@@ -1,0 +1,23 @@
+U JavaSvijetu organizuje se uvoz vozila. Svako vozilo ima vozača, broj putnika, cijenu, identifikator,
+motor koji takođe ima identifikator i tip motora (motor može biti dizelski, benzinski, električni ili hibrid).
+Vozila mogu biti automobili (broj putnika od 1 do 8), kamioni (broj putnika od 1 do 3) i autobusi (broj
+putnika od 8 do 52). Automobili se mogu uvoziti pojedinačno ili na kamionu. Automobili se uvoze
+regularno, kamioni i autobusi se uvoze uz posebnu proceduru. Kamioni koji prevoze automobile ne trebaju
+da se uvoze. Vozači za svako prevozno sredstvo imaju ime i prezime. Svako vozilo treba da se kreće po
+stazama koje su predstavljene nizom polja. Do graničnog prelaza vodi jedna staza na kojoj je 15 uvodnih
+polja ali se prije graničnog prelaza (na po tri uzastopna dodatna polja) odvajaju u posebnu traku
+automobili, a u posebnu traku autobusi i kamioni (uključujući i kamione koji prevoze automobile). Na
+kraju odvojenih traka nalaze se terminali. Procedura uvoza na terminalima za automobile traje do 1
+sekunde, a procedura uvoza za autobuse i kamione do 2 sekunde (sekunda po vozilu koje se uvozi na
+kamionu). Prilikom uvoza za svako vozilo se računa odgovarajuća taksa i to po sljedećem modelu:
+Električna vozila ne plaćaju taksu, hibridim se naplaćuje taksa u iznosu od 50 KM, u svim ostalim tipovima
+automobila taksa iznosi 100KM, za kamione 500KM, a za autobuse po formuli broj_putnikax20.
+Simulacija započinje kreiranjem reda vozila (po pet automobila, kamiona i autobusa), koji su raspoređeni
+na prvih 15 polja. Vozilo može preći na naredno polje samo ako je ono slobodno. Svi podaci za vozilo su
+slučajno generisani. U sakom trenutku se na konzoli ispisuju trenutni događaji na terminalima sa svim
+podacima (koji terminal, koje vozilo sa svim podacima vozila, kolika je taksa…). U posebnim odvojenim
+fajlovima se u relnom vremenu upisuje u tekstualne fajlove ukupna određena taksa za regularnu
+proceduru i posebnu proceduru, respektivno. U trenutku kada se simulacija završi potrebno je ispisati na
+konzolu ukupan iznos obračunate takse i broj putnika koji su prošli terminale.
+Obavezno napraviti hijerarhiju klasa koja omogućava da ne dođe do dupliranja koda. Ne koristiti
+enumeracije. Takođe je potrebno voditi računa o performansama izvršavanja.

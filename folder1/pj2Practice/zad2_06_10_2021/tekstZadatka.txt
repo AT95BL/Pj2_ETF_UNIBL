@@ -1,0 +1,14 @@
+
+Napisati program za obradu tekstualnih dokumenata koji ima 3 metode.
+Prva metoda se koristi za pronalaženje ključnih riječi u tekstualnim fajlovima. 
+Argumenti ove metode su neodređen broj putanja do fajlova (ne kolekcija) i kolekcija riječi koje se traže. 
+Metoda će pronaći u svakom fajlu sve rečenice u kojima se pojavljuje bar jedna riječ iz kolekcije koja se proslijedi. 
+Veličina slova nije bitna za pretragu. 
+Rezultat metode su fajlovi sa pronađenim rečenicama za svaki proslijeđeni fajl pod nazivom originalniNaziv.search.txt. 
+Druga metoda se koristi za prebrojavanje riječi u fajlu. 
+Metoda prima putanju do fajla, a ispisuje sve pronađene riječi u formatu: riječ - broj pojavljivanja.
+Treća metoda vrši zamjenu riječi u originalnom fajlu. 
+Metoda prima mapu riječi za zamjenu i novih vrijednosti, a potom u fajlu vrši zamjenu svih riječi i čuva izmjene. 
+U main metodi iskoristiti sve 3 metode.
+Testni podaci se nalaze na Moodle stranici predmeta.
+

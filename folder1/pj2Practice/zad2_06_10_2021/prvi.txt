@@ -1,0 +1,5 @@
+Ovo je testni dokument za pretragu ključnih riječi. 
+Ovdje se nalazi nekoliko rečenica koje sadrže ključnu riječ. 
+Svaka rečenica će biti pregledana kako bi se pronašle riječi koje se traže.
+Testiranje pretrage ključne riječi je važno za ispravan rad programa.
+Ovaj dokument je primjer kako treba izgledati testni fajl.
