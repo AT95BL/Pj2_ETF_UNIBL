@@ -1,0 +1,118 @@
+
+class Klasa2 { 
+	static double i = 1; 
+	static int j = 2; 
+	int x = 3; 
+	static int y = 6; 
+	public static void main(String args[]) { 
+		metoda(); 
+		System.out.println(i + j); 
+		System.out.println(x + j); 
+		metoda();
+		System.out.println(i + y);
+		System.out.println(x + j); 
+	} 
+public static int metoda(){ 
+	return (int)i + --y + (j++); 
+}
+ public static double metoda2() { 
+	return j++ + --i; 
+	} 
+}
+
+
+
+error: non-static variable x cannot be referenced from a static context
+
+
+
+
+Analiziraću program `Klasa2` i objasniti kako funkcioniše, te napisati očekivani rezultat ispisa.
+
+### Analiza programa
+
+1. **Deklaracija promenljivih:**
+   ```java
+   static double i = 1;
+   static int j = 2;
+   int x = 3;
+   static int y = 6;
+   ```
+   - `i` je statička promenljiva tipa `double` sa početnom vrednošću `1`.
+   - `j` je statička promenljiva tipa `int` sa početnom vrednošću `2`.
+   - `x` je instanca promenljive tipa `int` sa početnom vrednošću `3`.
+   - `y` je statička promenljiva tipa `int` sa početnom vrednošću `6`.
+
+2. **Metoda `main`:**
+   ```java
+   public static void main(String args[]) {
+       metoda();
+       System.out.println(i + j);
+       System.out.println(x + j);
+       metoda();
+       System.out.println(i + y);
+       System.out.println(x + j);
+   }
+   ```
+   - `main` metoda poziva `metoda()`, zatim ispisuje vrednost izraza `i + j` i `x + j`, ponovo poziva `metoda()`, te ispisuje vrednost izraza `i + y` i `x + j`.
+   - `x` se koristi u `System.out.println(x + j)`, ali budući da je `x` instanca promenljive, pristup `x` unutar statičkog konteksta `main` metode izazvaće grešku tokom kompajliranja.
+
+3. **Metode `metoda` i `metoda2`:**
+   ```java
+   public static int metoda(){
+       return (int)i + --y + (j++);
+   }
+   
+   public static double metoda2() {
+       return j++ + --i;
+   }
+   ```
+   - `metoda()` smanjuje `y` (`--y`) i postinkrementira `j` (`j++`). Vraća zbir `i`, smanjenog `y`, i postinkrementisanog `j`.
+   - `metoda2()` smanjuje `i` (`--i`) i postinkrementira `j` (`j++`). Vraća zbir ovih vrednosti.
+
+### Detaljno objašnjenje i ispravka:
+
+- Program sadrži grešku jer se pokušava pristupiti instanciranoj promenljivoj `x` unutar statičke metode `main`, što nije dozvoljeno. Da bi program ispravno radio, `x` mora biti statička promenljiva.
+
+Ako pretpostavimo da je `x` statička promenljiva (`static int x = 3;`), analiza i rezultat bi bili sledeći:
+
+### Redosled izvršavanja:
+
+1. Prvi poziv `metoda()`:
+   - `i = 1.0`, `y = 5` (jer se smanjuje sa `6` na `5`), `j = 2`.
+   - Povratna vrednost: `1 + 5 + 2 = 8`.
+   - Nakon poziva, `j = 3` (zbog `j++`).
+   
+2. Ispis `System.out.println(i + j)`:
+   - `i = 1.0`, `j = 3`.
+   - Ispisuje: `1.0 + 3 = 4.0`.
+   
+3. Ispis `System.out.println(x + j)`:
+   - `x = 3`, `j = 3`.
+   - Ispisuje: `3 + 3 = 6`.
+   
+4. Drugi poziv `metoda()`:
+   - `i = 1.0`, `y = 4` (jer se smanjuje sa `5` na `4`), `j = 3`.
+   - Povratna vrednost: `1 + 4 + 3 = 8`.
+   - Nakon poziva, `j = 4`.
+   
+5. Ispis `System.out.println(i + y)`:
+   - `i = 1.0`, `y = 4`.
+   - Ispisuje: `1.0 + 4 = 5.0`.
+   
+6. Ispis `System.out.println(x + j)`:
+   - `x = 3`, `j = 4`.
+   - Ispisuje: `3 + 4 = 7`.
+
+### Rezultat ispisa:
+
+Pod pretpostavkom da je `x` statička promenljiva, program će ispisati:
+
+```
+4.0
+6
+5.0
+7
+```
+
+Ako `x` nije statička promenljiva, program neće kompajlirati.

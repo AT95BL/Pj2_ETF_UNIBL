@@ -1,0 +1,67 @@
+
+public class Klasa3 { 
+	static int x = 3; 
+	public static void main(String[] args) { 
+		new Klasa3(); 
+	} 
+	Klasa3() {
+		this(2); 
+	} Klasa3(int x) { 
+		System.out.println(x); 
+	} 
+}
+
+
+
+
+
+
+
+
+
+Pogledajmo program `Klasa3` i analizirajmo njegovo ponašanje, a zatim ćemo prikazati rezultat ispisa.
+
+### Analiza programa
+
+1. **Deklaracija promenljive:**
+   ```java
+   static int x = 3;
+   ```
+   - `x` je statička promenljiva tipa `int` sa početnom vrednošću `3`.
+
+2. **Metoda `main`:**
+   ```java
+   public static void main(String[] args) { 
+       new Klasa3(); 
+   }
+   ```
+   - U metodi `main` se kreira nova instanca klase `Klasa3` koristeći podrazumevani konstruktor `Klasa3()`.
+
+3. **Konstruktori:**
+   ```java
+   Klasa3() { 
+       this(2); 
+   }
+   
+   Klasa3(int x) { 
+       System.out.println(x); 
+   }
+   ```
+   - **Podrazumevani konstruktor**: Kada se instanca klase kreira pozivanjem podrazumevanog konstruktora `Klasa3()`, on poziva **konstruktor sa argumentom** (`this(2);`), prosleđujući vrednost `2` kao argument.
+   - **Konstruktor sa argumentom**: Ovaj konstruktor prihvata jedan `int` argument i ispisuje njegovu vrednost.
+
+### Redosled izvršavanja
+
+1. Kada se kreira nova instanca `Klasa3` u `main` metodi, poziva se podrazumevani konstruktor `Klasa3()`.
+2. Podrazumevani konstruktor poziva konstruktor sa jednim argumentom `this(2)`.
+3. Konstruktor sa argumentom `int x` ispisuje vrednost `x`, koja je `2`.
+
+### Rezultat ispisa
+
+Program će ispisati:
+
+```
+2
+``` 
+
+Ovo je jedini izlaz iz programa jer se vrednost `x` iz konstruktora sa argumentom ispisuje.

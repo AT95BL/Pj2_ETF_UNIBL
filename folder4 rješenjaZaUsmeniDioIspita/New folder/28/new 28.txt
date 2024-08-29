@@ -20,3 +20,44 @@ public class House extends Building {
 		new House("x "); 
 	} 
 }
+
+
+
+
+
+
+
+Ovaj program demonstrira kako konstruktori i njihovo pozivanje utiču na redosled ispisivanja pri kreiranju objekata. 
+
+### Programske klase i njihovi konstruktori:
+- **Klasa `Building`:**
+  - **Konstruktor bez parametara:** `Building() { System.out.print("b "); }`
+  - **Konstruktor sa parametrom `String name`:** `Building(String name) { this(); System.out.print("bn " + name); }`
+
+- **Klasa `House` (nasleđuje `Building`):**
+  - **Konstruktor bez parametara:** `House() { System.out.print("h "); }`
+  - **Konstruktor sa parametrom `String name`:** `House(String name) { this(); System.out.print("hn " + name); }`
+
+### Redosled izvršavanja:
+1. **Pozivanje `new House("x ")`:**
+   - Pokreće se konstruktor `House(String name)`, koji prvo poziva `this()`, tj. podrazumevani konstruktor `House()`.
+   
+2. **Konstruktor `House()` se izvršava:**
+   - Pre nego što se ispiše `"h "`, implicitno se poziva konstruktor roditeljske klase `Building()`,
+   jer svaki konstruktor implicitno poziva konstruktor svoje roditeljske klase ako nije eksplicitno navedeno drugačije.
+   - Konstruktor `Building()` ispisuje `"b "`.
+
+3. **Nastavlja se izvršavanje konstruktora `House()`:**
+   - Nakon poziva konstruktora `Building()`, `House()` ispisuje `"h "`.
+
+4. **Nastavlja se izvršavanje konstruktora `House(String name)`:**
+   - Nakon što se izvrši `this()`, konstruktor `House(String name)` nastavlja sa ispisivanjem `"hn " + name`, što daje `"hn x "`.
+
+### Konačni ispis:
+- Redosled ispisa na konzoli će biti: `"b h hn x "`.
+
+Evo rezultata koji će biti ispisan na konzoli:
+
+```
+b h hn x 
+```
