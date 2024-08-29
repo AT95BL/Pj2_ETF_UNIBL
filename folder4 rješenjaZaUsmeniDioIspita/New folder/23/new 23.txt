@@ -1,0 +1,45 @@
+
+class Fizz { 
+	int x = 5; 
+	public static void main(String[] args) {
+		final Fizz f1 = new Fizz(); 
+		Fizz f2 = new Fizz(); 
+		Fizz f3 = FizzSwitch(f1,f2); 
+		System.out.println((f1 == f3) + " " + (f1.x == f3.x)); 
+		//true true 
+	} 
+	static Fizz FizzSwitch(Fizz x, Fizz y) { 
+		final Fizz z = x; 
+		z.x = 6; 
+		return z; 
+	}
+}
+
+
+
+
+
+
+
+
+### Objašnjenje programa:
+
+1. **Instanciranje objekata:**
+   - `f1` i `f2` su dve instance klase `Fizz`. U početku, oba objekta imaju atribut `x` postavljen na 5.
+   
+2. **Poziv funkcije `FizzSwitch`:**
+   - `FizzSwitch(f1, f2)` se poziva sa `f1` i `f2` kao argumentima.
+   - Unutar metode `FizzSwitch`, promenljiva `z` se postavlja na referencu objekta `f1`.
+   - Zatim se `z.x` menja iz 5 u 6. Pošto `z` referencira `f1`, `f1.x` postaje 6.
+   - Metoda `FizzSwitch` vraća `z`, tj. vraća referencu na `f1`.
+
+3. **Rezultat:**
+   - `f1 == f3` je `true` jer oba referenciraju isti objekat `f1`.
+   - `f1.x == f3.x` je takođe `true`, jer su `f1.x` i `f3.x` sada oba 6.
+
+### Ispis:
+
+Rezultat ispisa će biti:
+```
+true true
+```

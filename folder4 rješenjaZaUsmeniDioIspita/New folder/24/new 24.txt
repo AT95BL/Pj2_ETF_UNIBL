@@ -1,0 +1,37 @@
+
+public class G{ 
+	static int x = 3; 
+	public static void main(String args[]) { 
+		new G(); 
+	} 
+	G(){ 
+		new G(2); 
+	} 
+	G(int x){ 
+		System.out.println(x); 
+	} 
+}
+
+
+
+
+
+
+### Objašnjenje programa:
+
+1. **Glavna metoda (`main`):**
+   - Program započinje izvršavanje sa `new G();`, što kreira novu instancu klase `G`.
+
+2. **Konstruktor bez argumenata (`G()`):**
+   - Konstruktor `G()` se poziva prilikom instanciranja objekta `G` u `main` metodi.
+   - Unutar ovog konstruktora poziva se drugi konstruktor `G(int x)` sa vrednošću `2` kao argumentom.
+
+3. **Konstruktor sa argumentom (`G(int x)`):**
+   - Konstruktor `G(int x)` se poziva i ispisuje vrednost argumenta `x`, koja je `2`.
+
+### Ispis:
+
+Rezultat ispisa će biti:
+```
+2
+```

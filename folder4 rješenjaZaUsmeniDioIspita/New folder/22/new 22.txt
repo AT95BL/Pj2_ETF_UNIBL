@@ -101,9 +101,13 @@ Da, tačno je da je linija `System.out.println("B");` nedostižna (unreachable s
 
 ### Objašnjenje:
 
-U originalnom kodu, unutar `if (counter == 1)` bloka, imamo `continue label;`. Kada se koristi `continue` u `while` petlji sa oznakom (`label`), tok programa odmah prelazi na sledeću iteraciju petlje, preskačući sve naredne linije koda unutar tog bloka. 
+U originalnom kodu, unutar `if (counter == 1)` bloka, imamo `continue label;`. 
+Kada se koristi `continue` u `while` petlji sa oznakom (`label`), 
+tok programa odmah prelazi na sledeću iteraciju petlje,
+preskačući sve naredne linije koda unutar tog bloka. 
 
-Dakle, u tom bloku, bilo koji kod koji dolazi posle `continue label;` neće biti nikada izvršen jer `continue` preusmerava tok izvršavanja nazad na početak petlje. Zbog toga je linija `System.out.println("B");` označena kao nedostižna i kompilator će prijaviti grešku.
+Dakle, u tom bloku, bilo koji kod koji dolazi posle `continue label;` neće biti nikada izvršen jer `continue` preusmerava tok izvršavanja nazad na početak petlje. 
+Zbog toga je linija `System.out.println("B");` označena kao nedostižna i kompilator će prijaviti grešku.
 
 ### Popravka:
 Ako želiš da se ispis `"B"` dogodi pod određenim uslovima, moraš premestiti `continue` ili reorganizovati logiku kako bi se `"B"` moglo dostići:
@@ -115,4 +119,6 @@ if (counter == 1) {
 }
 ```
 
-Ili, ako želiš da i dalje preskočiš `"B"` u trenutnoj iteraciji, ali da je izvedeš u sledećoj, možeš premestiti `System.out.println("B");` izvan `if` bloka ili promeniti redosled logike u kodu.
+Ili, ako želiš da i dalje preskočiš `"B"` u trenutnoj iteraciji, 
+ali da je izvedeš u sledećoj,
+možeš premestiti `System.out.println("B");` izvan `if` bloka ili promeniti redosled logike u kodu.
