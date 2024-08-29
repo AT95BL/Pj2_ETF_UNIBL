@@ -1,0 +1,42 @@
+
+public class Izuzetak{ 
+	public static void main(String[] args) { 
+	try{ 
+		int x = 0; 
+		int y = 5 / x; 
+	} catch (ArithmeticException ae) { 
+		System.out.println(" Arithmetic Exception"); 
+	} 
+		System.out.println("finished");
+	}
+}
+
+
+
+
+
+
+
+Ovaj program demonstrira kako se `ArithmeticException` obrađuje u Java programu. Evo kako funkcioniše:
+
+### Analiza programa:
+
+1. **Blok `try`:**
+   - `int x = 0;` - Postavlja `x` na 0.
+   - `int y = 5 / x;` - Ova linija pokušava da podeli 5 sa 0. U Javi, deljenje sa nulom za celobrojne tipove izaziva `ArithmeticException`.
+
+2. **Blok `catch`:**
+   - `catch (ArithmeticException ae)` - Ovaj blok uhvata `ArithmeticException` koji je nastao u `try` bloku.
+   - `System.out.println(" Arithmetic Exception");` - Ova linija ispisuje `" Arithmetic Exception"` kada se izuzetak uhvati.
+
+3. **Nakon `catch` bloka:**
+   - `System.out.println("finished");` - Ova linija se izvršava bez obzira na to da li je izuzetak uhvaćen ili ne, tako da se uvek ispisuje `"finished"`.
+
+### Rezultat ispisa:
+
+```
+ Arithmetic Exception
+finished
+```
+
+Dakle, izuzetak `ArithmeticException` se hvata i obrađuje, a zatim program nastavlja sa ispisom `"finished"`.

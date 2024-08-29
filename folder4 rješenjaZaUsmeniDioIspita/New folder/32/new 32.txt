@@ -1,0 +1,75 @@
+
+public class Klasa0 { 
+	static { 
+		int x = 5; 
+	} 
+	static int x, y; 
+	
+	public static void main(String args[]) { 
+		x--; 
+		//-1 
+		System.out.println(x + " " + y); 
+		metoda(); 
+		//y=0 x=0 
+		System.out.println(x + " " + y); 
+		System.out.println(++x + x++); 
+		System.out.println(++Klasa0.x); 
+	} 
+	public static void metoda() { 
+		y = ++x;
+	} 
+}
+
+
+
+Ovaj program demonstrira rad sa statičkim promenljivama i metodama u Javi. Analizirajmo ga korak po korak:
+
+### Analiza programa:
+
+1. **Static Blok:**
+   ```java
+   static { int x = 5; }
+   ```
+   - Ovaj blok se izvršava kada se klasa učita. Promenljiva `x` unutar ovog bloka je lokalna i ne utiče na statičke promenljive `x` i `y` definisane kasnije.
+
+2. **Definicija statičkih promenljivih:**
+   ```java
+   static int x, y;
+   ```
+   - `x` i `y` su statičke promenljive i inicijalizovane su sa 0.
+
+3. **`main` metoda:**
+   ```java
+   public static void main(String args[]) {
+       x--; // x postaje -1
+       System.out.println(x + " " + y); // Ispisuje: -1 0
+       metoda(); // Poziva metod `metoda()`
+       // U metodi `metoda()`, y postaje ++x (0 + 1) = 1
+       // Dakle, x postaje 0, a y postaje 1
+       System.out.println(x + " " + y); // Ispisuje: 0 1
+       System.out.println(++x + x++); // ++x daje -1, x++ koristi -1 pre inkrementa i postaje -1, ukupno -2
+       System.out.println(++Klasa0.x); // Inkrementira x na 0 i zatim ispisuje 0
+   }
+   ```
+
+   **Detaljno objašnjenje:**
+   - `x--` smanjuje `x` sa 0 na -1.
+   - `System.out.println(x + " " + y);` ispisuje `-1 0`, jer je `x` -1 i `y` je 0.
+   - `metoda()` postavlja `y` na `++x`, gde `++x` inkrementira `x` sa -1 na 0 i zatim dodeljuje tu novu vrednost `y`, tako da je `y` postao 1. `x` ostaje 0.
+   - `System.out.println(x + " " + y);` ispisuje `0 1`, jer je `x` 0 i `y` je 1.
+   - `System.out.println(++x + x++);` koristi:
+     - `++x` koji daje -1 (smanjuje `x` pre nego što se koristi) 
+     - `x++` koji koristi -1 pre nego što se inkrementira i zatim `x` postaje 0.
+     - Rezultat je `-1 + (-1)` = `-2`.
+   - `System.out.println(++Klasa0.x);` inkrementira `x` (koji je sada 0) na 1 i ispisuje `1`.
+
+### Rezultat ispisa:
+
+```
+-1 0
+0 1
+-2
+1
+```
+
+Dakle, program prikazuje detaljan ispis promena u statičkim promenljivama i njihovom uticaju tokom izvršenja.

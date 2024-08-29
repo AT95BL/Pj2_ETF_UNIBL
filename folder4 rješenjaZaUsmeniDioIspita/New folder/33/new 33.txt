@@ -1,0 +1,66 @@
+
+	public class Klasa1 { 
+	int i = 0; 
+	public static void main(String argv[]) { 
+		new Klasa1(); 
+	} 
+	Klasa1() { 
+		top: 
+		while (i < 2) { 
+			System.out.println(i); 
+			i++; 
+			continue top; 
+			} 
+		} 
+	}
+	
+	
+	
+	
+	
+Program `Klasa1` koristi `while` petlju i `continue` izjavu unutar konstruktora klase. Evo analize i rezultata ispisa:
+
+### Analiza programa:
+
+1. **Deklaracija promenljive i metoda `main`:**
+   ```java
+   int i = 0;
+   public static void main(String argv[]) {
+       new Klasa1();
+   }
+   ```
+   - Klasa `Klasa1` ima statičku metodu `main` koja kreira instancu klase `Klasa1`.
+
+2. **Konstruktor `Klasa1`:**
+   ```java
+   Klasa1() {
+       top: while (i < 2) {
+           System.out.println(i);
+           i++;
+           continue top;
+       }
+   }
+   ```
+   - Konstruktora koristi `while` petlju sa etiketom `top`.
+   - `while` petlja se izvršava dok je `i` manje od 2.
+   - U svakoj iteraciji petlje ispisuje trenutnu vrednost `i`, inkrementira `i` i koristi `continue top;` da bi ponovo pokrenula petlju od oznake `top`.
+
+### Detaljno objašnjenje:
+
+- `continue top;` se koristi za nastavljanje petlje sa oznakom `top`. U ovom slučaju, `continue` jednostavno nastavlja petlju iznova bez izlaska iz petlje.
+- Kada `i` dostigne vrednost 2, uslov `i < 2` više nije ispunjen i petlja se završava.
+
+### Rezultat ispisa:
+
+1. Prvi prolaz kroz petlju: `i` je 0, ispisuje se `0`, zatim se `i` inkrementira na 1.
+2. Drugi prolaz kroz petlju: `i` je 1, ispisuje se `1`, zatim se `i` inkrementira na 2.
+3. Kada `i` postane 2, uslov `i < 2` više nije ispunjen i petlja se završava.
+
+Program ispisuje:
+
+```
+0
+1
+```
+
+Dakle, kod ispisuje vrednosti `0` i `1`, i zatim se završava jer je `i` dostigao vrednost 2, što prekida uslov petlje.
