@@ -1,0 +1,118 @@
+
+public class F11 { 
+	static boolean b; 
+	static int counter = 0; 
+	public static void main(String args[]) { 
+		try { 
+			label: 
+				while (counter == 0) { 
+				if (!b) { 
+					System.out.println("C"); 
+					b = true; 
+					main(new String[]{"D"}); 
+					System.out.println("E"); 
+				} else { 
+					counter++; 
+					System.out.println("A"); 
+					System.out.println(args[0]); 
+					if (counter == 1) { 
+						continue label; 
+						System.out.println("B"); 
+					} 
+				} 
+				System.out.println(F11.getF1()); 
+			} 
+		} 
+		catch (Exception e) { 
+			System.out.println("exception"); 
+		} 
+	}
+public static F11 getF1() { 
+	System.out.println("1"); 
+	return new F11(); 
+	} 
+	{ 
+	System.out.println("F1"); 
+	} 
+}
+
+
+
+
+
+
+
+Pogledajmo kako ovaj program funkcioniše i koji će biti rezultat njegovog ispisa.
+
+### Analiza programa
+
+1. **Promenljive i metode:**
+   - `static boolean b;` – statička promenljiva koja je po defaultu `false`.
+   - `static int counter = 0;` – statička promenljiva koja je inicijalizovana na `0`.
+   - `main(String args[])` – glavna metoda koja pokreće program.
+
+2. **Glavna logika:**
+   - Program koristi beskonačnu `while` petlju koja se izvršava dok je `counter == 0`.
+   - Ako je `b == false`, ispisuje `"C"`, postavlja `b = true`, zatim rekurzivno poziva `main` sa argumentom `"D"`, i nakon toga ispisuje `"E"`.
+   - Kada `b == true`, `counter` se povećava za 1, ispisuje `"A"` i vrednost `args[0]` (što je `"D"` nakon rekurzivnog poziva). 
+   - Ukoliko je `counter == 1`, koristi `continue label;`, što vraća tok izvršenja na početak `while` petlje.
+
+3. **`getF1()` metoda:**
+   - Ova metoda ispisuje `"1"` i kreira novu instancu klase `F11`.
+   - Svaki put kada se kreira nova instanca `F11`, inicijalizacioni blok `{ System.out.println("F1"); }` se izvršava i ispisuje `"F1"`.
+
+### Detaljno izvršavanje programa
+
+1. **Prvo pokretanje `main`:**
+   - `counter == 0` i `b == false`, pa se ispisuje `"C"`.
+   - `b` postaje `true`, i zatim se rekurzivno poziva `main` sa `"D"` kao argumentom.
+
+2. **Rekurzivni poziv `main` sa `"D"`:**
+   - Sada je `b == true` i `counter == 0`.
+   - `counter` se povećava na `1`, ispisuje `"A"` i `"D"`.
+   - `continue label;` vraća tok na početak `while` petlje.
+
+3. **Nastavak izvršavanja:**
+   - U novom prolazu `while` petlje, `counter == 1`, ali sada program prelazi na deo gde se poziva `getF1()`.
+   - `getF1()` ispisuje `"1"`, kreira novu instancu `F11`, a pri kreiranju instance ispisuje se `"F1"`.
+   - Zatim se izlazi iz `while` petlje i završava izvršavanje.
+
+### Rezultat ispisa
+
+Ispis programa biće:
+
+```
+C
+A
+D
+1
+F1
+```
+
+### Objašnjenje:
+- `"C"` je ispisan pri prvom prolazu kroz `while` petlju.
+- `"A"` i `"D"` su ispisani u rekurzivnom pozivu `main` kada `counter == 0` postane `counter == 1`.
+- `"1"` i `"F1"` su ispisani kada se poziva `getF1()` metod, koji ispisuje `"1"` i kreira novu instancu `F11`, pri čemu se ispisuje `"F1"`.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Da, tačno je da je linija `System.out.println("B");` nedostižna (unreachable statement) i kompilator će prijaviti grešku zbog toga.
+
+### Objašnjenje:
+
+U originalnom kodu, unutar `if (counter == 1)` bloka, imamo `continue label;`. Kada se koristi `continue` u `while` petlji sa oznakom (`label`), tok programa odmah prelazi na sledeću iteraciju petlje, preskačući sve naredne linije koda unutar tog bloka. 
+
+Dakle, u tom bloku, bilo koji kod koji dolazi posle `continue label;` neće biti nikada izvršen jer `continue` preusmerava tok izvršavanja nazad na početak petlje. Zbog toga je linija `System.out.println("B");` označena kao nedostižna i kompilator će prijaviti grešku.
+
+### Popravka:
+Ako želiš da se ispis `"B"` dogodi pod određenim uslovima, moraš premestiti `continue` ili reorganizovati logiku kako bi se `"B"` moglo dostići:
+
+```java
+if (counter == 1) {
+    System.out.println("B"); // Ovo će sada biti dostignuto
+    continue label;
+}
+```
+
+Ili, ako želiš da i dalje preskočiš `"B"` u trenutnoj iteraciji, ali da je izvedeš u sledećoj, možeš premestiti `System.out.println("B");` izvan `if` bloka ili promeniti redosled logike u kodu.
