@@ -1,0 +1,68 @@
+
+class Dog { 
+	public void bark() { System.out.print("woof "); } 
+	public void sniff() { System.out.print("dado "); } 
+	public void test() {sniff();} 
+} 
+class Hound extends Dog { 
+	public void bark() { System.out.print("howl "); } 
+	public void sniff() { System.out.print("sniff "); } 
+} 
+public class DogShow {
+	public static void main(String[] args) { 
+		new DogShow().go(); 
+	} 
+	void go() { 
+		new Hound().bark(); 
+		((Dog) new Hound()).bark(); 
+		((Dog) new Hound()).test(); 
+	} 
+}
+
+
+
+
+Hajde da analiziramo ovaj program kako bismo razumeli njegovo ponašanje i rezultat ispisa.
+
+### Struktura programa
+
+1. **Klasa `Dog`**:
+   - Metoda `bark()` ispisuje `"woof "`.
+   - Metoda `sniff()` ispisuje `"dado "`.
+   - Metoda `test()` poziva `sniff()`.
+
+2. **Klasa `Hound`** (nasleđuje `Dog`):
+   - Override-uje metodu `bark()` da ispisuje `"howl "`.
+   - Override-uje metodu `sniff()` da ispisuje `"sniff "`.
+
+3. **Klasa `DogShow`**:
+   - Metoda `go()` kreira različite instance klase `Hound` i koristi ih na različite načine.
+   - U metodi `main`, poziva se metoda `go()`.
+
+### Izvršavanje programa
+
+1. **`new Hound().bark();`**:
+   - Kreira se instanca `Hound` i poziva metoda `bark()`.
+   - `bark()` je override-ovana u `Hound`, pa ispisuje `"howl "`.
+
+2. **`((Dog) new Hound()).bark();`**:
+   - Kreira se instanca `Hound`, koja se kastuje u `Dog`, i poziva metoda `bark()`.
+   - Metoda `bark()` u `Dog` je override-ovana u `Hound`, pa će se koristiti verzija iz `Hound`, i ispisuje `"howl "`.
+
+3. **`((Dog) new Hound()).test();`**:
+   - Kreira se instanca `Hound`, koja se kastuje u `Dog`, i poziva metoda `test()`.
+   - Metoda `test()` u `Dog` poziva `sniff()`.
+   - Pošto je instanca `Hound`, metoda `sniff()` u `Hound` se poziva, koja ispisuje `"sniff "`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+howl howl sniff 
+```
+
+**Objašnjenje**:
+- Prvo se ispisuje `"howl "` kada se poziva metoda `bark()` na instanci `Hound`.
+- Zatim se ispisuje `"howl "` za istu metodu kada je objekat kastovan u `Dog`.
+- Na kraju se ispisuje `"sniff "` kada se metoda `test()` poziva na instanci `Hound`, i `sniff()` iz `Hound` se izvršava.

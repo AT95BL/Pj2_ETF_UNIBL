@@ -1,0 +1,86 @@
+
+class Player implements Serializable{
+	Player(String arg) {
+		System.out.println("parent"); 
+		} 
+	} 
+class CardPlayer extends Player implements Serializable {
+	Gadget gadget = new Gadget(); 
+	CardPlayer() { 
+	super("s"); 
+	System.out.println("child"); 
+	} 
+	public static void main(String[] args) { 
+		CardPlayer c1 = new CardPlayer(); 
+		try { 
+			FileOutputStream fos = new FileOutputStream("play.txt"); 
+			ObjectOutputStream os = new ObjectOutputStream(fos); 
+			os.writeObject(c1); 
+			os.close(); 
+			FileInputStream fis = new FileInputStream("play.txt"); 
+			ObjectInputStream is = new ObjectInputStream(fis); 
+			CardPlayer c2 = (CardPlayer) is.readObject(); 
+			is.close(); 
+			System.out.println(c2.gadget); 
+		} catch (Exception x) { 
+			x.printStackTrace(); 
+		} 
+	} 
+} 
+class Gadget {
+	Gadget() {
+		System.out.println("Gadget created..."); 
+	} 
+}
+
+Hajde da analiziramo ovaj program korak po korak kako bismo razumeli njegovo ponašanje i ispis.
+
+### Klase i njihove uloge
+
+1. **Klasa `Player`**:
+   - Implementira interfejs `Serializable`, što omogućava da objekti ove klase (i njenih podklasa) budu serijalizovani (pretvoreni u niz bajtova za skladištenje ili prenos).
+   - Ima konstruktor koji prima jedan argument tipa `String` i ispisuje `"parent"`.
+
+2. **Klasa `CardPlayer`**:
+   - Nasleđuje klasu `Player` i takođe implementira `Serializable`.
+   - Ima instancu klase `Gadget` koja nije serijalizovana, pošto klasa `Gadget` ne implementira `Serializable`.
+   - Konstruktor poziva konstruktor nadklase (`super("s")`) i ispisuje `"child"`.
+
+3. **Klasa `Gadget`**:
+   - Ova klasa ima konstruktor koji ispisuje `"Gadget created..."`.
+   - Nije `Serializable`, što znači da se njeni objekti neće serijalizovati zajedno sa objektima `CardPlayer`.
+
+### Izvršavanje programa
+
+1. **Kreiranje objekta `CardPlayer` (`CardPlayer c1 = new CardPlayer();`)**:
+   - Prvo se poziva konstruktor `Player` sa argumentom `"s"`, koji ispisuje `"parent"`.
+   - Zatim se instancira `Gadget`, pa se ispisuje `"Gadget created..."`.
+   - Na kraju, konstruktor `CardPlayer` ispisuje `"child"`.
+
+2. **Serijalizacija (`os.writeObject(c1);`)**:
+   - Objekat `c1` se serijalizuje i upisuje u fajl `play.txt`.
+   - Budući da klasa `Gadget` nije `Serializable`, prilikom serijalizacije objekta `CardPlayer`, instanca `Gadget` se ne serijalizuje. To znači da se njen sadržaj neće očuvati u fajlu.
+
+3. **Deserijalizacija (`CardPlayer c2 = (CardPlayer) is.readObject();`)**:
+   - Objekat `CardPlayer` se deserijalizuje iz fajla `play.txt`.
+   - Budući da `gadget` nije serijalizovan, novi objekat `Gadget` neće biti instanciran automatski. Ako se `gadget` koristi nakon deserijalizacije, njegova vrednost će biti `null`.
+
+4. **Ispisivanje `c2.gadget`**:
+   - Pošto `gadget` nije serijalizovan, `c2.gadget` je `null`, pa će ispisati `"null"`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+parent
+Gadget created...
+child
+null				tačan odogovor je		java.io.NotSerializableException: Gadget
+```
+
+**Objašnjenje**:
+- `"parent"` se ispisuje kada se pozove konstruktor `Player`.
+- `"Gadget created..."` se ispisuje kada se kreira instanca `Gadget`.
+- `"child"` se ispisuje kada se završi konstruktor `CardPlayer`.
+- `"null"` se ispisuje jer nakon deserijalizacije `c2.gadget` nije instanciran i ostaje `null`.

@@ -1,0 +1,75 @@
+
+public class D implements I3 { 
+	public void metoda3() { 
+		System.out.println(3); 
+	} 
+	public void metoda() {
+		System.out.println(1); 
+	} 
+	public void metoda2() { 
+		System.out.println(2); 
+	} 
+	public static void main(String args[]) { 
+		D d = new D(); 
+		E e = new E(); 
+		d.metoda(); 
+		e.metoda(); 
+	}
+
+} 
+	class E implements I { 
+	public void metoda() { 
+		System.out.println(11); 
+		} 
+	} 
+	interface I { 
+		void metoda(); 
+	} 
+	abstract interface I2 { 
+		abstract void metoda2(); 
+	} 
+	interface I3 extends I, I2 { 
+		void metoda3(); 
+	}
+	
+Hajde da analiziramo ovaj program kako bismo razumeli njegovo ponašanje i rezultat ispisa.
+
+### Struktura programa
+
+1. **Interfejsi**:
+   - **`I`**: Deklariše jednu metodu `metoda()` koju klase koje implementiraju ovaj interfejs moraju implementirati.
+   - **`I2`**: Apstraktni interfejs (iako nema razlike u Javi između apstraktnog i regularnog interfejsa) koji dekleriše jednu apstraktnu metodu `metoda2()`.
+   - **`I3`**: Nasleđuje interfejse `I` i `I2`, te dodaje novu metodu `metoda3()`. Bilo koja klasa koja implementira `I3` mora da implementira sve tri metode: `metoda()`, `metoda2()`, i `metoda3()`.
+
+2. **Klasa `D`**:
+   - Implementira interfejs `I3`, pa mora implementirati sve metode iz interfejsa `I3`, što uključuje `metoda()`, `metoda2()`, i `metoda3()`.
+   - Sadrži implementacije svih ovih metoda koje ispisuju redne brojeve 1, 2, i 3.
+
+3. **Klasa `E`**:
+   - Implementira interfejs `I`, pa mora implementirati metodu `metoda()`.
+   - Metoda `metoda()` u ovoj klasi ispisuje broj 11.
+
+4. **Metoda `main`**:
+   - Kreira se instanca klase `D` (kao `d`) i instanca klase `E` (kao `e`).
+   - Poziva se `metoda()` na instanci `d`, a zatim `metoda()` na instanci `e`.
+
+### Izvršavanje programa
+
+1. **`d.metoda()`**:
+   - Poziva se metoda `metoda()` iz klase `D`, koja ispisuje `1`.
+
+2. **`e.metoda()`**:
+   - Poziva se metoda `metoda()` iz klase `E`, koja ispisuje `11`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+1
+11
+```
+
+**Objašnjenje**:
+- Prvo se poziva `metoda()` na instanci `d` (klasa `D`), pa se ispisuje `1`.
+- Zatim se poziva `metoda()` na instanci `e` (klasa `E`), pa se ispisuje `11`.

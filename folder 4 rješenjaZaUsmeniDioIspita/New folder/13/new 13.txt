@@ -1,0 +1,85 @@
+
+	class E1 { 
+		public static void main(String args[]){ 
+			D d = new D(); 
+			I1 i = new D(); 
+			I2 i2 = d;
+			i.metoda(); 
+			d.metodaI3(); 
+			i.metodaI3(); 
+			i2.metoda(); 
+		} 
+	} 
+	interface I1 extends I2, I3 { 
+		void metoda(); 
+	} 
+	interface I2{ 
+		void metoda(); 
+	} 
+	interface I3{ 
+		void metodaI3(); 
+	} 
+	class D implements I1,I3 { 
+		public void metoda() { 
+			System.out.println("metoda"); 
+		} 
+		public void metodaI3(){ 
+			System.out.println("metoda I3"); 
+		} 
+	}
+	
+
+
+
+
+Da bismo razumeli program i rezultat ispisa, prvo ćemo analizirati strukturu programa i kako se ponašaju metode i instanca.
+
+### Struktura programa
+
+1. **Interfejsi**:
+   - **`I1`**: Nasleđuje `I2` i `I3`, i dodaje svoju metodu `metoda()`. Dakle, klasa koja implementira `I1` mora implementirati `metoda()` (iz `I1` i `I2`) i `metodaI3()` (iz `I3`).
+   - **`I2`**: Deklariše metodu `metoda()`.
+   - **`I3`**: Deklariše metodu `metodaI3()`.
+
+2. **Klasa `D`**:
+   - Implementira `I1` i `I3`, što znači da mora implementirati `metoda()` i `metodaI3()`.
+   - Metoda `metoda()` ispisuje `"metoda"`.
+   - Metoda `metodaI3()` ispisuje `"metoda I3"`.
+
+3. **Klasa `E1`**:
+   - U metodi `main`, kreira se instanca `D` i dodeljuju se različitim promenljivama (`D`, `I1`, i `I2`).
+   - Pozivaju se metode na različitim promenljivama.
+
+### Izvršavanje programa
+
+1. **`i.metoda();`**:
+   - `i` je instanca klase `D`, ali tipizovana kao `I1`.
+   - Poziva se metoda `metoda()` iz `D`, koja ispisuje `"metoda"`.
+
+2. **`d.metodaI3();`**:
+   - `d` je instanca klase `D`, koja implementira `I3`.
+   - Poziva se metoda `metodaI3()` iz `D`, koja ispisuje `"metoda I3"`.
+
+3. **`i.metodaI3();`**:
+   - `i` je tipizovan kao `I1`, ali `I1` nasleđuje `I3`, što znači da `metodaI3()` iz `I3` je dostupna. Poziva se metoda `metodaI3()` iz `D`, koja ispisuje `"metoda I3"`.
+
+4. **`i2.metoda();`**:
+   - `i2` je instanca klase `D`, tipizovana kao `I2`.
+   - `I2` takođe ima metodu `metoda()`, koja je implementirana u `D`. Poziva se metoda `metoda()` iz `D`, koja ispisuje `"metoda"`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+metoda
+metoda I3
+metoda I3
+metoda
+```
+
+**Objašnjenje**:
+- `"metoda"` se ispisuje kada se pozove metoda `metoda()` na `i`, koja je instanca `D` tipizovana kao `I1`.
+- `"metoda I3"` se ispisuje kada se pozove metoda `metodaI3()` na `d`, koja je instanca `D`.
+- `"metoda I3"` se ponovo ispisuje kada se pozove metoda `metodaI3()` na `i`, koji je instanca `D` tipizovana kao `I1`.
+- `"metoda"` se ispisuje kada se pozove metoda `metoda()` na `i2`, koji je instanca `D` tipizovana kao `I2`.

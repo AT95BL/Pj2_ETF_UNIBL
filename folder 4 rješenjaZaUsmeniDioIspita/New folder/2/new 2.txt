@@ -1,0 +1,65 @@
+// Find the output of the following code..
+
+public class C { 
+	int i = 0; 
+	public static void main(String args[]) {
+		C c = new C(); 
+		c.test(); 
+	} 
+	C() {
+		while (i < 2) {
+			System.out.println(i); 
+			i++; continue; 
+		} 
+	} 
+	public void test() {
+		int a; 
+	} 
+}
+
+
+Hajde da analiziramo ovaj program i objasnimo šta će se desiti kada se izvrši.
+
+### Struktura programa
+
+1. **Klasa `C`**:
+   - Sadrži jedan instancni atribut `i` koji je inicijalizovan na `0`.
+   - Konstruktor klase `C` ima `while` petlju koja se izvršava dok je `i` manje od `2`. U svakoj iteraciji ispisuje trenutnu vrijednost `i`, a zatim povećava `i` za 1.
+   - Tu je i metoda `test()`, koja je prazna, tj. ne radi ništa osim deklarisanja varijable `a`.
+
+2. **Metoda `main`**:
+   - Ovo je standardna metoda u Javi koja služi kao ulazna tačka za izvršavanje programa.
+   - Kreira se nova instanca klase `C` koristeći konstruktor `C c = new C();`, a zatim se poziva metoda `c.test();`.
+
+### Izvršavanje programa
+
+1. **Konstrukcija objekta `C`**:
+   - Kada se kreira nova instanca klase `C`, odmah se izvršava konstruktor.
+   - `i` je inicijalizovan na `0`.
+   - `while` petlja se pokreće jer je `i < 2`.
+     - Prva iteracija:
+       - `i = 0`, ispisuje `0`.
+       - `i++` povećava `i` na `1`.
+       - `continue` vraća tok izvršavanja na početak `while` petlje.
+     - Druga iteracija:
+       - `i = 1`, ispisuje `1`.
+       - `i++` povećava `i` na `2`.
+       - `continue` vraća tok na početak petlje, ali sada je `i` jednako `2`, što prekida petlju.
+   - `while` petlja završava i konstruktor se završava.
+
+2. **Poziv `c.test()`**:
+   - Poziva se metoda `test()`, ali ona ne radi ništa, tako da nema nikakvog ispisa ili drugih efekata.
+
+### Konačan ispis
+
+Tokom izvršavanja, jedini ispis dolazi iz konstruktora. Tako će se ispisati:
+
+- `0`
+- `1`
+
+Ispis će biti:
+
+```
+0
+1
+```

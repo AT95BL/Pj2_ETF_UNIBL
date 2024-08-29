@@ -1,0 +1,46 @@
+
+class EqualsS{ 
+	public static void main(String [] args) { 
+		int x = 97; 
+		char y = 'a'; 
+		boolean b = (x ==y); 
+		System.out.println(b); 
+	} 
+}
+
+Da bismo razumeli kako ovaj program funkcioniše i koji će biti rezultat ispisa, analizirajmo kod:
+
+### Analiza programa
+
+1. **Deklaracija i inicijalizacija promenljivih**:
+   ```java
+   int x = 97;
+   char y = 'a';
+   ```
+   - `x` je celobrojna promenljiva (`int`) kojoj je dodeljena vrednost `97`.
+   - `y` je promenljiva tipa `char` kojoj je dodeljen karakter `'a'`.
+
+2. **Uporedba sa `==`**:
+   ```java
+   boolean b = (x == y);
+   ```
+   - Ovaj izraz upoređuje `x` i `y` koristeći operator `==`.
+   - U Javi, karakter (`char`) ima svoju ASCII ili Unicode vrednost. ASCII vrednost karaktera `'a'` je `97`.
+   - Kada upoređujete `int` i `char`, `char` se implicitno konvertuje u svoj `int` ekvivalent, što znači da će vrednost `y` biti `97`.
+
+3. **Ispis rezultata**:
+   ```java
+   System.out.println(b);
+   ```
+   - Pošto je `x` jednako `97`, a `y` se takođe konvertuje u `97`, izraz `(x == y)` biće `true`.
+
+### Rezultat ispisa
+
+Pošto je vrednost promenljive `y` nakon konverzije jednaka `97`, a `x` je već `97`, rezultat uporedbe biće `true`. Dakle, ispis će biti:
+
+```
+true
+```
+
+**Objašnjenje**:
+- Karakter `'a'` ima ASCII vrednost `97`, što je jednako vrednosti promenljive `x`. Zbog toga je rezultat uporedbe `true`.

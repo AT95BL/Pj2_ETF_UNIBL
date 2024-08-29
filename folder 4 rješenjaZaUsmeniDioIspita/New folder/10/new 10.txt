@@ -1,0 +1,110 @@
+
+	public class D11 extends DI1.D2 implements DI1, DI2 { 
+		public D11() { 
+			super(); 
+			System.out.println("D1()"); 
+		} 
+		public static void main(String args[]) { 
+			DI2 di1 = new D11(); 
+			DI2 di2 = new D2(); 
+			DI1 di3 = new D11(); 
+			D11 d1 = new D11(); 
+			D2 d2 = new DI1.D2(); 
+			System.out.println(((DI2) new D11()).metoda()); 
+			System.out.println(((DI2) d2).metoda(); 
+		} 
+		public int metoda(int i) { 
+			System.out.println("D1 metoda"); 
+			return 1; 
+			} 
+	} 
+	interface DI1 { 
+		class D2 implements DI2 { 
+			D2() { 
+				System.out.println("D2()"); 
+			} 
+			public int metoda() { 
+				System.out.println("D2 metoda"); return 0; 
+			} 
+		} 
+	} 
+	interface DI2 { 
+		int metoda(); 
+	}
+	
+	
+	
+	
+	
+	
+Hajde da analiziramo ovaj program kako bismo razumeli njegovo ponašanje i rezultat ispisa.
+
+### Struktura programa
+
+1. **Interfejs `DI1`**:
+   - Sadrži ugnježdenu (nested) klasu `D2` koja implementira interfejs `DI2`.
+   - Konstruktor klase `D2` ispisuje `"D2()"`, a metoda `metoda()` ispisuje `"D2 metoda"` i vraća `0`.
+
+2. **Interfejs `DI2`**:
+   - Deklariše metodu `metoda()` koja vraća `int`.
+
+3. **Klasa `D11`**:
+   - Nasleđuje klasu `DI1.D2`, a implementira oba interfejsa `DI1` i `DI2`.
+   - Konstruktor klase `D11` poziva konstruktor nadklase `D2`, pa ispisuje `"D2()"`, a zatim `"D1()"`.
+   - Override-uje metodu `metoda(int i)`, koja ispisuje `"D1 metoda"` i vraća `1`.
+
+4. **Metoda `main`**:
+   - Kreiraju se instance različitih klasa i dodeljuju promenljivama različitih tipova (interfejsa).
+   - Poziva se metoda `metoda()` na različitim instancama.
+
+### Izvršavanje programa
+
+1. **Kreiranje `DI2 di1 = new D11();`**:
+   - Prvo se poziva konstruktor `D11`, koji poziva konstruktor nadklase `D2`, što ispisuje `"D2()"`.
+   - Zatim se ispisuje `"D1()"`.
+   - Dakle, za ovaj korak nema dodatnog ispisa, osim prilikom kreiranja objekta.
+
+2. **Kreiranje `DI2 di2 = new D2();`**:
+   - Konstruktor `D2` se poziva, što ispisuje `"D2()"`.
+
+3. **Kreiranje `DI1 di3 = new D11();`**:
+   - Ponovo se poziva konstruktor `D11`, koji poziva konstruktor `D2`, što ispisuje `"D2()"`, a zatim `"D1()"`.
+
+4. **Kreiranje `D11 d1 = new D11();`**:
+   - Ponovo se poziva konstruktor `D11`, koji poziva konstruktor `D2`, što ispisuje `"D2()"`, a zatim `"D1()"`.
+
+5. **Kreiranje `D2 d2 = new DI1.D2();`**:
+   - Poziva se konstruktor `D2`, što ispisuje `"D2()"`.
+
+6. **Poziv `((DI2) new D11()).metoda();`**:
+   - Ponovo se kreira instanca `D11`, što ispisuje `"D2()"`, a zatim `"D1()"`.
+   - Poziva se metoda `metoda()` iz klase `D2`, jer `D11` nije override-ovala ovu metodu. Metoda ispisuje `"D2 metoda"` i vraća `0`.
+   - Dakle, ovaj poziv ispisuje `"D2 metoda"` i vraća `0`.
+
+7. **Poziv `((DI2) d2).metoda();`**:
+   - `d2` je instanca klase `DI1.D2`, pa se poziva metoda `metoda()` iz te klase.
+   - Metoda ispisuje `"D2 metoda"` i vraća `0`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+D2()
+D1()
+D2()
+D2()
+D1()
+D2()
+D1()
+D2()
+D2 metoda
+0
+D2 metoda
+0
+```
+
+**Objašnjenje**:
+- Prvo se ispisuju poruke iz konstruktora prilikom kreiranja objekata.
+- Zatim se ispisuje `"D2 metoda"` dva puta, jer se metoda `metoda()` iz klase `D2` poziva dva puta.
+- Nakon svakog poziva metode `metoda()`, vraća se `0`, što je prikazano u poslednja dva ispisa.

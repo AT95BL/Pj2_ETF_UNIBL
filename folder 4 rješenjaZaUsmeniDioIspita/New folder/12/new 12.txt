@@ -1,0 +1,81 @@
+
+interface PrviI extends DrugiI, TreciI { 
+	void metoda(); 
+} 
+interface DrugiI { 
+	void metoda(); 
+} 
+interface TreciI { 
+	void metodaI3(); 
+} 
+class Peta implements PrviI, TreciI { 
+	public void metoda() { 
+		System.out.println("metoda"); 
+	} 
+	public void metodaI3() { 
+		System.out.println("metoda I3"); 
+	} 
+}
+public class Dvanaesta { 
+	public static void main(String [] args) { 
+		Peta e = new Peta(); 
+		PrviI i = new Peta(); 
+		DrugiI i2 = e; i.metoda(); 
+		e.metodaI3(); 
+		i.metodaI3(); 
+		i2.metoda(); 
+	} 
+}
+
+Hajde da analiziramo ovaj program kako bismo razumeli njegovo ponašanje i rezultat ispisa.
+
+### Struktura programa
+
+1. **Interfejsi**:
+   - **`PrviI`**: Nasleđuje `DrugiI` i `TreciI`, i dodaje svoju metodu `metoda()`. Dakle, klasa koja implementira `PrviI` mora implementirati `metoda()` (iz `PrviI` i `DrugiI`) i `metodaI3()` (iz `TreciI`).
+   - **`DrugiI`**: Deklariše metodu `metoda()`.
+   - **`TreciI`**: Deklariše metodu `metodaI3()`.
+
+2. **Klasa `Peta`**:
+   - Implementira `PrviI` i `TreciI`, što znači da mora implementirati `metoda()` i `metodaI3()`.
+   - Metoda `metoda()` ispisuje `"metoda"`.
+   - Metoda `metodaI3()` ispisuje `"metoda I3"`.
+
+3. **Klasa `Dvanaesta`**:
+   - U metodi `main`, kreira se instanca `Peta` i dodeljuju se različitim promenljivama (`Peta`, `PrviI`, i `DrugiI`).
+   - Pozivaju se metode na različitim promenljivama.
+
+### Izvršavanje programa
+
+1. **`i.metoda();`**:
+   - `i` je instanca klase `Peta` tipizovana kao `PrviI`.
+   - Poziva se metoda `metoda()` iz `Peta`, koja ispisuje `"metoda"`.
+
+2. **`e.metodaI3();`**:
+   - `e` je instanca klase `Peta`, koja implementira `TreciI`.
+   - Poziva se metoda `metodaI3()` iz `Peta`, koja ispisuje `"metoda I3"`.
+
+3. **`i.metodaI3();`**:
+   - `i` je instanca klase `Peta` tipizovana kao `PrviI`.
+   - Iako je `i` tipizovan kao `PrviI`, `PrviI` nasleđuje `TreciI`, pa je `metodaI3()` dostupna. Poziva se metoda `metodaI3()` iz `Peta`, koja ispisuje `"metoda I3"`.
+
+4. **`i2.metoda();`**:
+   - `i2` je instanca klase `Peta` tipizovana kao `DrugiI`.
+   - `DrugiI` takođe ima metodu `metoda()`, koja je implementirana u `Peta`. Poziva se metoda `metoda()` iz `Peta`, koja ispisuje `"metoda"`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+metoda
+metoda I3
+metoda I3
+metoda
+```
+
+**Objašnjenje**:
+- `"metoda"` se ispisuje kada se pozove `metoda()` na `i`, koja je instanca `Peta` tipizovana kao `PrviI`.
+- `"metoda I3"` se ispisuje kada se pozove `metodaI3()` na `e`, koja je instanca `Peta`.
+- `"metoda I3"` se ponovo ispisuje kada se pozove `metodaI3()` na `i`, koji je takođe instanca `Peta` tipizovana kao `PrviI`.
+- `"metoda"` se ispisuje kada se pozove `metoda()` na `i2`, koji je instanca `Peta` tipizovana kao `DrugiI`.

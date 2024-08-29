@@ -1,0 +1,45 @@
+
+class Equals { 
+	public static void main(String [] args){ 
+		int x = 100; 
+		double y = 100.1; 
+		boolean b = (x == y); 
+		System.out.println(b); 
+	} 
+}
+
+Da bismo razumeli kako ovaj program funkcioniše i koji će biti rezultat ispisa, analizirajmo kod:
+
+### Analiza programa
+
+1. **Deklaracija i inicijalizacija promenljivih**:
+   ```java
+   int x = 100;
+   double y = 100.1;
+   ```
+   - `x` je celobrojna promenljiva (`int`) i dodeljena je vrednost 100.
+   - `y` je promenljiva sa decimalnim brojem (`double`) i dodeljena je vrednost 100.1.
+
+2. **Uporedba sa `==`**:
+   ```java
+   boolean b = (x == y);
+   ```
+   - Ovaj izraz upoređuje `x` i `y` koristeći operator `==`.
+   - Kada upoređujete različite tipove (`int` i `double`), `int` se implicitno konvertuje u `double`. Dakle, `x` se pretvara u `100.0` kao `double`, a zatim se upoređuje sa `y` (`100.1`).
+
+3. **Ispis rezultata**:
+   ```java
+   System.out.println(b);
+   ```
+   - Ako `x` (koji postaje `100.0`) nije jednako `y` (`100.1`), `b` će biti `false`.
+
+### Rezultat ispisa
+
+Pošto `100.0` nije jednako `100.1`, rezultat uporedbe će biti `false`. Dakle, ispis će biti:
+
+```
+false
+```
+
+**Objašnjenje**:
+- `x` kao `100.0` i `y` kao `100.1` nisu iste vrednosti kada se uporede, jer `100.0` nije isto što i `100.1`.

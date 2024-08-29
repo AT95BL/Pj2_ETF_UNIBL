@@ -1,0 +1,69 @@
+
+public class Ex11 { 
+	public static void main(String[] args) { 
+		Test t = new Test(); 
+		t.f().say("hi"); 
+		((Test.Inner)t.f()).say("hello"); 
+	} 
+} 
+interface Ex11Interface { 
+	void say(String s); 
+} 
+class Test { 
+	public class Inner implements Ex11Interface { 
+	public void say(String s) { 
+		System.out.println(s); 
+	}
+} 
+Ex11Interface f() { 
+		return new Inner(); 
+	} 
+}
+
+
+
+Da bismo razumeli kako ovaj program funkcioniše i koji će biti rezultat ispisa, hajde da analiziramo redosled izvršavanja i strukturu koda.
+
+### Struktura programa
+
+1. **Interfejs `Ex11Interface`**:
+   - Sadrži metodu `void say(String s)` koja mora biti implementirana od strane klasa koje implementiraju ovaj interfejs.
+
+2. **Klasa `Test`**:
+   - Sadrži unutrašnju klasu `Inner`, koja implementira interfejs `Ex11Interface`.
+   - Klasa `Inner` implementira metodu `say(String s)` koja ispisuje vrednost parametra `s` na konzolu.
+   - Metoda `f()` u klasi `Test` vraća instancu klase `Inner` kao tip `Ex11Interface`.
+
+3. **Glavna klasa `Ex11`**:
+   - Kreira se instanca klase `Test`.
+   - Poziva se metoda `f()` koja vraća instancu klase `Inner` kao tip `Ex11Interface`.
+   - Zatim se poziva metoda `say("hi")` na toj instanci.
+   - Nakon toga, `f()` se ponovo poziva i rezultat se kastuje (pretvara) u tip `Test.Inner`, a zatim se poziva metoda `say("hello")`.
+
+### Izvršavanje programa
+
+1. **Kreiranje instance `Test`**:
+   - Kreira se objekat `Test`.
+
+2. **Poziv metode `f()` i `say("hi")`**:
+   - Metoda `f()` vraća novu instancu `Inner`.
+   - Metoda `say("hi")` se poziva na ovoj instanci, što rezultira ispisom `"hi"`.
+
+3. **Ponovni poziv metode `f()` i kastovanje na `Test.Inner`**:
+   - Metoda `f()` se ponovo poziva, vraćajući novu instancu `Inner`.
+   - Ova instanca se kastuje u `Test.Inner`.
+   - Metoda `say("hello")` se zatim poziva na ovoj instanci, što rezultira ispisom `"hello"`.
+
+### Konačan ispis
+
+Program će proizvesti sledeći ispis:
+
+```
+hi
+hello
+```
+
+**Objašnjenje**:
+- Prvi ispis `"hi"` dolazi iz poziva `t.f().say("hi")`, gde `f()` vraća instancu `Inner`, a `say("hi")` ispisuje `"hi"`.
+- Drugi ispis `"hello"` dolazi iz poziva `((Test.Inner)t.f()).say("hello")`, 
+gde `f()` ponovo vraća instancu `Inner`, koja je kastovana u `Test.Inner`, a zatim se poziva `say("hello")`, što ispisuje `"hello"`.

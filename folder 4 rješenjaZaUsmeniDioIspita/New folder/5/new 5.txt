@@ -1,0 +1,53 @@
+
+
+class Clidder {
+	private void flipper() { 
+		System.out.println("Clidder"); 
+	} 
+}
+
+
+public class Clidlet extends Clidder { 
+	public final void flipper(){ 
+		System.out.println("Clidlet"); 
+	} 
+	public static void main(String [] args) { 
+		Clidlet a = new Clidlet(); 
+		a.flipper(); 
+	} 
+}
+
+Hajde da analiziramo ovaj program korak po korak kako bismo razumeli njegovo ponašanje i ispis.
+
+### Struktura klasa
+
+1. **Klasa `Clidder`**:
+   - Sadrži privatnu metodu `flipper()`, koja ispisuje `"Clidder"`. 
+   - Pošto je metoda `flipper()` privatna, ona je dostupna samo unutar same klase `Clidder` i ne može biti nasleđena ili dostupna u podklasama.
+
+2. **Klasa `Clidlet`**:
+   - Nasleđuje klasu `Clidder`.
+   - Deklariše javnu metodu `flipper()` sa ključnom reči `final`, koja ispisuje `"Clidlet"`. 
+   - Ova metoda nije override-ovanje metode iz klase `Clidder`, već potpuno nova metoda, jer je originalna metoda u `Clidder` privatna i ne može biti override-ovana.
+   - Sadrži metodu `main`, koja kreira instancu klase `Clidlet` i poziva njenu metodu `flipper()`.
+
+### Izvršavanje programa
+
+1. **Kreiranje objekta `Clidlet` (`Clidlet a = new Clidlet();`)**:
+   - Kreira se instanca klase `Clidlet`.
+
+2. **Poziv `a.flipper()`**:
+   - Pošto je metoda `flipper()` u klasi `Clidlet` javna, ona će biti pozvana. 
+   - Ova metoda ispisuje `"Clidlet"`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+Clidlet
+```
+
+**Objašnjenje**:
+- Pošto je metoda `flipper()` u klasi `Clidlet` potpuno nova metoda (nije overrideovana jer je originalna metoda u klasi `Clidder` privatna), 
+pri pozivanju `a.flipper()`, pozvaće se metoda definisana u `Clidlet`, koja ispisuje `"Clidlet"`.

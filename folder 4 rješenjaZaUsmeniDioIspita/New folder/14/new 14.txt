@@ -1,0 +1,92 @@
+
+class MiniPlayer extends Mp3player { 
+	MiniPlayer() { 
+		System.out.print("mini "); 
+	} 
+} 
+class ElectronicDevice { 
+	ElectronicDevice() { 
+		System.out.print("ed "); 
+	} 
+	public static void main(String[] args) { 
+		MiniPlayer m = new MiniPlayer(); 
+		try { 
+			FileOutputStream fos = new FileOutputStream("dev.txt"); 
+			ObjectOutputStream os = new ObjectOutputStream(fos); 
+			os.writeObject(m); 
+			os.close(); 
+			FileInputStream fis = new FileInputStream("dev.txt"); 
+			ObjectInputStream is = new ObjectInputStream(fis); 
+			MiniPlayer m2 = (MiniPlayer) is.readObject(); 
+			is.close();
+		} catch (Exception x) { 
+			System.out.print("x "); 
+		} 
+	} 
+} 
+class Mp3player extends ElectronicDevice { 
+	Mp3player() { 
+		System.out.print("mp "); 
+	} 
+}
+
+
+
+// Preispitaj rezultat izvršavanja!?
+
+Da bismo razumeli ponašanje ovog programa i rezultat ispisa, prvo ćemo analizirati redosled inicijalizacije i kako se objekti kreiraju i serijalizuju/deserijalizuju.
+
+### Struktura programa
+
+1. **Klasa `ElectronicDevice`**:
+   - Konstruktor `ElectronicDevice` ispisuje `"ed "`.
+
+2. **Klasa `Mp3player`** (nasleđuje `ElectronicDevice`):
+   - Konstruktor `Mp3player` ispisuje `"mp "` i poziva konstruktor `ElectronicDevice`.
+
+3. **Klasa `MiniPlayer`** (nasleđuje `Mp3player`):
+   - Konstruktor `MiniPlayer` ispisuje `"mini "` i poziva konstruktor `Mp3player`.
+
+4. **Metoda `main` u klasi `ElectronicDevice`**:
+   - Kreira se instanca `MiniPlayer`.
+   - Serijalizuje se instanca `MiniPlayer` u datoteku `dev.txt`.
+   - Deserijalizuje se instanca `MiniPlayer` iz datoteke `dev.txt`.
+
+### Izvršavanje programa
+
+1. **Kreiranje instance `MiniPlayer`**:
+   - Konstruktor `MiniPlayer` se poziva. Početni redosled je:
+     - Poziva se konstruktor `Mp3player`.
+     - Konstruktor `Mp3player` poziva konstruktor `ElectronicDevice`.
+     - Konstruktor `ElectronicDevice` ispisuje `"ed "`.
+     - Konstruktor `Mp3player` ispisuje `"mp "`.
+     - Konstruktor `MiniPlayer` ispisuje `"mini "`.
+
+   Dakle, ispis prilikom kreiranja objekta `MiniPlayer` je `"ed mp mini "`.
+
+2. **Serijalizacija**:
+   - Objekat `MiniPlayer` se serijalizuje u datoteku `dev.txt`. Ovaj korak ne proizvodi dodatni ispis.
+
+3. **Deserijalizacija**:
+   - Objekat `MiniPlayer` se deserijalizuje iz datoteke `dev.txt`. 
+   Po deserializaciji, konstruktor `MiniPlayer` se ponovo poziva kao deo procesa instanciranja. 
+   Redosled inicijalizacije je isti kao kod prvog kreiranja objekta:
+     - Poziva se konstruktor `Mp3player`.
+     - Konstruktor `Mp3player` poziva konstruktor `ElectronicDevice`.
+     - Konstruktor `ElectronicDevice` ispisuje `"ed "`.
+     - Konstruktor `Mp3player` ispisuje `"mp "`.
+     - Konstruktor `MiniPlayer` ispisuje `"mini "`.
+
+   Dakle, ispis prilikom deserijalizacije objekta `MiniPlayer` je `"ed mp mini "`.
+
+### Konačan ispis
+
+Konačan ispis programa biće:
+
+```
+ed mp mini ed mp mini
+```
+
+**Objašnjenje**:
+- `"ed mp mini "` se ispisuje kada se kreira instanca `MiniPlayer`.
+- `"ed mp mini "` se ispisuje kada se deserijalizuje instanca `MiniPlayer` iz datoteke `dev.txt`.

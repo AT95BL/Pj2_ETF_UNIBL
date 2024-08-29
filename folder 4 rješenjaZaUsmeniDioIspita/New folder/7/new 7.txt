@@ -1,0 +1,105 @@
+public class Cycles { 
+	public static void rideCycle(CycleFactory factory) { 
+		Cycle c = factory.getCycle(); 
+		c.ride(); 
+	} 
+	public static void main(String [] args) { 
+		rideCycle(new UnicycleFactory()); 
+		rideCycle(new BicycleFactory()); 
+		rideCycle(new TricycleFactory()); 
+		}
+		
+	} interface Cycle { 
+		void ride(); 
+	}
+	
+	interface CycleFactory { 
+		Cycle getCycle(); 
+	}
+	
+	class Unicycle implements Cycle { 
+		public void ride() { 
+			System.out.println("Ride Unicycle"); 
+		} 
+	}
+	
+	class UnicycleFactory implements CycleFactory { 
+		public Cycle getCycle() { 
+			return new Unicycle(); 
+		} 
+	} 
+	
+	class Bicycle implements Cycle { 
+		public void ride() { System.out.println("Ride Bicycle"); } 
+	} 
+	
+	class BicycleFactory implements CycleFactory { 
+		public Cycle getCycle() { return new Bicycle(); } 
+	} 
+	
+	class Tricycle implements Cycle { 
+		Tricycle() { System.out.println("Tricycle()"); } 
+		public void ride() { System.out.println("Ride Tricycle"); } 
+	} 
+	
+	class TricycleFactory implements CycleFactory { 
+		public Cycle getCycle() { 
+			return new Tricycle(); 
+		} 
+	}
+	
+Hajde da analiziramo ovaj program kako bismo razumeli njegovo ponašanje i ispis.
+
+### Struktura programa
+
+1. **Interfejs `Cycle`**:
+   - Deklariše metodu `ride()` koju moraju implementirati sve klase koje implementiraju ovaj interfejs.
+
+2. **Interfejs `CycleFactory`**:
+   - Deklariše metodu `getCycle()`, koja treba da vrati objekat tipa `Cycle`.
+
+3. **Klase koje implementiraju `Cycle`**:
+   - **`Unicycle`**: Implementira metodu `ride()` koja ispisuje `"Ride Unicycle"`.
+   - **`Bicycle`**: Implementira metodu `ride()` koja ispisuje `"Ride Bicycle"`.
+   - **`Tricycle`**: Implementira metodu `ride()` koja ispisuje `"Ride Tricycle"`. Takođe ima konstruktor koji ispisuje `"Tricycle()"` kada se instancira.
+
+4. **Fabrike (`CycleFactory`) za svaku od klasa**:
+   - **`UnicycleFactory`**: Vraća novu instancu klase `Unicycle` kroz metodu `getCycle()`.
+   - **`BicycleFactory`**: Vraća novu instancu klase `Bicycle` kroz metodu `getCycle()`.
+   - **`TricycleFactory`**: Vraća novu instancu klase `Tricycle` kroz metodu `getCycle()`.
+
+5. **Klasa `Cycles`**:
+   - Sadrži statičku metodu `rideCycle(CycleFactory factory)`, koja prima `CycleFactory`, kreira instancu `Cycle` preko `getCycle()`, i poziva metodu `ride()` na toj instanci.
+   - U metodi `main`, poziva `rideCycle` tri puta, koristeći `UnicycleFactory`, `BicycleFactory`, i `TricycleFactory`.
+
+### Izvršavanje programa
+
+1. **Poziv `rideCycle(new UnicycleFactory());`**:
+   - Kreira se instanca `Unicycle` preko `UnicycleFactory`.
+   - Poziva se metoda `ride()` na toj instanci, što ispisuje `"Ride Unicycle"`.
+
+2. **Poziv `rideCycle(new BicycleFactory());`**:
+   - Kreira se instanca `Bicycle` preko `BicycleFactory`.
+   - Poziva se metoda `ride()` na toj instanci, što ispisuje `"Ride Bicycle"`.
+
+3. **Poziv `rideCycle(new TricycleFactory());`**:
+   - Kreira se instanca `Tricycle` preko `TricycleFactory`.
+   - Konstruktor klase `Tricycle` se izvršava, ispisujući `"Tricycle()"`.
+   - Poziva se metoda `ride()` na toj instanci, što ispisuje `"Ride Tricycle"`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+Ride Unicycle
+Ride Bicycle
+Tricycle()
+Ride Tricycle
+```
+
+**Objašnjenje**:
+- Prvo se ispisuje `"Ride Unicycle"` kada se kreira i koristi `Unicycle`.
+- Zatim se ispisuje `"Ride Bicycle"` kada se kreira i koristi `Bicycle`.
+- Potom, konstruktor `Tricycle` ispisuje `"Tricycle()"` prilikom kreiranja objekta.
+- Na kraju se ispisuje `"Ride Tricycle"` kada se pozove metoda `ride()` na `Tricycle`.

@@ -1,0 +1,75 @@
+	
+	public class D1 extends D3 implements DI { 
+		public static void main(String args[]) {
+			D3 niz[] = {new D3(), new D2(), new D1()}; 
+			for (int i = 0; i < niz.length; i++) {
+				niz[i].metoda(); 
+			} 
+		} 
+		public D3 metoda() { 
+			System.out.println("D1: metoda()"); 
+			return super.metoda(); 
+			} 
+	} 
+	class D2 extends D3 { 
+		public D2 metoda() { 
+		System.out.println("D2: metoda()"); 
+		return new D2(); 
+		} 
+	} 
+	class D3 { 
+		public D3 metoda() { 
+			System.out.println("D3: metoda()"); return new D3(); 
+			} 
+		} 
+	interface DI{ D3 metoda(); }
+	
+
+Hajde da analiziramo ovaj program kako bismo razumeli njegovo ponašanje i ispis.
+
+### Struktura programa
+
+1. **Klasa `D3`**:
+   - Sadrži metodu `metoda()`, koja ispisuje `"D3: metoda()"` i vraća novu instancu `D3`.
+
+2. **Klasa `D2`** (nasleđuje `D3`):
+   - Override-uje metodu `metoda()`, koja ispisuje `"D2: metoda()"` i vraća novu instancu `D2`.
+
+3. **Klasa `D1`** (nasleđuje `D3` i implementira interfejs `DI`):
+   - Override-uje metodu `metoda()`, koja ispisuje `"D1: metoda()"` i vraća rezultat poziva `super.metoda()`, tj. poziva metodu `metoda()` iz `D3`,
+   koja ispisuje `"D3: metoda()"` i vraća novu instancu `D3`.
+   
+4. **Interfejs `DI`**:
+   - Deklariše metodu `metoda()` koja vraća objekat tipa `D3`.
+
+5. **Metoda `main`**:
+   - Kreira se niz objekata tipa `D3`, ali se u taj niz smeštaju instance različitih klasa: `D3`, `D2`, i `D1`.
+   - Kroz petlju se poziva metoda `metoda()` za svaku instancu u nizu.
+
+### Izvršavanje programa
+
+1. **`niz[0].metoda()`**:
+   - Prva instanca u nizu je `D3`, pa se poziva `metoda()` iz klase `D3`, koja ispisuje `"D3: metoda()"`.
+
+2. **`niz[1].metoda()`**:
+   - Druga instanca u nizu je `D2`, pa se poziva `metoda()` iz klase `D2`, koja ispisuje `"D2: metoda()"`.
+
+3. **`niz[2].metoda()`**:
+   - Treća instanca u nizu je `D1`, pa se poziva `metoda()` iz klase `D1`.
+   - Prvo se ispisuje `"D1: metoda()"`, zatim se poziva `super.metoda()` (metoda iz `D3`), koja ispisuje `"D3: metoda()"`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+D3: metoda()
+D2: metoda()
+D1: metoda()
+D3: metoda()
+```
+
+**Objašnjenje**:
+- Prvo se ispisuje `"D3: metoda()"` za prvu instancu (`D3`).
+- Zatim `"D2: metoda()"` za drugu instancu (`D2`).
+- Na kraju `"D1: metoda()"` i `"D3: metoda()"` za treću instancu (`D1`), jer `D1` poziva `super.metoda()` iz `D3` nakon što ispiše svoju poruku.

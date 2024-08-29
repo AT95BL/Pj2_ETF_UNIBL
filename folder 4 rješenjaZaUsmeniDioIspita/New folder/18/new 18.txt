@@ -1,0 +1,78 @@
+
+public class ExamQuestion7{ 
+	static int j; 
+	static void methodA(int i){ 
+		boolean b; 
+		do{ 
+			b = i<10 | methodB(4); 
+			b = i<10 || methodB(8); 
+		}while (!b); 
+	} 
+	static boolean methodB(int i){ 
+		j += i; 
+		return true; 
+	} 
+	public static void main(String[] args){ 
+		methodA(0); 
+		System.out.println( "j = " + j ); 
+		} 
+	}
+	
+	
+	
+	
+	
+Da bismo razumeli kako ovaj program funkcioniše i koji će biti rezultat ispisa, analizirajmo kod korak po korak.
+
+### Struktura programa
+
+1. **Promenljive i metode**:
+   - `j` je statička promenljiva koja pripada klasi `ExamQuestion7`.
+   - Metoda `methodA(int i)` prima jedan argument tipa `int` i sadrži logiku unutar `do-while` petlje.
+   - Metoda `methodB(int i)` takođe prima jedan argument tipa `int`, dodaje njegovu vrednost na promenljivu `j`, i vraća `true`.
+
+2. **Glavna metoda `main`**:
+   - Poziva se `methodA(0)` sa argumentom `0`.
+   - Nakon izvršenja metode `methodA`, ispisuje se vrednost promenljive `j`.
+
+### Detaljna analiza izvršenja
+
+1. **Početna vrednost**:
+   - `j` je inicijalno `0`.
+
+2. **Poziv metode `methodA(0)`**:
+   - U `do-while` petlji, prvo se izvršava:
+     ```java
+     b = i < 10 | methodB(4);
+     ```
+     - Budući da je `i = 0`, uslov `i < 10` je `true`.
+     - Zbog operatora `|`, metoda `methodB(4)` će se uvek izvršiti, čak i ako je prvi deo uslova `true`.
+     - Poziv `methodB(4)` povećava vrednost `j` za `4`, pa je sada `j = 4`.
+     - `b` se postavlja na `true`.
+
+   - Zatim se izvršava:
+     ```java
+     b = i < 10 || methodB(8);
+     ```
+     - Ponovo, `i < 10` je `true`, ali zbog operatora `||`, metoda `methodB(8)` se **neće** izvršiti jer je prvi deo uslova `true`.
+     - `b` ostaje `true`.
+
+   - Pošto je `b = true`, uslov `while(!b)` će biti `false`, pa se `do-while` petlja prekida.
+
+3. **Ispis rezultata**:
+   - Nakon izvršenja metode `methodA(0)`, vrednost `j` je `4`, jer je metoda `methodB(4)` bila pozvana samo jednom.
+   - Program ispisuje:
+     ```java
+     System.out.println("j = " + j);
+     ```
+
+### Konačan rezultat ispisa
+
+Rezultat ispisa biće:
+
+```
+j = 4
+```
+
+**Objašnjenje**:
+- Vrednost `j` se povećava samo jednom za `4`, jer se drugi poziv metode `methodB(8)` nikada ne izvrši zbog kratkospojne prirode `||` operatora.

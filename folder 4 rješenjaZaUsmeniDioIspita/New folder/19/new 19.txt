@@ -1,0 +1,68 @@
+
+public class Exercise7 { 
+	private int x; 
+	private void metoda() { 
+		System.out.println("Exercise7.metoda()"); 
+	} 
+	private void metoda2() {
+		Exercise7Inner e7i = new Exercise7Inner(); 
+		e7i.metodaModify(); 
+		System.out.println(x); 
+		System.out.println(e7i.y); 
+	}
+	private class Exercise7Inner { 
+		private int y; 
+		private void metodaModify() { 
+			x = 5; 
+		} 
+	}
+
+	public static void main(String[] args) { 
+		Exercise7 e7 = new Exercise7(); 
+		e7.metoda2(); 
+	} 
+}
+
+Da bismo razumeli kako ovaj program funkcioniše i koji će biti rezultat ispisa, analizirajmo kod korak po korak.
+
+### Struktura programa
+
+1. **Klasa `Exercise7`**:
+   - Ima privatnu promenljivu `x` tipa `int`.
+   - Ima privatne metode:
+     - `metoda()` koja ispisuje `"Exercise7.metoda()"`.
+     - `metoda2()` koja stvara instancu unutrašnje klase `Exercise7Inner` i poziva njenu metodu `metodaModify()`, zatim ispisuje vrednosti `x` i `y`.
+
+2. **Unutrašnja klasa `Exercise7Inner`**:
+   - Ima privatnu promenljivu `y` tipa `int`.
+   - Ima privatnu metodu `metodaModify()` koja postavlja `x` na `5`.
+
+3. **Glavna metoda `main`**:
+   - Kreira se instanca klase `Exercise7` i poziva se metoda `metoda2()`.
+
+### Detaljna analiza izvršenja
+
+1. **Kreiranje instance `Exercise7`**:
+   - U `main` metodi se kreira instanca klase `Exercise7` sa imenom `e7`.
+
+2. **Poziv metode `metoda2()`**:
+   - Unutar `metoda2()`, kreira se nova instanca unutrašnje klase `Exercise7Inner` sa imenom `e7i`.
+   - Zatim se poziva `metodaModify()` na instanci `e7i`:
+     - Ova metoda postavlja `x` (iz spoljne klase) na `5`. 
+   - Nakon toga, ispisuje se:
+     - `System.out.println(x);` što će ispisati `5` (jer je `x` postavljen na `5`).
+     - `System.out.println(e7i.y);` pokušava da ispiše vrednost `y`, koja je inicijalizovana, ali nikad nije postavljena. U Javi, neinicijalizovane `int` promenljive podrazumevano imaju vrednost `0`. Dakle, ovo će ispisati `0`.
+
+### Konačan rezultat ispisa
+
+Kada se sve to uzme u obzir, rezultat ispisa programa biće:
+
+```
+5
+0
+```
+
+### Objašnjenje
+
+- Prvi ispis `5` dolazi iz postavke `x` na `5` unutar `metodaModify()`.
+- Drugi ispis `0` dolazi iz ispisivanja `y`, koja je neinicijalizovana i prema podrazumevanju u Javi je `0`.

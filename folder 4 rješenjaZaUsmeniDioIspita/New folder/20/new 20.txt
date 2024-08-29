@@ -1,0 +1,82 @@
+
+public class F { 
+	private int i = 0; 
+	private long y = 0; 
+	long metoda() { 
+		return i + y; 
+	} 
+	F napravi() { 
+		return new F(); 
+	} 
+	public static void main(String args[]) { 
+		F f = new F(); 
+		G g = new G(); 
+		F f1 = f.napravi(); 
+		F f2 = g.napravi(); 
+		System.out.println(f1.metoda()); 
+		System.out.println(f2.metoda()); 
+	} 
+} class G extends F { 
+	int i = 1; 
+	long z = 1; 
+	protected long metoda() {
+		z = super.metoda(); 
+		return i + z; 
+	} 
+	G napravi() { 
+		return new G(); 
+	} 
+}
+
+
+
+
+
+Da bismo razumeli ovaj program i njegov ispis, analizirajmo korak po korak.
+
+### Struktura programa
+
+1. **Klasa `F`**:
+   - Ima privatne promenljive `i` tipa `int` i `y` tipa `long`, obe inicijalizovane na `0`.
+   - Metoda `metoda()` vraća zbir `i + y`, što je u ovom slučaju `0 + 0 = 0`.
+   - Metoda `napravi()` kreira i vraća novu instancu klase `F`.
+
+2. **Klasa `G`** koja nasleđuje `F`**:
+   - Ima svoje promenljive `i` tipa `int` (inicijalizovana na `1`) i `z` tipa `long` (inicijalizovana na `1`).
+   - Metoda `metoda()` poziva `super.metoda()`, što poziva `metoda()` iz klase `F`, koja vraća `0`. Zatim dodeljuje vrednost `z` kao `0` i vraća zbir `i + z`, što je `1 + 0 = 1`.
+   - Metoda `napravi()` kreira i vraća novu instancu klase `G`.
+
+3. **Glavna metoda `main`**:
+   - Kreira instancu `f` klase `F` i instancu `g` klase `G`.
+   - Kreira instancu `f1` pozivanjem `f.napravi()`, što vraća novu instancu klase `F`.
+   - Kreira instancu `f2` pozivanjem `g.napravi()`, što vraća novu instancu klase `G`.
+   - Zatim ispisuje rezultat `metoda()` na instancama `f1` i `f2`.
+
+### Detaljna analiza
+
+1. **Poziv `f1.metoda()`**:
+   - `f1` je instanca klase `F`.
+   - Poziv `f1.metoda()` vraća rezultat metode `metoda()` u klasi `F`, što je `i + y = 0 + 0 = 0`.
+   - Dakle, prvi ispis biće `0`.
+
+2. **Poziv `f2.metoda()`**:
+   - `f2` je instanca klase `G`.
+   - Poziv `f2.metoda()` izvršava metodu `metoda()` iz klase `G`, koja:
+     - Prvo poziva `super.metoda()` iz klase `F`, što vraća `0`.
+     - Zatim postavlja `z = 0`.
+     - I vraća `i + z = 1 + 0 = 1`.
+   - Dakle, drugi ispis biće `1`.
+
+### Konačan rezultat ispisa
+
+Rezultat ispisa ovog programa biće:
+
+```
+0
+1
+```
+
+### Objašnjenje
+
+- **Prvi ispis `0`** dolazi iz poziva `f1.metoda()`, koji koristi metodu iz klase `F`, a promenljive `i` i `y` su `0`.
+- **Drugi ispis `1`** dolazi iz poziva `f2.metoda()`, koji koristi metodu iz klase `G`, gde `i = 1` i `z` je postavljeno na `0` nakon poziva `super.metoda()`.

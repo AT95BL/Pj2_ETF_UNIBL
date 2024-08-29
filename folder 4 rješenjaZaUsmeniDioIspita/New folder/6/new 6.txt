@@ -1,0 +1,65 @@
+
+// Treba provjeriti!!
+
+public class Covalent extends Bonds { 
+	Covalent force() { return new Covalent(); } 
+	public static void main(String[] args) { 
+		new Covalent().go(new Covalent()); 
+	} 
+	void go(Covalent c) { 
+		go2(new Bonds().force(), c.force()); 
+	} 
+	void go2(Bonds b, Covalent c) { 
+		Covalent c2 =(Covalent)b; Bonds b2 = (Bonds)c; 
+	} 
+}
+
+
+class Bonds { 
+	Bonds force() { return new Bonds(); } 
+} 
+
+
+
+Hajde da analiziramo ovaj program korak po korak kako bismo razumeli njegovo ponašanje i ispis.
+
+### Struktura klasa
+
+1. **Klasa `Bonds`**:
+   - Sadrži metodu `force()`, koja vraća novi objekat tipa `Bonds`.
+   
+2. **Klasa `Covalent`**:
+   - Nasleđuje klasu `Bonds`.
+   - Override-uje metodu `force()` tako da vraća novi objekat tipa `Covalent`.
+   - Sadrži metodu `go(Covalent c)`, koja poziva metodu `go2(Bonds b, Covalent c)` sa rezultatima poziva `force()` iz `Bonds` i `Covalent`.
+   - Metoda `go2(Bonds b, Covalent c)` pokušava da kastuje parametre `b` i `c` u tipove `Covalent` i `Bonds`, respektivno.
+
+### Izvršavanje programa
+
+1. **Metoda `main`**:
+   - Kreira novu instancu klase `Covalent` i poziva metodu `go` sa novom instancom `Covalent` kao argumentom.
+
+2. **Metoda `go(Covalent c)`**:
+   - Prvo se poziva `force()` na novoj instanci `Bonds`. Ovo vraća novu instancu `Bonds`.
+   - Zatim se poziva `force()` na instanci `Covalent`, što vraća novu instancu `Covalent`.
+   - Metoda `go2(Bonds b, Covalent c)` se poziva sa ovim rezultatima.
+
+3. **Metoda `go2(Bonds b, Covalent c)`**:
+   - **Prvo kastovanje**: `Covalent c2 = (Covalent)b;`
+     - Ovde pokušavamo da kastujemo objekat tipa `Bonds` u `Covalent`. Ovo kastovanje **nije** validno jer `b` pokazuje na instancu `Bonds`, a ne na `Covalent`.
+     - Ova linija koda će baciti izuzetak `ClassCastException`.
+   - **Drugo kastovanje**: `Bonds b2 = (Bonds)c;`
+     - Ovo kastovanje nije ni dovedeno do tačke izvršenja zbog izuzetka u prethodnoj liniji koda, ali bi bilo validno jer `c` pokazuje na instancu `Covalent`, 
+	   koja je podklasa `Bonds`.
+
+### Konačan ispis
+
+Rezultat izvršavanja programa biće:
+
+```
+Exception in thread "main" java.lang.ClassCastException: Bonds cannot be cast to Covalent
+```
+
+**Objašnjenje**:
+- Program će baciti `ClassCastException` kada pokuša da kastuje objekat tipa `Bonds` u `Covalent` u metodi `go2`.
+ Ova greška će prekinuti izvršavanje programa pre nego što se dođe do druge linije kastovanja.
