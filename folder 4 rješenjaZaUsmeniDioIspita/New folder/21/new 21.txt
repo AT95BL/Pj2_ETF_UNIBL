@@ -1,0 +1,56 @@
+
+public class F1{ 
+	static int x = 3; 
+	public static void main(String args[]) { 
+		new F1(); 
+	} 
+	F1(){ 
+		this(2); 
+	}
+	F1(int x){ 
+		System.out.println(x); 
+	} 
+}
+
+
+
+
+Ovaj program je primer konstrukcije objekta sa preopterećenim konstruktorima u Javi. Pogledajmo kako ovaj kod funkcioniše i šta će biti rezultat izlaza.
+
+### Struktura programa
+
+1. **Klasa `F1`**:
+   - Staticka promenljiva `x` je inicijalizovana na vrednost `3`.
+   - **`main` metoda**:
+     - Poziva se nova instanca klase `F1` sa `new F1()`.
+   - **Konstruktori**:
+     - **Podrazumevani konstruktor `F1()`**:
+       - Poziva drugi konstruktor `F1(int x)` sa argumentom `2`.
+     - **Konstruktor `F1(int x)`**:
+       - Ispisuje vrednost promenljive `x` koja je prosleđena kao argument (u ovom slučaju `2`).
+
+### Izvršenje programa
+
+1. **Kreiranje instance `F1` u `main` metodi**:
+   - Kada se pozove `new F1()`, poziva se podrazumevani konstruktor `F1()`.
+   
+2. **Izvršenje podrazumevanog konstruktora `F1()`**:
+   - Ovaj konstruktor poziva drugi konstruktor `F1(int x)` sa argumentom `2`.
+
+3. **Izvršenje konstruktora `F1(int x)`**:
+   - Vrednost `x` (što je `2`) se ispisuje.
+
+### Rezultat izlaza
+
+Program će ispisati:
+
+```
+2
+```
+
+### Objašnjenje
+
+- Kada se kreira nova instanca `F1` pozivom `new F1()`, 
+prvo se poziva podrazumevani konstruktor `F1()`, 
+koji potom poziva konstruktor `F1(int x)` sa vrednošću `2`. 
+Taj konstruktor ispisuje tu vrednost, što dovodi do izlaza `2`.
