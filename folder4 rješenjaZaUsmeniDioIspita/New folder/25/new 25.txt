@@ -1,0 +1,78 @@
+public class G1{ 
+	int i; 
+	
+	{ 
+		System.out.println("blok"); 
+		System.out.println(i = 1); 
+	} 
+	
+	protected void test(){ 
+		System.out.println(i); 
+		System.out.println("iz G1"); 
+	} 
+	
+	protected void metoda() throws Exception{ 
+		System.out.println("G1 metoda"); 
+		test(); 
+	} 
+	
+	public static void main(String args[]) throws Exception{
+
+		G1 g1 = new G1(), g2 = new G3(); 
+		g1.metoda(); 
+		g2.metoda(); 
+	} 
+} 
+
+abstract class G2 extends G1{ 
+	abstract protected void metoda() throws Exception; 
+	protected void test(){ 
+		System.out.println(i); 
+		System.out.println("iz G2"); 
+	} 
+} 
+final class G3 extends G2{ 
+	public void metoda() throws Exception { 
+	System.out.println("G3 metoda"); 
+	i += 8.9f; 
+	test(); 
+	} 
+}
+
+
+
+
+### Objašnjenje programa:
+
+1. **Blok inicijalizacije:**
+   - Kada se kreira instanca `G1` ili bilo koje njene podklase, prvo se izvršava blok inicijalizacije:
+     ```java
+     { 
+         System.out.println("blok"); 
+         System.out.println(i = 1); 
+     }
+     ```
+   - Ovaj blok postavlja `i` na 1 i ispisuje `"blok"` i `"1"`.
+
+2. **Metoda `metoda()` u `G1`:**
+   - Kada se pozove `metoda()` iz klase `G1`, prvo se ispisuje `"G1 metoda"`, a zatim se poziva metoda `test()` koja ispisuje vrednost `i` (koja je 1) i `"iz G1"`.
+
+3. **Metoda `metoda()` u `G3`:**
+   - Kada se pozove `metoda()` iz klase `G3`, prvo se ispisuje `"G3 metoda"`, zatim se `i` povećava za `8.9f`, što rezultuje vrednošću `9`, jer se `i` tretira kao celobrojna vrednost (`int`).
+   - Nakon toga se poziva metoda `test()` iz `G2`, koja ispisuje vrednost `i` (koja je sada 9) i `"iz G2"`.
+
+### Ispis:
+
+Rezultat ispisa će biti:
+```
+blok
+1
+G1 metoda
+1
+iz G1
+blok
+1
+G3 metoda
+9
+iz G2
+```

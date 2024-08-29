@@ -1,0 +1,62 @@
+
+public class HummingBird extends Bird { 
+	public static void fly() { 
+		s += "hover "; 
+	} 
+	public static void main(String[] args) { 
+		Bird b1 = new Bird(); 
+		Bird b2 = new HummingBird(); 
+		Bird b3 = (HummingBird)b2; 
+		HummingBird b4 = (HummingBird)b2; 
+		b1.fly(); 
+		b2.fly(); 
+		b3.fly(); 
+		b4.fly(); 
+		System.out.println(s); 
+	} 
+} 
+class Bird { 
+	public static String s = ""; 
+	public static void fly() { 
+		s += "fly "; 
+	} 
+}
+
+
+
+
+
+
+Ovaj program prikazuje kako statičke metode i polja funkcionišu u kontekstu nasleđivanja.
+
+### Analiza programa:
+
+1. **Klase `Bird` i `HummingBird`:**
+   - **Klasa `Bird`:**
+     - Statička promenljiva `s` se inicijalizuje praznim stringom: `public static String s = "";`
+     - Statička metoda `fly()` dodaje `"fly "` na promenljivu `s`: `public static void fly() { s += "fly "; }`
+   - **Klasa `HummingBird` nasleđuje klasu `Bird`:**
+     - Prepisuje statičku metodu `fly()`, koja dodaje `"hover "` na promenljivu `s`: `public static void fly() { s += "hover "; }`
+
+2. **Metoda `main`:**
+   - **Kreiranje objekata:**
+     - `Bird b1 = new Bird();` - Kreira objekat klase `Bird`.
+     - `Bird b2 = new HummingBird();` - Kreira objekat klase `HummingBird`, ali je tipa `Bird`.
+     - `Bird b3 = (HummingBird)b2;` - `b2` je već tipa `HummingBird`, tako da kastovanje nema efekta.
+     - `HummingBird b4 = (HummingBird)b2;` - Takođe kastuje `b2` u `HummingBird`, što je validno jer je `b2` zapravo `HummingBird`.
+
+   - **Pozivanje metoda `fly`:**
+     - `b1.fly();` - Poziva `Bird.fly()` jer je `b1` instanca klase `Bird`. Ovo dodaje `"fly "` u `s`.
+     - `b2.fly();` - Poziva `Bird.fly()` jer statičke metode nisu povezane sa instancom, već sa tipom reference. Iako je objekat zapravo `HummingBird`,
+	 referenca `b2` je tipa `Bird`, tako da se poziva `Bird.fly()`, dodajući `"fly "` u `s`.
+     - `b3.fly();` - Slično kao `b2.fly()`, i ovde se poziva `Bird.fly()`, jer je referenca `b3` tipa `Bird`. Ovo dodaje još jedno `"fly "` u `s`.
+     - `b4.fly();` - Poziva `HummingBird.fly()` jer je referenca `b4` tipa `HummingBird`, što dodaje `"hover "` u `s`.
+
+3. **Konačni rezultat:**
+   - Nakon izvršavanja svih metoda, string `s` će sadržati: `"fly fly fly hover "`.
+
+### Rezultat ispisa:
+
+```
+fly fly fly hover 
+```

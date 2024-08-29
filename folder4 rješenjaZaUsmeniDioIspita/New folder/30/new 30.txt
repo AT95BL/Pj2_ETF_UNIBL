@@ -1,0 +1,37 @@
+
+public class Igra {
+	public static void main(String[] args) { 
+	Integer i = new Integer(5); 
+	Integer j = new Integer(5); 
+	System.out.println(i == j); 
+	System.out.println( i == (new Integer(5))); 
+	} 
+}
+
+
+
+
+
+Ovaj program demonstrira ponašanje operatora `==` kada se koristi sa objektima tipa `Integer`. 
+
+### Analiza programa:
+
+1. **Kreiranje `Integer` objekata:**
+   - `Integer i = new Integer(5);` - Kreira novi objekat `Integer` sa vrednošću 5.
+   - `Integer j = new Integer(5);` - Kreira novi objekat `Integer` sa vrednošću 5.
+
+2. **Poređenje `i` i `j` koristeći `==`:**
+   - `System.out.println(i == j);` - Operator `==` poredi reference, a ne vrednosti. Pošto su `i` i `j` različiti objekti, iako imaju istu vrednost, `i == j` će vratiti `false`.
+
+3. **Poređenje `i` sa novim `Integer` objektom:**
+   - `System.out.println(i == (new Integer(5)));` - Ponovo se koristi `==` operator za poređenje reference objekta `i` sa referencom novog objekta `Integer` sa vrednošću 5. 
+   Pošto se novi objekat kreira, reference su različite, tako da će i ovo poređenje vratiti `false`.
+
+### Rezultat ispisa:
+
+```
+false
+false
+```
+
+Oba ispisa su `false` jer se porede reference objekata, a ne njihove vrednosti.

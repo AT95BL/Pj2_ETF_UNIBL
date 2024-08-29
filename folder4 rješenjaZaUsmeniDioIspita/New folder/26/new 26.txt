@@ -1,0 +1,41 @@
+
+interface I { 
+	void metoda(); 
+} 
+class H implements I { 
+	H h = new H(); 
+	public static void main(String[] args) { 
+		H h = new H(); 
+		h.metoda(); 
+	} 
+public void metoda() { 
+	System.out.println("abcdef"); 
+	} 
+}
+
+
+
+
+
+
+
+
+
+
+Program će izazvati `StackOverflowError`.
+
+### Razlog:
+- Kada se nova instanca klase `H` kreira unutar konstruktora `H` (preko polja `H h = new H();`), to dovodi do beskonačne rekurzije. 
+Svaka nova instanca klase `H` ponovo kreira novu instancu klase `H`, što kontinuirano poziva konstruktor sve dok se stog poziva ne preoptereti.
+
+### Detalji o `StackOverflowError`:
+- `StackOverflowError` se javlja kada stog (stack) poziva dođe do maksimalne veličine. 
+Ovo je greška na nivou JVM-a koja se dešava kada program koristi više memorije za pozive funkcija nego što je dostupno u stogu.
+
+Dakle, ako pokušate da pokrenete originalni program, dobićete sledeću grešku:
+
+```
+Exception in thread "main" java.lang.StackOverflowError
+```
+
+Ova greška ukazuje na beskonačnu rekurziju koja iscrpljuje memoriju stoga.

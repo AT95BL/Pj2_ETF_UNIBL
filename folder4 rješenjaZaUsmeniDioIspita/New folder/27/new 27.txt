@@ -1,0 +1,74 @@
+
+class Bird { 
+	{ 
+		System.out.print("b1 "); 
+	} 
+	public Bird() { 
+		System.out.print("b2 ");
+	} 
+} 
+class Raptor extends Bird { 
+	static { 
+		System.out.print("r1 "); 
+	} 
+	public Raptor() { 
+		System.out.print("r2 "); } 
+	{ 
+		System.out.print("r3 "); 
+	} 
+	
+	static { 
+		System.out.print("r4 "); 
+	} 
+} 
+
+class Hawk extends Raptor { 
+	static Bird b = new Bird(); 
+	public static void main(String[] args) { 
+		System.out.print("pre "); 
+		new Hawk(); 
+		System.out.println("hawk "); 
+	} 
+}
+
+
+Ovaj program koristi statičke i inicijalizacione blokove kako bi odredio redosled izvršavanja različitih delova koda prilikom kreiranja objekata i pokretanja programa. 
+Hajde da prođemo kroz redosled izvršavanja i analiziramo ispis:
+
+### Programske klase i njihovi blokovi:
+- **Klasa `Bird`:**
+  - Inicijalizacioni blok: `System.out.print("b1 ");`
+  - Konstruktor: `System.out.print("b2 ");`
+  
+- **Klasa `Raptor` (nasleđuje `Bird`):**
+  - Statički blok 1: `System.out.print("r1 ");`
+  - Statički blok 2: `System.out.print("r4 ");`
+  - Inicijalizacioni blok: `System.out.print("r3 ");`
+  - Konstruktor: `System.out.print("r2 ");`
+  
+- **Klasa `Hawk` (nasleđuje `Raptor`):**
+  - Statičko polje: `static Bird b = new Bird();` (Inicijalizacija statičkog polja.)
+
+### Redosled izvršavanja:
+1. **Statički blokovi se izvršavaju prvi:**
+   - `Raptor` statički blokovi se izvršavaju pri prvom učitavanju klase `Raptor`.
+   - `System.out.print("r1 ");` i `System.out.print("r4 ");` se ispisuju prilikom učitavanja klase `Raptor`.
+   - Zatim, inicijalizuje se statičko polje `Bird b = new Bird();` u klasi `Hawk`. Ovo pokreće kreiranje novog objekta `Bird`, koji ispisuje: `b1 b2`.
+
+2. **`main` metoda se izvršava:**
+   - `System.out.print("pre ");` se ispisuje.
+   - Kreira se novi objekat klase `Hawk`, što pokreće sledeći niz događaja:
+     - Inicijalizacija roditeljskog objekta `Raptor`.
+     - Inicijalizacioni blok `Raptor`: `System.out.print("r3 ");`.
+     - Konstruktor `Raptor`: `System.out.print("r2 ");`.
+     - Inicijalizacioni blok `Hawk` (nema novog inicijalizacionog bloka u `Hawk`, pa se koristi onaj iz `Raptor`).
+     - Nakon što se završi konstruktor `Hawk`, ispisuje se `"hawk "`.
+
+### Konačni ispis:
+- `r1 r4 b1 b2 pre b1 b2 r3 r2 hawk`
+
+Evo redosleda koji će se ispisati na konzoli:
+
+```
+r1 r4 b1 b2 pre b1 b2 r3 r2 hawk 
+```
