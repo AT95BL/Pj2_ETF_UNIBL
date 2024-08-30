@@ -1,0 +1,108 @@
+
+public class Klasa0 { 
+	static{ 
+		int x = 5; 
+	} 
+	static int x,y; 
+	public static void main(String[]args) { 
+		x--; 
+		System.out.println(x+" " +y); 
+		metoda(); 
+		System.out.println(x+" " +y); 
+		System.out.println(++x + x++); 
+		System.out.println(++Klasa0.x); 
+	} 
+	public static void metoda() { 
+		y=++x; 
+	} 
+}
+
+
+
+
+
+-1 0
+0 0
+2
+3
+
+
+Analizirajmo ovaj Java program kako bismo shvatili kako se ponaša i koji će biti ispis na ekranu.
+
+### Analiza
+
+1. **Staticni inicijalizator**:
+   ```java
+   static { 
+       int x = 5; 
+   } 
+   ```
+   - Ovaj blok postavlja lokalnu promenljivu `x` na `5`. Ova promenljiva je lokalna i nije dostupna van ovog bloka.
+
+2. **Staticne promenljive**:
+   ```java
+   static int x, y; 
+   ```
+   - `x` i `y` su statičke promenljive i inicijalizovane su na `0`.
+
+3. **Metoda `main`**:
+   ```java
+   public static void main(String[] args) { 
+       x--; 
+       System.out.println(x + " " + y); 
+       metoda(); 
+       System.out.println(x + " " + y); 
+       System.out.println(++x + x++); 
+       System.out.println(++Klasa0.x); 
+   } 
+   ```
+
+   - **Prva linija u `main`**:
+     ```java
+     x--;
+     ```
+     - `x` je inicijalizovan na `0`, tako da `x--` smanjuje `x` na `-1`.
+
+   - **Prvi ispis**:
+     ```java
+     System.out.println(x + " " + y);
+     ```
+     - Ispisuje `-1 0` jer `x` je `-1` i `y` je još uvek `0`.
+
+   - **Poziv metode `metoda`**:
+     ```java
+     metoda();
+     ```
+     - U metodi `metoda`, `y` se postavlja na `++x`.
+     - Pre nego što se `y` postavi, `x` je `-1`, pa `++x` povećava `x` na `0` i `y` se postavlja na `0`.
+
+   - **Drugi ispis**:
+     ```java
+     System.out.println(x + " " + y);
+     ```
+     - `x` je `0`, a `y` je takođe `0`, pa ispisuje `0 0`.
+
+   - **Računanje i ispis**:
+     ```java
+     System.out.println(++x + x++);
+     ```
+     - `++x` prvo povećava `x` na `1` i koristi `1`.
+     - `x++` koristi trenutno `x` koje je `1`, a zatim povećava `x` na `2`.
+     - Rezultat je `1 + 1 = 2`.
+
+   - **Zadnji ispis**:
+     ```java
+     System.out.println(++Klasa0.x);
+     ```
+     - `++Klasa0.x` prvo povećava `x` na `3` i koristi `3`.
+
+### Konačni izlaz
+
+Na osnovu ove analize, konačni ispis programa biće:
+
+```
+-1 0
+0 0
+2
+3
+```

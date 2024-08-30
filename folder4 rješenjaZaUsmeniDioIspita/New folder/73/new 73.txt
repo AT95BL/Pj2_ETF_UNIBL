@@ -1,0 +1,76 @@
+
+public class T2 { 
+	private void m1() { 
+		System.out.println("1"); 
+	} 
+	public static void main(String[] args) { 
+		new TA() { 
+		void m1() {
+			System.out.println("1"); 
+		} 
+		}.m2(); 
+	} 
+} 
+interface TI { 
+	void m1(); 
+	void m2(); 
+} 
+abstract class TA implements TI { 
+	public void m2() {
+		System.out.println("2"); 
+	} 
+}
+
+
+U ovom kodu imate klasu `T2`, apstraktnu klasu `TA`, interfejs `TI`, i anonimnu klasu koja se koristi u `main` metodi. Evo šta se dešava u ovom kodu:
+
+1. **Interfejs `TI`**:
+   ```java
+   interface TI { 
+       void m1(); 
+       void m2(); 
+   }
+   ```
+   Definiše dva metoda: `m1()` i `m2()`.
+
+2. **Apstraktna klasa `TA`**:
+   ```java
+   abstract class TA implements TI { 
+       public void m2() {
+           System.out.println("2"); 
+       } 
+   }
+   ```
+   Implementira interfejs `TI` i pruža implementaciju za `m2()`. Metod `m1()` je deklarisan u interfejsu, ali nije implementiran u `TA` jer je apstraktna klasa.
+
+3. **Klasu `T2`**:
+   ```java
+   public class T2 { 
+       private void m1() { 
+           System.out.println("1"); 
+       } 
+       public static void main(String[] args) { 
+           new TA() { 
+               void m1() {
+                   System.out.println("1"); 
+               } 
+           }.m2(); 
+       } 
+   }
+   ```
+   - **Anonimna Klasa**: U `main` metodi se kreira anonimna klasa koja nasleđuje `TA`. Ova anonimna klasa redefiniše metod `m1()`, ali ne implementira `m1()` iz interfejsa `TI` jer se anonimna klasa nasleđuje od `TA` i treba samo da implementira `m1()` iz interfejsa.
+   - **Poziv `m2()`**: U anonimnoj klasi metoda `m2()` se ne redefiniše, pa se koristi implementacija iz klase `TA`. Kada se pozove `m2()`, ona ispisuje `"2"`.
+
+### Izlaz
+
+Program ispisuje:
+```
+2
+```
+
+### Objašnjenje
+
+U `main` metodi:
+
+- Kreirate anonimnu klasu koja nasleđuje `TA`. Ova anonimna klasa redefiniše metod `m1()`, ali koristi implementaciju `m2()` iz `TA` (koja ispisuje `"2"`).
+- Kada pozovete `m2()` na anonimnoj instanci, poziva se metoda `m2()` iz `TA`, koji ispisuje `"2"`.

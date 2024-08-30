@@ -1,0 +1,115 @@
+
+public class E11 extends Thread{ 
+	private String name; 
+	public E11(String name){ 
+		this.name = name; 
+	} 
+	public void run(){ 
+		Runnable r = new Runnable(){
+			public void run(){
+				for(int i = 0; i < 5000; i++){
+					System.out.println(i); 
+				} 
+			} 
+		}; 
+		new Thread(r).start(); 
+		synchronized(this){ 
+			for(int i = 0; i < 100; i++){ 
+				System.out.println(i + " " + this.name); 
+			} 
+		} 
+	} 
+	public static void main(String args[]){ 
+		E11 a = new E11("A"); 
+		E11 b = new E11("B"); 
+		a.start(); 
+		b.start(); 
+	} 
+}
+
+Ovaj Java program koristi niti (`Threads`) da prikazuje kako se paralelno izvršavanje kodova može vršiti. Evo detaljne analize kako funkcioniše program i šta se može očekivati od izlaza.
+
+### Klasa `E11`
+
+```java
+public class E11 extends Thread { 
+    private String name; 
+
+    public E11(String name) { 
+        this.name = name; 
+    } 
+
+    public void run() { 
+        Runnable r = new Runnable() {
+            public void run() {
+                for (int i = 0; i < 5000; i++) {
+                    System.out.println(i); 
+                } 
+            } 
+        }; 
+        new Thread(r).start(); 
+
+        synchronized (this) { 
+            for (int i = 0; i < 100; i++) { 
+                System.out.println(i + " " + this.name); 
+            } 
+        } 
+    } 
+
+    public static void main(String args[]) { 
+        E11 a = new E11("A"); 
+        E11 b = new E11("B"); 
+        a.start(); 
+        b.start(); 
+    } 
+}
+```
+
+### Analiza
+
+1. **Konstruktor `E11`**:
+   - Postavlja `name` varijablu na prosleđenu vrednost.
+
+2. **Metoda `run`**:
+   - Kreira anonimni `Runnable` objekat koji ispisuje brojeve od 0 do 4999.
+   - Pokreće novi `Thread` za izvršenje tog `Runnable` objekta.
+   - Zatim, unutar `synchronized (this)` bloka, ispisuje brojeve od 0 do 99 zajedno sa imenom niti (`name`).
+
+3. **Metoda `main`**:
+   - Kreira dve instance klase `E11` sa imenima `"A"` i `"B"`.
+   - Pokreće ove instance kao niti pozivom `start()` metoda.
+
+### Očekivani Izlaz
+
+1. **Niti `E11`**:
+   - Svaka instanca klase `E11` pokreće svoju nit. Svaka nit pokreće dodatni `Runnable` objekat koji ispisuje brojeve od 0 do 4999 u svojoj posebnoj niti.
+   - Nakon što započne novi `Thread`, nit `E11` nastavlja izvršavanje unutar `synchronized` bloka, gde ispisuje brojeve od 0 do 99 zajedno sa imenom niti.
+
+2. **Izlaz**:
+   - Brojevi od 0 do 4999 biće ispisani iz `Runnable` objekta, ali redosled može varirati zbog paralelne prirode nita.
+   - Brojevi od 0 do 99 sa imenom niti `"A"` ili `"B"` biće ispisani iz `synchronized` bloka. Ovaj deo može izgledati ovako:
+     - `0 A`, `1 A`, ..., `99 A` za prvi `E11` objekat.
+     - `0 B`, `1 B`, ..., `99 B` za drugi `E11` objekat.
+   
+   Zbog paralelnog izvršavanja i preplitanja između `Runnable` nita i `synchronized` bloka, redosled između različitih ispisivanja može varirati. Na primer, može izgledati ovako:
+
+```
+0 A
+1 A
+...
+99 A
+0 B
+1 B
+...
+99 B
+0
+1
+...
+4999
+0
+1
+...
+4999
+```
+
+**Napomena**: Redosled između brojeva ispisanih iz `Runnable` objekta i brojeva ispisanih iz `synchronized` bloka može se međusobno preplitati, i izlaz će zavisiti od rasporeda nita od strane JVM-a.

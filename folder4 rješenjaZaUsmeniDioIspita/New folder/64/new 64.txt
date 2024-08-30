@@ -1,0 +1,235 @@
+
+public class D13 extends DI1.D2 implements DI1,DI2{ 
+	public D13(){
+		super(); 
+		System.out.println("D1()"); 
+	} 
+	public static void main(String args[]){ 
+		DI2 di1 = new D13(); 
+		DI2 di2 = new D2(); 
+		DI1 di3 = new D13(); 
+		D13 d1 = new D13(); 
+		D2 d2 = new DI1.D2(); 
+		System.out.println(((DI2)new D13()).metoda()); 
+		System.out.println(((DI2)d2).metoda()); 
+	} 
+	public int metoda(){ 
+		System.out.println("D1 metoda"); 
+		return 1; 
+	} 
+} 
+interface DI1{ 
+	class D2 implements DI2{ 
+		D2(){ 
+			System.out.println("D2()"); 
+		} 
+		public int metoda(){ 
+			System.out.println("D2 metoda"); return 0; 
+		} 
+	} 
+} 
+interface DI2{ 
+	int metoda();
+}
+
+
+
+Exception in thread "main" java.lang.Error: Unresolved compilation problem:
+The method metodaI3() is undefined for the type I2
+
+
+
+
+
+
+Da bismo razumeli izlaz ovog programa, analizirajmo ga korak po korak.
+
+### Analiza Klasa i Interfejsa
+
+1. **Interfejs `DI2`**:
+   - Definiše metodu `metoda()` koja vraća `int`.
+
+2. **Interfejs `DI1`**:
+   - Sadrži statičku klasu `D2` koja implementira `DI2`.
+
+3. **Klasa `D13`**:
+   - Nasleđuje `DI1.D2` i implementira interfejse `DI1` i `DI2`.
+   - Definiše metodu `metoda()` koja ispisuje "D1 metoda" i vraća `1`.
+
+4. **Klasa `D2`** (unutrašnja klasa u interfejsu `DI1`):
+   - Implementira `DI2`.
+   - Definiše metodu `metoda()` koja ispisuje "D2 metoda" i vraća `0`.
+
+### Kreiranje Instanci i Pozivanje Metoda
+
+1. **`new D13()`**:
+   - Poziva konstruktor `D13`.
+   - Konstruktor `D13` poziva `super()`, što je konstruktor `DI1.D2`.
+   - Dakle, ispisuje "D2()" i zatim "D1()".
+
+2. **`DI2 di1 = new D13();`**:
+   - Kreira instancu `D13` i dodeljuje je `di1` tipa `DI2`.
+
+3. **`DI2 di2 = new D2();`**:
+   - Kreira instancu `DI1.D2` i dodeljuje je `di2` tipa `DI2`.
+
+4. **`DI1 di3 = new D13();`**:
+   - Kreira instancu `D13` i dodeljuje je `di3` tipa `DI1`.
+
+5. **`D13 d1 = new D13();`**:
+   - Kreira instancu `D13` i dodeljuje je `d1` tipa `D13`.
+
+6. **`D2 d2 = new DI1.D2();`**:
+   - Kreira instancu `DI1.D2` i dodeljuje je `d2` tipa `D2`.
+
+### Pozivanje Metoda
+
+1. **`System.out.println(((DI2)new D13()).metoda());`**
+   - Kreira novu instancu `D13`, poziva `metoda()` na njoj.
+   - `metoda()` u `D13` ispisuje "D1 metoda" i vraća `1`.
+   - Ispisuje: 
+     ```
+     D2()
+     D1()
+     D1 metoda
+     1
+     ```
+
+2. **`System.out.println(((DI2)d2).metoda());`**
+   - `d2` je instanca `DI1.D2`, a metoda `metoda()` iz `DI1.D2` ispisuje "D2 metoda" i vraća `0`.
+   - Ispisuje:
+     ```
+     D2 metoda
+     0
+     ```
+
+### Konačni Izlaz
+
+Dakle, konačni izlaz programa je:
+
+```
+D2()
+D1()
+D1 metoda
+1
+D2 metoda
+0
+```
+
+### Objašnjenje
+
+- Kada se kreira instanca `D13`, najpre se poziva konstruktor `DI1.D2`, ispisujući "D2()". Zatim se poziva konstruktor `D13`, ispisujući "D1()".
+- Metoda `metoda()` u `D13` ispisuje "D1 metoda" i vraća `1`.
+- Metoda `metoda()` u `DI1.D2` ispisuje "D2 metoda" i vraća `0`.
+
+Program koristi polimorfizam da bi pozvao odgovarajuću implementaciju metode na osnovu stvarnog tipa objekta.
+
+
+
+Izgleda da se suočavaš s greškom u vezi s metodom `metodaI3()` koja nije definisana za tip `I2`. Ovo obično znači da pokušavaš da pozoveš metodu koja nije prisutna u deklaraciji interfejsa ili klase koju koristiš. Da bismo razjasnili ovo, hajde da pogledamo sledeći primer koji može izazvati ovakvu grešku i objasnimo kako da je ispravimo:
+
+### Primer Programa
+
+Pretpostavimo da imamo sledeće interfejse i klase:
+
+```java
+interface I1 {
+    void metodaI1();
+}
+
+interface I2 {
+    void metodaI2();
+}
+
+interface I3 extends I1, I2 {
+    void metodaI3();
+}
+
+class C implements I3 {
+    public void metodaI1() {
+        System.out.println("C.metodaI1");
+    }
+
+    public void metodaI2() {
+        System.out.println("C.metodaI2");
+    }
+
+    public void metodaI3() {
+        System.out.println("C.metodaI3");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        I2 obj = new C();
+        obj.metodaI3();  // Ovo će izazvati grešku
+    }
+}
+```
+
+### Analiza Greške
+
+U ovom primeru, interfejs `I3` nasleđuje `I1` i `I2`, i dodaje svoju metodu `metodaI3()`. Klasa `C` implementira `I3`, i stoga mora implementirati sve metode iz `I1`, `I2` i `I3`.
+
+U `main` metodi, objekat `obj` je tipa `I2`, ali je instanca klase `C`. Interfejs `I2` ne sadrži metodu `metodaI3()`, pa kada pokušamo da pozovemo `metodaI3()` na `obj`, dobijamo grešku jer tip `I2` ne zna za metodu `metodaI3()`.
+
+### Rešenje Greške
+
+Da bismo rešili ovu grešku, možemo:
+
+1. **Promeniti tip varijable `obj` na `I3`:**
+
+   ```java
+   I3 obj = new C();
+   obj.metodaI3();  // Ovo će raditi jer `obj` zna za `metodaI3()`
+   ```
+
+2. **Ukloniti poziv `metodaI3()` ako ne želiš da koristiš `I3` i samo koristi metode iz `I2`:**
+
+   ```java
+   I2 obj = new C();
+   obj.metodaI2();  // Ovo je ispravno
+   ```
+
+3. **Proveriti gde se koristi metoda i da li je potrebna za interfejs `I2`. Ako jeste, mora se dodati u `I2`.**
+
+### Konačan Primer
+
+Ako želiš da koristiš sve metode i da izbegneš grešku, osiguraj da tip varijable odgovara interfejsu koji sadrži sve metode koje želiš da pozoveš:
+
+```java
+interface I1 {
+    void metodaI1();
+}
+
+interface I2 {
+    void metodaI2();
+}
+
+interface I3 extends I1, I2 {
+    void metodaI3();
+}
+
+class C implements I3 {
+    public void metodaI1() {
+        System.out.println("C.metodaI1");
+    }
+
+    public void metodaI2() {
+        System.out.println("C.metodaI2");
+    }
+
+    public void metodaI3() {
+        System.out.println("C.metodaI3");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        I3 obj = new C();  // I3 sadrži sve metode
+        obj.metodaI3();  // Radi bez greške
+    }
+}
+```
+
+U ovom primeru, promenom tipa varijable na `I3`, rešavamo problem jer `I3` sadrži sve metode koje su potrebne.

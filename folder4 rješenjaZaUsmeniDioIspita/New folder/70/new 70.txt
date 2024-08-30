@@ -1,0 +1,122 @@
+
+class Klasa2 { 
+	static double i=1; 
+	static int j=2; 
+	int x = 3; 
+	static int y = 6; 
+	public static void main(String[]args) { 
+		metoda(); 
+		System.out.println(i+j); 
+		System.out.println(x+i); 
+		metoda2(); 
+		System.out.println(i+y); 
+		System.out.println(x+j); 
+	} 
+	public static int metoda() { 
+		return (int)i + --y+(j++); 
+	} 
+	public static double metoda2() { 
+		return j++ - --i; 
+	} 
+}
+
+
+
+Ipak prvojeri:
+
+
+ili
+Exception in thread "main" java.lang.Error: Unresolved compilation problems:
+Cannot make a static reference to the non-static field x
+Cannot make a static reference to the non-static field x
+
+ili
+Da analiziramo kod i izračunamo rezultat koji će se ispisati:
+
+```java
+class Klasa2 { 
+    static double i = 1; 
+    static int j = 2; 
+    int x = 3; 
+    static int y = 6; 
+    
+    public static void main(String[] args) { 
+        metoda(); 
+        System.out.println(i + j); 
+        System.out.println(x + i); 
+        metoda2(); 
+        System.out.println(i + y); 
+        System.out.println(x + j); 
+    } 
+    
+    public static int metoda() { 
+        return (int)i + --y + (j++); 
+    } 
+    
+    public static double metoda2() { 
+        return j++ - --i; 
+    } 
+}
+```
+
+### Analiza i Izračun
+
+1. **Metoda `main`**:
+
+   - **Poziv `metoda()`**:
+     ```java
+     public static int metoda() { 
+         return (int)i + --y + (j++); 
+     }
+     ```
+     - `i` je `1`, pa `(int)i` je `1`.
+     - `--y` smanjuje `y` sa `6` na `5` i koristi vrednost `5`.
+     - `j++` koristi vrednost `2` i zatim povećava `j` na `3`.
+     - Dakle, rezultat `metoda()` je: `1 + 5 + 2 = 8`.
+
+   - **Ispis nakon poziva `metoda()`**:
+     ```java
+     System.out.println(i + j);
+     ```
+     - Nakon poziva `metoda()`, `i` je još uvek `1`, a `j` je sada `3`.
+     - `i + j` je `1 + 3 = 4`.
+
+   - **Ispis**:
+     ```java
+     System.out.println(x + i);
+     ```
+     - `x` je `3` (početna vrednost objekta), ali u `main` metodi `x` nije dostupan jer je statički kontekst.
+     - Ovaj red će uzrokovati grešku u kompajliranju jer `x` nije statička varijabla i ne može se koristiti u statičkom kontekstu.
+
+   - **Poziv `metoda2()`**:
+     ```java
+     public static double metoda2() { 
+         return j++ - --i; 
+     }
+     ```
+     - `j` je `3` i `j++` koristi vrednost `3` pre nego što se poveća na `4`.
+     - `--i` smanjuje `i` sa `1` na `0` i koristi vrednost `0`.
+     - Rezultat `metoda2()` je `3 - 0 = 3.0`.
+
+   - **Ispis nakon poziva `metoda2()`**:
+     ```java
+     System.out.println(i + y);
+     ```
+     - Nakon poziva `metoda2()`, `i` je `0` i `y` je `5`.
+     - `i + y` je `0 + 5 = 5`.
+
+   - **Ispis**:
+     ```java
+     System.out.println(x + j);
+     ```
+     - Kao i ranije, `x` nije dostupan u statičkom kontekstu, pa će izazvati grešku u kompajliranju.
+
+### Rezultat
+Kada se ispravi kod tako da `x` bude pristupačan (npr. korišćenjem objekta za pristup `x` ili pretvaranjem metoda u instance metode), očekivani ispis bi bio:
+
+```
+4
+```
+
+**Greške**:
+- `System.out.println(x + i);` i `System.out.println(x + j);` će izazvati greške zbog pokušaja pristupa `x` u statičkom kontekstu.

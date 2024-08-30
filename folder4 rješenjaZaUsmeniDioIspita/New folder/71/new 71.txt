@@ -1,0 +1,170 @@
+
+public class Klasa4 { 
+	int j =1; 
+	public static void main(String[]args) { 
+		metoda(); 
+		Klasa4 a = new Klasa4(); 
+		a.metoda(); 
+	} 
+	public static void metoda() { 
+		char digit = 'a'; 
+		for(int i = 0;i<10;i++) { 
+			switch(digit) { 
+				case 'x': { 
+					int j =0; 
+					System.out.println(j); 
+				} 
+				default: {
+					int j =100; System.out.println(j); 
+				} 
+			} 
+		} 
+		int i = j; 
+		System.out.println(i); 
+	} 
+}
+
+
+Exception in thread "main" java.lang.Error: Unresolved compilation problem:
+Cannot make a static reference to the non-static field j
+
+
+
+
+
+Analizirajmo kod i problem koji se javlja:
+
+```java
+public class Klasa4 { 
+    int j = 1; 
+    
+    public static void main(String[] args) { 
+        metoda(); 
+        Klasa4 a = new Klasa4(); 
+        a.metoda(); 
+    } 
+    
+    public static void metoda() { 
+        char digit = 'a'; 
+        for (int i = 0; i < 10; i++) { 
+            switch (digit) { 
+                case 'x': { 
+                    int j = 0; 
+                    System.out.println(j); 
+                } 
+                default: { 
+                    int j = 100; 
+                    System.out.println(j); 
+                } 
+            } 
+        } 
+        int i = j; 
+        System.out.println(i); 
+    } 
+}
+```
+
+### Problem
+- **Greška u statičkom kontekstu**: U metodi `metoda()`, koja je statička, pokušava se pristupiti ne-statičnom polju `j`. Ovo je uzrok greške:
+  ```java
+  int i = j; 
+  ```
+  Budući da je `j` ne-statičko polje klase `Klasa4`, ne može se direktno pristupiti iz statičke metode `metoda()`.
+
+### Rješenje
+Ako želite da koristite `j` unutar statičke metode, `j` mora biti statičko polje. Takođe, `i` mora biti inicijaliziran sa statičkim članom ili unutar statičkog konteksta.
+
+### Ispravljeni Kod
+
+Evo kako možete ispraviti kod:
+
+1. **Postavite `j` kao statičko polje** ako želite da ga koristite u statičkoj metodi:
+    ```java
+    public class Klasa4 { 
+        static int j = 1; 
+        
+        public static void main(String[] args) { 
+            metoda(); 
+            Klasa4 a = new Klasa4(); 
+            a.metoda(); 
+        } 
+        
+        public static void metoda() { 
+            char digit = 'a'; 
+            for (int i = 0; i < 10; i++) { 
+                switch (digit) { 
+                    case 'x': { 
+                        int j = 0; 
+                        System.out.println(j); 
+                    } 
+                    default: { 
+                        int j = 100; 
+                        System.out.println(j); 
+                    } 
+                } 
+            } 
+            int i = j; 
+            System.out.println(i); 
+        } 
+    }
+    ```
+
+2. **Ako `j` ne treba biti statičko**: Ako želite da `j` bude instancijsko polje, morate stvoriti objekat klase `Klasa4` i koristiti instancu da biste pristupili `j`.
+
+    Evo ispravljenog koda sa `j` kao instancijskim poljem:
+
+    ```java
+    public class Klasa4 { 
+        int j = 1; 
+        
+        public static void main(String[] args) { 
+            Klasa4 a = new Klasa4(); 
+            a.metoda(); 
+        } 
+        
+        public void metoda() { 
+            char digit = 'a'; 
+            for (int i = 0; i < 10; i++) { 
+                switch (digit) { 
+                    case 'x': { 
+                        int j = 0; 
+                        System.out.println(j); 
+                    } 
+                    default: { 
+                        int j = 100; 
+                        System.out.println(j); 
+                    } 
+                } 
+            } 
+            int i = j; 
+            System.out.println(i); 
+        } 
+    }
+    ```
+
+### Rezultat
+
+S obzirom na **ispravljeni kod** (sa `j` kao statičkim poljem):
+
+1. U `main` metodi, poziv `metoda()` će ispisati `100` deset puta zbog `default` grane switch-a, jer `digit` nikada ne odgovara `case 'x'`.
+2. `int i = j;` će ispisati `1`, jer je `j` statički i inicijalizovan na `1`.
+
+S obzirom na **ispravljeni kod** (sa `j` kao instancijskim poljem):
+
+1. Poziv `a.metoda()` u `main` metodi će ispisati `100` deset puta zbog `default` grane switch-a.
+2. `int i = j;` će ispisati `1`, jer je `j` instancijski i inicijalizovan na `1`.
+
+Izlaz bi bio:
+```
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+1
+```

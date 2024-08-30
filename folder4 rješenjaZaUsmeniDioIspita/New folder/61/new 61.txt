@@ -1,0 +1,154 @@
+
+public class C12{ 
+	public static void main(String args[]){ 
+		C12 c1 = new C12(); 
+		C2 c2 = new C2(); 
+		try{ 
+			System.out.println(c1.metoda(c1)); 
+			System.out.println(c1.metoda(c2)); 
+			System.out.println(c2.metoda(c1)); 
+			System.out.println(c2.metoda(c2)); 
+		}catch(CE1 e){ 
+			System.out.println("exception 1"); 
+		}
+		finally{ 
+			System.out.println("finally"); 
+		} 
+	} 
+	Object metoda(C12 c) throws CE1{
+		if(c instanceof C12){ 
+			System.out.println("metoda"); 
+		}else{
+			throw new CE2(); 
+		} 
+			return 1; 
+		} 
+	} 
+class C2 extends C12{ 
+	Object metoda (C12 c) throws CE1{ 
+		if(errorCheck()&& c instanceof C2){ 
+			throw new CE2("error 2"); 
+		}else if(c instanceof C2){ 
+			throw new CE1(); 
+		}else{
+			return new String("abc"); 
+		} 
+	} 
+	boolean errorCheck(){ 
+		return true; 
+		} 
+} 
+class CE1 extends Throwable{
+	public CE1(){ 
+	System.out.println("ce1 - 1"); 
+	} public CE1(String s){ 
+		super(s); 
+		System.out.println("ce1 - 2"); 
+	} 
+} 
+class CE2 extends RuntimeException { 
+	public CE2(){ 
+		System.out.println("ce2 - 1"); 
+	} 
+	public CE2(String s){ 
+		this(); 
+		System.out.println("ce2 - 2"); 
+	}
+}
+
+
+Exception in thread "main" java.lang.Error: Unresolved compilation problems:
+The method metoda(C12) in the type C12 is not applicable for the arguments (C2)
+The method metoda() in the type C2 is not applicable for the arguments (C12)
+The method metoda() in the type C2 is not applicable for the arguments (C2)
+
+
+
+
+
+
+Izlaz `Exception in thread "main" java.lang.Error: Unresolved compilation problems` ukazuje na to da postoji greška u kodu koja sprečava uspešno kompajliranje. Pogledajmo uzroke grešaka koji su navedeni:
+
+1. **Metoda `metoda(C12 c)` u klasi `C12` nije primenjena za argumente `(C2)`**
+
+   Ova greška se javlja zato što metoda `metoda` u klasi `C12` očekuje objekat tipa `C12`, a ne `C2`. U vašem kodu, `C2` je podklasa `C12`, ali metoda u `C12` ne može direktno da prihvati objekat tipa `C2` ako nije deklarisana da prihvati širu klasu ili interfejs.
+
+2. **Metoda `metoda()` u klasi `C2` nije primenjena za argumente `(C12)`**
+
+   Ova greška se pojavljuje jer metoda `metoda` u klasi `C2` nije implementirana da prihvati argumente tipa `C12`. Klasa `C2` je definisana sa metodom `metoda(C12 c)` koja baca `CE1` ili `CE2`, dok je metoda `metoda` u klasi `C12` bez parametara i bez odgovarajuće implementacije u `C2`.
+
+3. **Metoda `metoda()` u klasi `C2` nije primenjena za argumente `(C2)`**
+
+   Ova greška se pojavljuje zbog sličnih razloga kao gore. Klasa `C2` sadrži metod `metoda(C12 c)` koji baca izuzetke, ali ne odgovara potpisu metode iz klasa `C12` i `C3`.
+
+### Ispravka Koda
+
+Da biste ispravili greške, trebate da uskladite potpis metode `metoda` u klasama tako da svi klasi odgovaraju i prihvataju odgovarajuće argumente. Evo ispravljenog koda:
+
+```java
+public class C12 { 
+    public static void main(String args[]) { 
+        C12 c1 = new C12(); 
+        C2 c2 = new C2(); 
+        try { 
+            System.out.println(c1.metoda(c1)); 
+            System.out.println(c1.metoda(c2)); 
+            System.out.println(c2.metoda(c1)); 
+            System.out.println(c2.metoda(c2)); 
+        } catch (CE1 e) { 
+            System.out.println("exception 1"); 
+        } finally { 
+            System.out.println("finally"); 
+        } 
+    } 
+    
+    Object metoda(C12 c) throws CE1 {
+        if (c instanceof C12) { 
+            System.out.println("metoda"); 
+        } else {
+            throw new CE2(); 
+        } 
+        return 1; 
+    } 
+} 
+
+class C2 extends C12 { 
+    Object metoda(C12 c) throws CE1 { 
+        if (errorCheck() && c instanceof C2) { 
+            throw new CE2("error 2"); 
+        } else if (c instanceof C2) { 
+            throw new CE1(); 
+        } else {
+            return new String("abc"); 
+        } 
+    } 
+    
+    boolean errorCheck() { 
+        return true; 
+    } 
+} 
+
+class CE1 extends Throwable {
+    public CE1() { 
+        System.out.println("ce1 - 1"); 
+    } 
+    
+    public CE1(String s) { 
+        super(s); 
+        System.out.println("ce1 - 2"); 
+    } 
+} 
+
+class CE2 extends RuntimeException { 
+    public CE2() { 
+        System.out.println("ce2 - 1"); 
+    } 
+    
+    public CE2(String s) { 
+        this(); 
+        System.out.println("ce2 - 2"); 
+    }
+}
+```
+
+Ovaj kod osigurava da su metode usklađene sa potpisom metoda i da ne bi trebalo da uzrokuje greške pri kompajliranju.

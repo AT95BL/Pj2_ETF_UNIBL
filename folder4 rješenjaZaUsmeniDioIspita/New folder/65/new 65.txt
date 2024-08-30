@@ -1,0 +1,170 @@
+
+public class E1{ 
+	static public void main(String args[]){ 
+		System.out.println("main 1"); 
+		E3 e3 = new E3(); 
+		E2 e2 = new E2(e3); 
+		e2.start(); 
+		System.out.println("main 2"); 
+	} 
+} 
+class E2 extends Thread{ 
+	E3 e3; 
+	public E2(E3 e3){
+		this.e3 = e3; 
+		System.out.println("E2"); 
+	} 
+	public void run(){ 
+		for(int i = 0; i < 6; i++){ 
+			try{ sleep(100); 
+		}catch(Exception ex){} 
+			System.out.println("E2 run"); 
+		} 
+	} 
+	@Override public synchronized void start(){ 
+		super.start(); 
+		new Thread(e3).start(); 
+		} 
+	} 
+class E3 implements Runnable{ 
+	public E3(){ 
+		System.out.println("E3"); 
+	} 
+	public void run(){ 
+		for(int i = 0; i < 6; i++){ 
+			try{ Thread.sleep(100); 
+		}catch(Exception ex){} 
+			System.out.println("E3 run"); 
+		}
+	}
+}
+
+
+
+
+
+
+main 1
+E3
+E2
+main 2
+E2 run
+E3 run
+E3 run
+E2 run
+E3 run
+E2 run
+E2 run
+E3 run
+E3 run
+E2 run
+E2 run
+E3 run
+
+
+
+
+
+
+
+Ovaj Java program koristi višedretvene (multithreading) komponente da demonstrira kako se niti pokreću i kako se različiti delovi koda mogu izvršavati paralelno. Hajde da razložimo svaki deo programa i analiziramo očekivani izlaz.
+
+### Kod i Analiza
+
+#### Klasa `E1`
+
+```java
+public class E1{ 
+    static public void main(String args[]){ 
+        System.out.println("main 1"); 
+        E3 e3 = new E3(); 
+        E2 e2 = new E2(e3); 
+        e2.start(); 
+        System.out.println("main 2"); 
+    } 
+}
+```
+
+- `main` metoda se prvo izvršava i ispisuje `"main 1"`.
+- Kreira se instanca `E3`, koja ispisuje `"E3"`.
+- Kreira se instanca `E2` sa instancom `E3` kao parametrom, a `E2` ispisuje `"E2"`.
+- Poziva se `e2.start()`, koja pokreće nit `E2`.
+- Ispisuje `"main 2"`.
+
+#### Klasa `E2`
+
+```java
+class E2 extends Thread{ 
+    E3 e3; 
+    public E2(E3 e3){
+        this.e3 = e3; 
+        System.out.println("E2"); 
+    } 
+    public void run(){ 
+        for(int i = 0; i < 6; i++){ 
+            try{ sleep(100); 
+        }catch(Exception ex){} 
+            System.out.println("E2 run"); 
+        } 
+    } 
+    @Override public synchronized void start(){ 
+        super.start(); 
+        new Thread(e3).start(); 
+    } 
+}
+```
+
+- Konstruktor `E2` ispisuje `"E2"`.
+- Metoda `run` petlja ispisuje `"E2 run"` šest puta, sa 100 ms pauze između.
+- `start` metoda prvo pokreće nit `E2` (koja pokreće `run` metodu) i zatim pokreće novu nit sa `E3` kao `Runnable`. 
+
+#### Klasa `E3`
+
+```java
+class E3 implements Runnable{ 
+    public E3(){ 
+        System.out.println("E3"); 
+    } 
+    public void run(){ 
+        for(int i = 0; i < 6; i++){ 
+            try{ Thread.sleep(100); 
+        }catch(Exception ex){} 
+            System.out.println("E3 run"); 
+        }
+    }
+}
+```
+
+- Konstruktor `E3` ispisuje `"E3"`.
+- Metoda `run` petlja ispisuje `"E3 run"` šest puta, sa 100 ms pauze između.
+
+### Očekivani Izlaz
+
+1. `"main 1"` – Ispisuje se odmah kada se `main` metoda pokrene.
+2. `"E3"` – Ispisuje se kada se kreira instanca `E3`.
+3. `"E2"` – Ispisuje se kada se kreira instanca `E2`.
+4. `"main 2"` – Ispisuje se odmah nakon poziva `e2.start()`.
+5. `"E3 run"` i `"E2 run"` – Ovi ispis će se preplitati zavisno od vremenskih intervala između nita. 
+
+S obzirom na to da se oba `Runnable` objekta (`E2` i `E3`) izvršavaju paralelno, izlaz može izgledati ovako, ali redosled između `"E2 run"` i `"E3 run"` može varirati:
+
+```
+main 1
+E3
+E2
+main 2
+E3 run
+E2 run
+E3 run
+E2 run
+E3 run
+E2 run
+E3 run
+E2 run
+E3 run
+E2 run
+E3 run
+E2 run
+```
+
+**Napomena**: Redosled `"E2 run"` i `"E3 run"` nije strogo definisan jer zavisi od rasporeda nita od strane JVM-a. Oni se mogu preplitati na različite načine.

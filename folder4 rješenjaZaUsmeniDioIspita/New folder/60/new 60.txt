@@ -1,0 +1,160 @@
+
+public class C1{ 
+	C1(){ 
+		System.out.println("C1()"); 
+	} 
+	public static void main(String args[]) throws IOException{ 
+		C1 c1 = new C1(); 
+		try{ 
+			c1.metoda(); 
+			System.out.println("main 1"); 
+		}catch(CE2 e){ 
+			System.out.println("main 2:"+e); 
+		}catch(CE1 e){ 
+			System.out.println("main 3:"+e); 
+		}catch(Throwable e){ 
+			System.out.println("main 4:"+e);
+		} finally { 
+			System.out.println("Finally iz maina"); 
+		} 
+		try(BufferedReader bf = new BufferedReader(new FileReader("proba.txt"));) { 
+			throw new IOException(); 
+		} 
+	} 
+	void metoda() throws Throwable{ 
+		C2 c2 = new C2(); 
+		try{ 
+			c2.metoda(); 
+			System.out.println("C1 : metoda()"); 
+		}
+		finally{ 
+			System.out.println("finally");	
+		} 
+	} 
+} class C2 extends C1 { 
+	C2(){ 
+		System.out.println("C2()"); 
+	} 
+	void metoda()throws CE1 { 
+		C3 c3 = new C3(); 
+		System.out.println("C2 : metoda()"); 
+		c3.metoda(); 
+	} 
+} 
+class C3 extends C2{
+	C3(){
+		System.out.println("C3()"); 
+	} 
+	protected void metoda()throws CE1{ 
+		System.out.println("C3 : metoda()"); 
+		throw new CE2("CCCCEEEE2"); 
+	} 
+} class CE1 extends Throwable{ 
+	CE1(String s){ 
+		super(s); 
+		System.out.println("CE1:"+s); 
+	} 
+}
+
+class CE2 extends CE1{ 
+	CE2(String s){ 
+		super(s); 
+		System.out.println("ce2:"+s); 
+	} 
+}
+
+
+
+
+
+C1()
+C1()
+C2()
+C1()
+C2()
+C3()
+C2 : metoda()
+C3 : metoda()
+CE1:CCCCEEEE2
+ce2:CCCCEEEE2
+finally
+main 2:CE2: CCCCEEEE2
+Finally iz maina
+Exception in thread "main" java.io.IOException
+at C1.main(C1.java:21)
+
+
+
+
+
+Pogledajmo kako se ponaša vaš Java program, korak po korak, i analizirajmo izlaz.
+
+### Programski Kod i Analiza
+
+1. **Izvršavanje `main` metode:**
+
+   ```java
+   public static void main(String args[]) throws IOException { 
+       C1 c1 = new C1(); 
+       try { 
+           c1.metoda(); 
+           System.out.println("main 1"); 
+       } catch (CE2 e) { 
+           System.out.println("main 2:" + e); 
+       } catch (CE1 e) { 
+           System.out.println("main 3:" + e); 
+       } catch (Throwable e) { 
+           System.out.println("main 4:" + e); 
+       } finally { 
+           System.out.println("Finally iz maina"); 
+       } 
+       try (BufferedReader bf = new BufferedReader(new FileReader("proba.txt"))) { 
+           throw new IOException(); 
+       } 
+   }
+   ```
+
+   - **`C1` Konstruktor:**
+     - Ispisuje `"C1()"`.
+
+   - **Poziv `c1.metoda()`:**
+     - `metoda()` u `C1` poziva `C2` konstruktor.
+     - **`C2` Konstruktor:**
+       - Ispisuje `"C2()"`.
+     - **Poziv `c2.metoda()`:**
+       - `metoda()` u `C2` poziva `C3` konstruktor.
+       - **`C3` Konstruktor:**
+         - Ispisuje `"C3()"`.
+       - **Poziv `c3.metoda()`:**
+         - `metoda()` u `C3` ispisuje `"C3 : metoda()"`.
+         - Baca `CE2` sa porukom `"CCCCEEEE2"`.
+
+   - **Obrada Izuzetaka:**
+     - Izuzetak `CE2` se baca u `C3`, tako da se `catch (CE2 e)` blok izvršava.
+     - Ispisuje `"main 2:CE2:CCCCEEEE2"`.
+     - `finally` blok se uvek izvršava i ispisuje `"Finally iz maina"`.
+
+   - **Drugi `try` blok:**
+     - Pokušava da otvori `BufferedReader` za `"proba.txt"`, ali odmah baca `IOException`. Međutim, ovaj deo ne ispisuje ništa jer je obuhvaćen i ne koristi se u ovom ispitivanju.
+
+### Rezultat Izlaza
+
+```plaintext
+C1()
+C2()
+C3()
+C3 : metoda()
+CE1:CCCCEEEE2
+main 2:CE2:CCCCEEEE2
+Finally iz maina
+```
+
+**Objašnjenje:**
+
+- Konstruktor `C1` ispisuje `"C1()"`.
+- Konstruktor `C2` ispisuje `"C2()"`.
+- Konstruktor `C3` ispisuje `"C3()"`.
+- Metoda `C3.metoda()` ispisuje `"C3 : metoda()"` i baca `CE2` izuzetak.
+- `CE2` nasleđuje `CE1`, pa se ispisuje `"CE1:CCCCEEEE2"` i `"ce2:CCCCEEEE2"`.
+- `catch` blok za `CE2` obuhvata izuzetak i ispisuje `"main 2:CE2:CCCCEEEE2"`.
+- `finally` blok u `main` ispisuje `"Finally iz maina"`.

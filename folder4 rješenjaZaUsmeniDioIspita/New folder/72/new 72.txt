@@ -1,0 +1,103 @@
+
+public class Klasa5 { 
+	int x = 0, y = 0; 
+	Klasa5(int a, int b) { 
+		x = a; y = b; 
+	} 
+	protected int zbir() { 
+		return x + y; 
+	} 
+	protected int razlika() {
+		return x - y; 
+	} 
+	public static void main(String s[]) { 
+		Klasa5 b = new Klasa5(1, 2); 
+		Klasa6 c = new Klasa6(); 
+		System.out.println(b.razlika()); 
+		System.out.println(c.razlika()); 
+		} 
+	} 
+class Klasa6 extends Klasa5 { 
+	public int zbir() { 
+		return y + x; 
+	} 
+	public int razlika() { 
+		return y - x; 
+	} 
+}
+
+
+Exception in thread "main" java.lang.Error: Unresolved compilation problem:
+Implicit super constructor Klasa5() is undefined for default constructor. Must define an explicit constructor
+
+
+
+Greška se javlja jer klasa `Klasa6` ne definiše eksplicitni konstruktor, a pokušava da koristi konstruktor `Klasa5` sa parametrima. Kada koristite konstruktor sa parametrima u klasi `Klasa6`, mora se eksplicitno pozvati konstruktor nadklase (superklasa) sa odgovarajućim parametrima. 
+
+### Analiza Problema
+
+- **Greška**: 
+  ```
+  Exception in thread "main" java.lang.Error: Unresolved compilation problem:
+  Implicit super constructor Klasa5() is undefined for default constructor. Must define an explicit constructor
+  ```
+
+  Ova greška ukazuje da klasa `Klasa6` pokušava da koristi podrazumevani (implicitni) konstruktor koji ne postoji, jer je klasa `Klasa5` definisana sa konstruktorom koji prihvata parametre. Klasa `Klasa6` mora eksplicitno navesti koji konstruktor `Klasa5` želi da koristi.
+
+### Rešenje
+
+Morate dodati eksplicitni konstruktor u klasu `Klasa6` koji poziva odgovarajući konstruktor nadklase (`Klasa5`), ili možete koristiti podrazumevani konstruktor `Klasa5()` koji treba da bude definisan ako želite da koristite podrazumevani konstruktor bez parametara.
+
+Evo ispravljenog koda:
+
+```java
+public class Klasa5 { 
+    int x = 0, y = 0; 
+    
+    Klasa5(int a, int b) { 
+        x = a; 
+        y = b; 
+    } 
+    
+    protected int zbir() { 
+        return x + y; 
+    } 
+    
+    protected int razlika() {
+        return x - y; 
+    } 
+    
+    public static void main(String s[]) { 
+        Klasa5 b = new Klasa5(1, 2); 
+        Klasa6 c = new Klasa6(3, 4); // Koristimo konstruktor sa parametrima
+        System.out.println(b.razlika()); 
+        System.out.println(c.razlika()); 
+    } 
+} 
+
+class Klasa6 extends Klasa5 { 
+    Klasa6(int a, int b) { 
+        super(a, b); // Poziva konstruktor nadklase sa parametrima
+    }
+
+    public int zbir() { 
+        return y + x; 
+    } 
+    
+    public int razlika() { 
+        return y - x; 
+    } 
+}
+```
+
+### Objašnjenje Izlaza
+
+- **`b.razlika()`**: Poziva `razlika()` metodu iz `Klasa5`, koja će izračunati `x - y` (1 - 2), što daje `-1`.
+- **`c.razlika()`**: Poziva `razlika()` metodu iz `Klasa6`, koja će izračunati `y - x` (4 - 3), što daje `1`.
+
+Dakle, ispravljeni izlaz bi bio:
+
+```
+-1
+1
+```

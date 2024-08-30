@@ -1,0 +1,83 @@
+
+public class Klasa1 { 
+	int i =0; 
+	public static void main(String[]argv) {
+		Klasa1 k = new Klasa1(); 
+	} 
+	Klasa1() { 
+		top:while(i<2) {
+			System.out.println(i); 
+			i++; 
+			continue top; 
+		} 
+	} 
+}
+
+
+
+
+
+Ipak provjeri:
+
+
+
+
+Da analiziramo kod i razumemo rezultat koji će se prikazati:
+
+```java
+public class Klasa1 { 
+    int i = 0; 
+    public static void main(String[] argv) {
+        Klasa1 k = new Klasa1(); 
+    } 
+    Klasa1() { 
+        top: while (i < 2) {
+            System.out.println(i); 
+            i++; 
+            continue top; 
+        } 
+    } 
+}
+```
+
+### Analiza
+
+1. **Kreiranje objekta**:
+   ```java
+   Klasa1 k = new Klasa1(); 
+   ```
+   - Kada se kreira objekat klase `Klasa1`, poziva se konstruktor `Klasa1()`.
+
+2. **Konstruktor `Klasa1()`**:
+   ```java
+   Klasa1() { 
+       top: while (i < 2) {
+           System.out.println(i); 
+           i++; 
+           continue top; 
+       } 
+   } 
+   ```
+   - Ovaj konstruktor koristi labelu `top` da označi `while` petlju. Labela `top` je nepotrebna u ovom slučaju, ali može se koristiti za kontrolu toka petlje.
+   - **Petlja `while`**: 
+     - `i` se inicijalizuje na `0` (početna vrednost).
+     - Prva iteracija petlje:
+       - `System.out.println(i);` ispisuje `0`.
+       - `i++` povećava `i` na `1`.
+       - `continue top;` se koristi za nastavak petlje od početka, bez promene u uslovima petlje.
+
+   - **Druga iteracija petlje**:
+     - `System.out.println(i);` ispisuje `1`.
+     - `i++` povećava `i` na `2`.
+     - Sada, uslov `i < 2` više nije zadovoljen (jer je `i = 2`), i petlja se završava.
+
+### Konačni ispis
+
+Na osnovu analize, rezultat izvršavanja ovog programa biće:
+
+```
+0
+1
+```
+
+Ovo je zato što se petlja `while` izvršava dvaput pre nego što uslov prestane da bude zadovoljen.

@@ -1,0 +1,125 @@
+
+public class F1{ 
+	static boolean b; 
+	static int counter = 0; 
+	public static void main(String args[]){
+		try{
+			label: 
+				while(counter == 0){
+					if(!b){
+						System.out.println("C"); 
+						b = true; 
+						main(new String[]{"D"}); 
+						System.out.println("E"); 
+					}else{ 
+						counter++; 
+						System.out.println("A");
+						System.out.println(args[0]); 
+						main((String[])new Object()); 
+						if(counter == 1){ 
+							continue label; 
+						} 
+					} 
+					System.out.println(F1.getF1()); 
+				} 
+		}catch(Exception e){ 
+			System.out.println("exception"); 
+			e.printStackTrace(); 
+		} 
+	} 
+	public static F1 getF1(){ 
+		System.out.println("1"); 
+		return new F1(); 
+	} 
+	{ 
+	System.out.println("F1"); 
+	} 
+}
+
+
+C
+A
+D
+exception
+java.lang.ClassCastException: class java.lang.Object cannot be cast to class [Ljava.lang.String; (java.lang.Object and [Ljava.lang.String;
+are in module java.base of loader 'bootstrap')
+at F1.main(F1.java:18)
+at F1.main(F1.java:12)
+E
+1
+F1
+F1@36baf30c
+
+
+
+Ovaj Java program koristi različite tehnike za prikaz različitih aspekata izvršavanja i kontrole toka. Analizirajmo kako funkcioniše i šta će biti ispisano kada se pokrene.
+
+### Analiza
+
+1. **Staticni članovi**:
+   - `static boolean b` - inicijalizovan na `false`.
+   - `static int counter` - inicijalizovan na `0`.
+
+2. **Metoda `main`**:
+   - Ima `label` za označavanje `while` petlje.
+   - Kada se `counter` postavi na `0`, ulazi u petlju.
+
+3. **Unutar `while` petlje**:
+   - **Prva proba**:
+     - Ako `b` je `false`:
+       - Ispisuje `"C"`.
+       - Postavlja `b` na `true`.
+       - Poziva `main(new String[]{"D"})`. Ova rekurzivna poziv metoda `main` ima argument `"D"`.
+       - Nakon što se `main` metoda vrati, ispisuje `"E"`.
+     - Ako `b` je `true`:
+       - Povećava `counter` i ispisuje `"A"`.
+       - Ispisuje `"D"`, jer je argument `"D"`.
+       - Poziva `main((String[])new Object())`, što će izazvati `ClassCastException`, jer se `Object` ne može konvertovati u `String[]`.
+       - Ako `counter` postane `1`, `continue label` se poziva, što će nastaviti petlju iznad oznake `label`.
+
+4. **Metoda `getF1`**:
+   - Ispisuje `"1"` i vraća novi objekat `F1`.
+
+5. **Inicijalizator instancije**:
+   - Ispisuje `"F1"` svaki put kada se kreira novi objekat klase `F1`.
+
+### Izlaz
+
+1. **Prva iteracija petlje**:
+   - `b` je `false`, tako da se ispisuje `"C"`.
+   - Postavlja `b` na `true`.
+   - Poziva `main(new String[]{"D"})`, koja kreira novu instancu `F1` i ponavlja:
+     - Ispisuje `"C"`.
+     - Postavlja `b` na `true`.
+     - Poziva `main(new String[]{"D"})`, i tako dalje.
+   - Kada se vrati sa rekurzivnog poziva, ispisuje `"E"`.
+
+2. **Rekurzivni pozivi `main` metode**:
+   - Svaka nova instanca `F1` će ispisati `"F1"` tokom inicijalizacije.
+   - Svaka nova instanca će takođe pozvati `getF1()` i ispisati `"1"`, dok će se `counter` povećati.
+
+3. **Greška u `main((String[])new Object())`**:
+   - Ovo uzrokuje `ClassCastException` i izlazi iz petlje sa `"exception"` i ispisuje trag greške.
+
+### Konačni izlaz
+
+```
+C
+F1
+C
+F1
+...
+C
+F1
+E
+A
+D
+exception
+java.lang.ClassCastException: class java.lang.Object cannot be cast to class [Ljava.lang.String;
+	at F1.main(F1.java:25)
+	at F1.main(F1.java:17)
+...
+```
+
+Gde će `"C"`, `"F1"`, `"E"`, `"A"`, i `"D"` biti ispisani više puta zavisno od rekurzivnih poziva pre nego što dođe do `ClassCastException`. 
+Izlaz može varirati u broju ponavljanja `C` i `F1` pre nego što se pojavi `"exception"`.
