@@ -1,0 +1,70 @@
+
+public class C{ 
+	int i = 0; 
+	public static void main(String args[]){ 
+		C c = new C(); 
+	} 
+	C() {
+		while(i < 2 ) { 
+			System.out.println(i); 
+			i++; 
+			continue; 
+		}
+	} 
+}
+
+
+
+
+Ovaj program u Javi kreira objekat klase `C`, što uzrokuje izvršavanje njenog konstruktora. Pogledajmo šta se dešava:
+
+1. **Deklaracija Klase `C`:**
+   ```java
+   public class C {
+       int i = 0; 
+       public static void main(String args[]) {
+           C c = new C(); 
+       } 
+       C() { 
+           while(i < 2 ) { 
+               System.out.println(i); 
+               i++; 
+               continue; 
+           } 
+       } 
+   }
+   ```
+
+2. **Konstruktor `C()`:**
+   - Kada se kreira objekat `C`, poziva se konstruktor `C()`.
+   - U konstruktoru se nalazi `while` petlja koja će se izvršavati dok `i` bude manje od 2.
+   - Unutar petlje:
+     - `System.out.println(i);` će ispisivati trenutnu vrednost `i`.
+     - `i++` će povećati `i` za 1.
+     - `continue;` vraća kontrolu na početak petlje bez dodatnog izvršavanja koda nakon njega, što u ovom slučaju nije bitno jer se nalazi na kraju petlje.
+
+### Razumevanje Koda
+
+Kada se izvrši `new C();`, poziva se konstruktor `C()`:
+
+- `i` je inicijalno 0.
+- `while(i < 2)` uslov je istinit dok je `i` manje od 2.
+  - U prvom krugu petlje:
+    - `System.out.println(i);` ispisuje `0`.
+    - `i++` povećava `i` na `1`.
+    - `continue;` vraća kontrolu na početak petlje.
+  - U drugom krugu petlje:
+    - `System.out.println(i);` ispisuje `1`.
+    - `i++` povećava `i` na `2`.
+    - `continue;` vraća kontrolu na početak petlje.
+- Kada `i` postane `2`, uslov `i < 2` postaje netačan i petlja se završava.
+
+### Rezultat Izlaza
+
+Program će ispisivati:
+```
+0
+1
+```
+
+Ovo su brojevi ispisani unutar petlje pre nego što je `i` dostigao vrednost `2`, što uzrokuje izlazak iz petlje.
