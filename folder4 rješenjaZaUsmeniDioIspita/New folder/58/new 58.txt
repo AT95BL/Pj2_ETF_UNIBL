@@ -1,0 +1,163 @@
+
+public abstract class B12{ 
+	B12(){ 
+		super(); 
+		System.out.println("B1()"); 
+	} 
+	public abstract void redefinisi(); 
+	public static void main(String args[]){ 
+		B3 b3 = new B3(); 
+		b3.metoda();
+		B2 b2 = b3; 
+		b2.metoda(); 
+		B12 b1 = b2; 
+		b1.metoda(); 
+	} 
+	private void metoda(){ 
+		System.out.println("B1 metoda"); 
+	} 
+}
+abstract class B2 extends B12{ 
+	B2(){ 
+		System.out.println("B2()"); 
+	} 
+	abstract protected void metoda(); 
+	void metoda2(){ 
+		System.out.println("B2 metoda"); 
+	} 
+} 
+final class B3 extends B2{ 
+	B3(){ 
+		super(); 
+		System.out.println("B3()"); 
+	} 
+	public void metoda(){ 
+		System.out.println("B3 metoda"); 
+	} 
+	public void redefinisi() { 
+	} 
+}
+
+
+
+
+
+Exception in thread "main" java.lang.Error: Unresolved compilation problems:
+The method metoda() is undefined for the type B2
+Type mismatch: cannot convert from B2 to B12
+
+
+
+
+
+
+Izvinjavam se na nesporazumu. Pogledajmo ponovo kod i razjasnimo probleme.
+
+### Analiza Programa
+
+1. **Konstrukcija `B3`:**
+   ```java
+   B3 b3 = new B3();
+   ```
+   - Poziva se konstruktor `B2`, zatim `B12`, i na kraju `B3`.
+   - Ispis:
+     ```
+     B1()
+     B2()
+     B3()
+     ```
+
+2. **Pozivanje metoda:**
+   ```java
+   b3.metoda();
+   ```
+   - `b3` je instanca `B3`, i poziva `metoda()` iz `B3`.
+   - Ispisuje:
+     ```
+     B3 metoda
+     ```
+
+3. **Kreiranje i pozivanje metoda sa promenjenim tipovima:**
+   ```java
+   B2 b2 = b3;
+   b2.metoda();
+   ```
+   - Ovdje `b2` je `B3`, ali deklarisan kao `B2`. `metoda()` je implementirana u `B3` i biće pozvana ta implementacija.
+   - Ispisuje:
+     ```
+     B3 metoda
+     ```
+
+4. **Problemi sa privatnim metodom i nekompatibilnost sa tipom:**
+   ```java
+   B12 b1 = b2;
+   b1.metoda();
+   ```
+   - `b2` je tipiziran kao `B2`, što je apstraktna klasa sa apstraktnim metodom `metoda()`. Zbog toga `B12` ne može direktno da se koristi za instanciranje `B2`.
+   - **Greška**: `B2` ne implementira `metoda()` iz `B12` jer je `metoda()` u `B12` privatna, i ne može se koristiti iz `B2`.
+
+### Ispravljanje Koda
+
+Da bi kod radio ispravno, trebate:
+
+1. **Ukloniti poziv `metoda()` u `B12`, ili ga promeniti na `protected` ili `public`, ako želite da bude vidljiv u `B2`.**
+
+2. **Osigurajte da tipovi budu kompatibilni:**
+
+```java
+public abstract class B12 { 
+	B12() { 
+		super(); 
+		System.out.println("B1()"); 
+	} 
+	public abstract void redefinisi(); 
+
+	public static void main(String args[]) { 
+		B3 b3 = new B3(); 
+		b3.metoda(); 
+		B2 b2 = b3; 
+		b2.metoda(); 
+		B12 b1 = b2; 
+		b1.metoda(); 
+	} 
+
+	protected void metoda() { 
+		System.out.println("B1 metoda"); 
+	} 
+} 
+
+abstract class B2 extends B12 { 
+	B2() { 
+		System.out.println("B2()"); 
+	} 
+	abstract protected void metoda(); 
+	void metoda2() { 
+		System.out.println("B2 metoda"); 
+	} 
+} 
+
+final class B3 extends B2 { 
+	B3() { 
+		super(); 
+		System.out.println("B3()"); 
+	} 
+	public void metoda() { 
+		System.out.println("B3 metoda"); 
+	} 
+	public void redefinisi() { 
+	} 
+}
+```
+
+### Ispravan Rezultat Izlaza
+
+Kada ispravite greške, ispis će biti:
+
+```
+B1()
+B2()
+B3()
+B3 metoda
+B3 metoda
+B3 metoda
+```

@@ -1,0 +1,113 @@
+
+public class A { 
+	static { 
+		int a = 5; 
+		System.out.println(a); 
+	} 
+	static int a, b; 
+	public static void main(String args[]) { 
+		a--; 
+		metoda(); 
+		System.out.println(a + b + ++a); 
+		System.out.println(++A.a); 
+		System.out.println(a); 
+	} 
+	public static void metoda() { 
+		b = (a++ + ++a);
+	} 
+}
+
+
+
+
+ili
+
+5
+3
+3
+3
+
+ili
+
+
+Pogledajmo detaljno kako se izvršava program i koji će biti rezultat izlaza.
+
+### Analiza Programa
+
+1. **Staticki Blok:**
+   ```java
+   static { 
+       int a = 5; 
+       System.out.println(a); 
+   }
+   ```
+   - Ovaj blok se izvršava pri prvom učitavanju klase `A`. 
+   - Varijabla `a` unutar statičkog bloka je lokalna za taj blok i ne utiče na statičke varijable klase. 
+   - Ispisuje se `5`.
+
+2. **Deklaracija Statickih Varijabli:**
+   ```java
+   static int a, b;
+   ```
+   - Staticke varijable `a` i `b` su inicijalizovane na `0`.
+
+3. **`main` Metoda:**
+   ```java
+   public static void main(String args[]) { 
+       a--; 
+       metoda(); 
+       System.out.println(a + b + ++a); 
+       System.out.println(++A.a); 
+       System.out.println(a); 
+   }
+   ```
+   - `a--` smanjuje vrednost `a` sa `0` na `-1`.
+   - Poziva se metoda `metoda()`, koja menja vrednost `b`:
+
+4. **`metoda` Metoda:**
+   ```java
+   public static void metoda() { 
+       b = (a++ + ++a);
+   }
+   ```
+   - `a++` vraća `-1`, ali post-inkrementacija znači da `a` postaje `0` nakon ove operacije.
+   - `++a` prvo inkrementira `a` sa `0` na `1`.
+   - Izračunava se `b = (-1 + 1)`, što daje `b = 0`.
+
+5. **Nastavak `main` Metode:**
+   ```java
+   System.out.println(a + b + ++a);
+   ```
+   - Trenutne vrednosti su `a = 1` i `b = 0`.
+   - `++a` inkrementira `a` sa `1` na `2`.
+   - Izračunava se `a + b + ++a` što je `1 + 0 + 2 = 3`.
+
+   ```java
+   System.out.println(++A.a);
+   ```
+   - `++A.a` inkrementira `a` sa `2` na `3`.
+   - Ispisuje `3`.
+
+   ```java
+   System.out.println(a);
+   ```
+   - `a` je trenutno `3`.
+   - Ispisuje `3`.
+
+### Rezultat Izlaza
+
+Dakle, kada se program izvrši, izlaz će biti:
+
+```
+5
+0
+3
+3
+3
+```
+
+- `5` je ispisan iz statičkog bloka.
+- `0` je rezultat operacije `b` u metodi `metoda()`.
+- `3` je rezultat izraza `a + b + ++a` u `main` metodi.
+- `3` je rezultat `++A.a`.
+- `3` je trenutna vrednost `a` nakon svih operacija.

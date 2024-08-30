@@ -1,0 +1,148 @@
+
+public class B1{ 
+	public void metoda1(){ 
+		System.out.println("B1 metoda 1"); 
+	}
+	public void metoda2(){ 
+		System.out.println("B1 metoda 2"); 
+	} 
+	B1(){ 
+		System.out.println("B1"); 
+	} 
+	public static void main(String args[]){ 
+		B1 b1 = new B1(); 
+		B1 b2 = new B2(){
+			public void metoda1(){
+			System.out.println("B2 metoda 1"); 
+			} 
+		}; 
+		BI b3 = new B2(){ 
+			public void metoda1(){ 
+			System.out.println("B2 m12"); 
+		} 
+		public void metoda2(){ 
+			System.out.println("B2 m22"); 
+		} 
+	}; 
+	System.out.println(b3 instanceof B1); 
+	B1 niz[] = {b1, b2, (B1)b3}; 
+	for(B1 b : niz){ 
+		b.metoda1(); 
+		b.metoda2(); 
+		} 
+	} 
+} 
+abstract class B2 extends B1 implements BI{ 
+	public void metoda2(){ 
+		System.out.println("B2 metoda 2");
+	} 
+	public B2(){ 
+		System.out.println("B2"); 
+	} 
+} 
+interface BI{ 
+	abstract void metoda1(); 
+	void metoda2(); 
+}
+
+
+
+ili ovo
+B1
+B1
+B2
+B1
+B2
+true
+B1 metoda 1
+B1 metoda 2
+B2 metoda 1
+B2 metoda 2
+B2 m12
+B2 m22
+
+
+ili
+
+
+
+
+Pogledajmo kako se izvršava ovaj program i koji će biti rezultat izlaza.
+
+### Analiza Programa
+
+1. **Instanciranje `B1`:**
+   ```java
+   B1 b1 = new B1();
+   ```
+   - Ova linija kreira instancu `B1` i poziva konstruktor `B1`. Ispisuje: `B1`.
+
+2. **Instanciranje `B2` (anonimna klasa):**
+   ```java
+   B1 b2 = new B2() {
+       public void metoda1() {
+           System.out.println("B2 metoda 1");
+       }
+   };
+   ```
+   - Ova linija kreira anonimnu klasu koja proširuje `B2` i redefiniše `metoda1()`. Ispisuje: `B2`, jer se poziva konstruktor `B2`, a zatim se primenjuje redefinisana metoda `metoda1()`.
+
+3. **Instanciranje `B2` (anonimna klasa koja implementira `BI`):**
+   ```java
+   BI b3 = new B2() {
+       public void metoda1() {
+           System.out.println("B2 m12");
+       }
+       public void metoda2() {
+           System.out.println("B2 m22");
+       }
+   };
+   ```
+   - Ova linija kreira anonimnu klasu koja proširuje `B2` i implementira `BI`. Ispisuje: `B2`, jer se poziva konstruktor `B2`, a zatim se primenjuju redefinisane metode `metoda1()` i `metoda2()`.
+
+4. **Provera `instanceof`:**
+   ```java
+   System.out.println(b3 instanceof B1);
+   ```
+   - Ispituje da li je `b3` instanca `B1`. Budući da `b3` je instanca anonimne klase koja proširuje `B2` (koja proširuje `B1`), ispisuje `true`.
+
+5. **Kreiranje niza i pozivanje metoda:**
+   ```java
+   B1 niz[] = {b1, b2, (B1)b3};
+   for(B1 b : niz) {
+       b.metoda1();
+       b.metoda2();
+   }
+   ```
+   - `b1` poziva `metoda1()` i `metoda2()` iz `B1`, ispisuje:
+     ```
+     B1 metoda 1
+     B1 metoda 2
+     ```
+   - `b2` poziva `metoda1()` i `metoda2()` iz anonimne klase koja redefiniše `metoda1()`, ispisuje:
+     ```
+     B2 metoda 1
+     B2 metoda 2
+     ```
+   - `(B1)b3` poziva `metoda1()` i `metoda2()` iz anonimne klase koja redefiniše obe metode, ispisuje:
+     ```
+     B2 m12
+     B2 m22
+     ```
+
+### Rezultat Izlaza
+
+Kada se izvrši ovaj program, ispis će biti:
+
+```
+B1
+B2
+B2
+true
+B1 metoda 1
+B1 metoda 2
+B2 metoda 1
+B2 metoda 2
+B2 m12
+B2 m22
+```

@@ -1,0 +1,64 @@
+
+public class TestSer { 
+	public static void main(String[] args) { 
+		SpecialSerial s = new SpecialSerial(); 
+		try { 
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("myFile")); 
+			oos.writeObject(s);
+			oos.close(); 
+			System.out.print(++s.z + " "); 
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("myFile")); 
+			SpecialSerial s2 = (SpecialSerial) ois.readObject(); 
+			ois.close(); 
+			System.out.println(s2.y + " " + s2.z); } catch (Exception x) { 
+				System.out.println("exc"); 
+			} 
+		} 
+	} 
+class SpecialSerial implements Serializable { 
+	transient int y = 7; 
+	static int z = 9; 
+}
+
+
+
+Provjeri!!!
+
+
+
+
+U ovom programu se koristi serijalizacija za upis i čitanje objekta iz datoteke. Ključni deo je razumevanje kako se serijalizacija i deserializacija obavljaju, posebno u vezi sa `transient` i `static` promenljivama.
+
+### Analiza Programa
+
+1. **Kreiranje i Serijalizacija:**
+   - `SpecialSerial s = new SpecialSerial();` kreira objekat `s` sa inicijalnim vrednostima `y = 7` i `z = 9`.
+   - `ObjectOutputStream` se koristi za serijalizaciju objekta `s` u datoteku `"myFile"`.
+   - Nakon serijalizacije, `s.z` se inkrementira (`++s.z`), što menja `z` na `10`.
+
+2. **Deserializacija:**
+   - `ObjectInputStream` se koristi za čitanje objekta iz datoteke `"myFile"`, koji se čita u novi objekat `s2`.
+   - `s2` se rekonstruiše iz serijalizovanog objekta, što znači da će `s2` imati vrednosti koje su bile serijalizovane.
+
+### Ključni Aspekti:
+
+- **`transient` Promenljive:**
+  - Promenljive označene kao `transient` nisu serijalizovane. Dakle, `y` će imati svoju podrazumevanu vrednost kada se deserializuje, što je `0`.
+
+- **`static` Promenljive:**
+  - `static` promenljive nisu deo serijalizacije objekta. Zato `z`, koja je statična, zadržava svoju vrednost između različitih objekata, ali se neće serijalizovati ili deserializovati zajedno sa objektom. Kada se deserializuje objekat, `z` zadržava vrednost koja je bila postavljena pre serijalizacije.
+
+### Rezultat Izlaza
+
+1. Nakon serijalizacije i pre deserializacije, `s.z` je inkrementiran na `10`.
+2. Kada se deserializuje objekat, `s2.y` će biti `0` (zbog `transient`), a `s2.z` će biti `9` (zbog `static` promenljive koja je imala tu vrednost pre serijalizacije).
+
+Dakle, izlaz programa će biti:
+
+```
+10 0 9
+```
+
+- `10` je nova vrednost `s.z` nakon inkrementacije.
+- `0` je vrednost `s2.y` nakon deserializacije.
+- `9` je vrednost `s2.z`, koja je statična i zadržava vrednost pre serijalizacije.

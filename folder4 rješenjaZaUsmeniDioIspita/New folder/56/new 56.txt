@@ -1,0 +1,122 @@
+
+public class A12 extends A2{ 
+	public static void main(String args[]){ 
+		A12 a1 = new A12();
+		A2 a2 = new A2(); 
+		a1.metoda(); 
+		A3 a3 = new A3(); 
+	} 
+public void metoda(){ 
+	super.metoda(); 
+	} 
+} 
+class A2 extends A3{ 
+	public A2(){ 
+		System.out.println("A2()"); 
+	} 
+	public void metoda(){ 
+		this.metoda(); 
+		super.metoda(); 
+		System.out.println(a++); 
+	} 
+} 
+class A3{ 
+	double a; 
+	int b; 
+	float c; 
+	public A3(){ 
+		System.out.println("A3()"); 
+		a = c = b = 1; 
+		System.out.println("a: "+a +" b: "+b+" c: "+c ); 
+	} 
+	public void metoda(){ 
+		System.out.println(a + b++); 
+	} 
+}
+
+
+
+
+Iskreno za sad ne znam, chatGPT kaže:
+
+
+
+
+Pogledajmo detaljno kako se izvršava ovaj program i koji će biti rezultat izlaza.
+
+### Analiza Programa
+
+1. **Instanciranje `A12`:**
+   ```java
+   A12 a1 = new A12();
+   ```
+   - Ovo kreira instancu klase `A12`. Tokom ovog procesa, prvo se poziva konstruktor nadklase, `A3`, zatim `A2`, a zatim `A12`.
+
+2. **Instanciranje `A2`:**
+   ```java
+   A2 a2 = new A2();
+   ```
+   - Ovo kreira instancu klase `A2`. Tokom ovog procesa, prvo se poziva konstruktor nadklase, `A3`, a zatim `A2`.
+
+3. **Pozivanje `metoda()` na `a1`:**
+   ```java
+   a1.metoda();
+   ```
+   - Poziva metodu `metoda()` na instanci `A12`. Ova metoda poziva `super.metoda()`, što se odnosi na metodu `metoda()` u klasi `A2`.
+
+4. **Instanciranje `A3`:**
+   ```java
+   A3 a3 = new A3();
+   ```
+   - Ovo kreira instancu klase `A3`, što direktno poziva konstruktor `A3`.
+
+### Konstruktori i Metode
+
+1. **Konstruktor `A3`:**
+   ```java
+   public A3() { 
+       System.out.println("A3()"); 
+       a = c = b = 1; 
+       System.out.println("a: "+a +" b: "+b+" c: "+c ); 
+   }
+   ```
+   - Kada se kreira instanca `A3`, ispisuje `"A3()"`, a zatim postavlja `a`, `b`, i `c` na 1 i ispisuje `"a: 1 b: 1 c: 1"`.
+
+2. **Konstruktor `A2`:**
+   ```java
+   public A2() { 
+       System.out.println("A2()"); 
+   }
+   ```
+   - Kada se kreira instanca `A2`, prvo se poziva konstruktor `A3`, zatim ispisuje `"A2()"`.
+
+3. **Konstruktor `A12`:**
+   - Kada se kreira instanca `A12`, prvo se poziva konstruktor `A2`, zatim `A3`, a zatim ispisuje `"A12()"`.
+
+4. **Metoda `metoda()` u `A2`:**
+   ```java
+   public void metoda() { 
+       this.metoda(); 
+       super.metoda(); 
+       System.out.println(a++); 
+   }
+   ```
+   - Poziva `this.metoda()` (koja se poziva rekurzivno, što će rezultirati `StackOverflowError` zbog beskonačne rekurzije).
+   - `super.metoda()` se nikada ne izvršava zbog rekurzije.
+
+### Rezultat Izlaza
+
+Budući da metoda `metoda()` u `A2` koristi rekurziju, rezultiraće `StackOverflowError` zbog beskonačne rekurzije. Stoga, u ovom slučaju, program neće uspjeti da završi normalno i umjesto očekivanog izlaza, doći će do greške prilikom izvršavanja.
+
+### Ispravni Rezultat Izlaza
+
+- Program će ispisivati:
+  ```
+  A3()
+  a: 1 b: 1 c: 1
+  A2()
+  A3()
+  ```
+  (prvi deo izlaza prilikom kreiranja instanci)
+  
+- Nakon toga će se javiti greška `StackOverflowError` zbog beskonačne rekurzije u metodi `metoda()` u klasi `A2`.

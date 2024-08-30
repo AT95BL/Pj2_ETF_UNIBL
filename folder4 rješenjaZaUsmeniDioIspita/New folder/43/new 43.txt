@@ -1,0 +1,95 @@
+
+class MaskiranjeClanova { 
+	int x = 5; 
+} 
+public class MaskiranjeClanovaDva extends MaskiranjeClanova { 
+	int x = 6; 
+	public static void main(String[] args) { 
+		MaskiranjeClanova mc = new MaskiranjeClanova(); 
+		MaskiranjeClanova mcd = new MaskiranjeClanovaDva();
+
+	System.out.println(mcd.x + " " + mc.x); 
+	} 
+}
+
+
+
+ili 55 ili 
+
+U ovom programu, imamo dve klase: `MaskiranjeClanova` i `MaskiranjeClanovaDva`. Klasa `MaskiranjeClanovaDva` nasleđuje klasu `MaskiranjeClanova`, a obe klase imaju članove promenljive `x`. 
+
+### Ključni delovi programa:
+
+1. **Klasa `MaskiranjeClanova`**:
+   - Ima član promenljivu `x` inicijalizovanu na 5.
+
+2. **Klasa `MaskiranjeClanovaDva`**:
+   - Nasleđuje `MaskiranjeClanova`.
+   - Ima član promenljivu `x` inicijalizovanu na 6.
+
+3. **Metoda `main`**:
+   - Kreira objekte `mc` (tipa `MaskiranjeClanova`) i `mcd` (tipa `MaskiranjeClanovaDva`).
+   - Ispisuje vrednosti `x` za `mcd` i `mc`.
+
+### Analiza:
+
+1. **`MaskiranjeClanova mc = new MaskiranjeClanova();`**:
+   - Ovaj objekat `mc` ima član promenljivu `x` koja je inicijalizovana na 5.
+
+2. **`MaskiranjeClanova mcd = new MaskiranjeClanovaDva();`**:
+   - Ovaj objekat `mcd` je instanca klase `MaskiranjeClanovaDva`, ali je referenciran kao `MaskiranjeClanova`. Dakle, koristi član promenljivu `x` iz klase `MaskiranjeClanovaDva`, koja je inicijalizovana na 6.
+
+### Rezultat ispisa:
+
+1. **`mcd.x`**: Kada koristimo `mcd.x`, iako je `mcd` referenciran kao `MaskiranjeClanova`, `x` iz klase `MaskiranjeClanovaDva` će se koristiti, jer je objekat zapravo instanca `MaskiranjeClanovaDva`. Dakle, `mcd.x` će biti 6.
+
+2. **`mc.x`**: Ovo je jednostavno `x` iz klase `MaskiranjeClanova`, što je 5.
+
+Dakle, rezultat ispisa će biti:
+
+```plaintext
+6 5
+```
+
+
+Ne, rezultat nije 5 5. Evo zašto:
+
+### Detaljna analiza:
+
+1. **Objekat `mc`**:
+   - Tip: `MaskiranjeClanova`
+   - `mc.x` se odnosi na `x` iz klase `MaskiranjeClanova`, koja je 5.
+
+2. **Objekat `mcd`**:
+   - Tip: `MaskiranjeClanovaDva` (iako je referenciran kao `MaskiranjeClanova`)
+   - Kada se koristi `mcd.x`, koristi se `x` iz klase `MaskiranjeClanovaDva`, jer je stvarni objekat `MaskiranjeClanovaDva`. U ovoj klasi, `x` je inicijalizovan na 6.
+
+### Kod:
+
+```java
+class MaskiranjeClanova { 
+	int x = 5; 
+} 
+
+public class MaskiranjeClanovaDva extends MaskiranjeClanova { 
+	int x = 6; 
+
+	public static void main(String[] args) { 
+		MaskiranjeClanova mc = new MaskiranjeClanova(); 
+		MaskiranjeClanova mcd = new MaskiranjeClanovaDva();
+
+		System.out.println(mcd.x + " " + mc.x); 
+	} 
+}
+```
+
+### Rezultat:
+
+- **`mcd.x`**: Kada koristite `mcd.x`, koristi se `x` iz klase `MaskiranjeClanovaDva`, koja je 6.
+- **`mc.x`**: Ovo je `x` iz klase `MaskiranjeClanova`, koja je 5.
+
+Dakle, ispravni rezultat ispisa je:
+
+```plaintext
+6 5
+```

@@ -1,0 +1,85 @@
+
+import java.io.*; 
+
+public class MiniPlayer extends Mp3player implements Serializable { 
+	MiniPlayer() { 
+		System.out.print("mini "); 
+	} 
+	public static void main(String[] args) { 
+		MiniPlayer m = new MiniPlayer(); 
+		try { 
+			FileOutputStream fos = new FileOutputStream("dev.txt"); 
+			ObjectOutputStream os = new ObjectOutputStream(fos); 
+			os.writeObject(m); 
+			os.close(); 
+			FileInputStream fis = new FileInputStream("dev.txt"); 
+			ObjectInputStream is = new ObjectInputStream(fis); 
+			MiniPlayer m2 = (MiniPlayer) is.readObject(); 
+			is.close(); 
+		} catch (Exception x) { 
+			System.out.print("x "); 
+		} 
+	} 
+} class ElectronicDevice { 
+	ElectronicDevice() { 
+		System.out.print("ed "); 
+	}
+} class Mp3player extends ElectronicDevice { Mp3player() { 
+	System.out.print("mp "); 
+	} 
+}
+
+
+
+
+mini mp ed mini
+
+
+
+
+Ovaj program demonstrira serijalizaciju objekta klase `MiniPlayer`, koja nasleđuje `Mp3player`, koji dalje nasleđuje `ElectronicDevice`.
+
+### Ključni delovi programa:
+
+1. **Klasa `ElectronicDevice`**:
+   - Sadrži samo konstruktor koji ispisuje `"ed "`.
+
+2. **Klasa `Mp3player`**:
+   - Nasleđuje `ElectronicDevice`.
+   - Sadrži konstruktor koji ispisuje `"mp "`.
+
+3. **Klasa `MiniPlayer`**:
+   - Nasleđuje `Mp3player` i implementira `Serializable`.
+   - Sadrži konstruktor koji ispisuje `"mini "`.
+
+4. **Serijalizacija i Deserijalizacija**:
+   - Objekat `MiniPlayer` se serijalizuje u datoteku `"dev.txt"`.
+   - Objekat se zatim deserijalizuje iz te datoteke.
+
+### Proces:
+
+1. **Konstrukcija objekta `MiniPlayer`**:
+   - Kada se kreira objekat `MiniPlayer`, poziva se konstruktor `MiniPlayer`, koji poziva konstruktor `Mp3player`, koji na kraju poziva konstruktor `ElectronicDevice`.
+   - Ovaj lanac konstruktora ispisuje `"mini "` (iz `MiniPlayer`), `"mp "` (iz `Mp3player`), i `"ed "` (iz `ElectronicDevice`).
+
+2. **Serijalizacija**:
+   - Objekat `m` se serijalizuje u `"dev.txt"`.
+
+3. **Deserijalizacija**:
+   - Kada se deserijalizuje objekat `m2`, konstruktori se pozivaju opet, ali samo za one klase koje su specifične za taj objekat.
+
+### Rezultat ispisa:
+
+Kada se pokrene `main` metoda, dobićete sledeći ispis:
+
+```plaintext
+mini mp ed mini
+```
+
+### Objašnjenje:
+
+1. **`mini`**: Ispisuje se kada se kreira objekat `MiniPlayer`.
+2. **`mp`**: Ispisuje se kada se poziva konstruktor `Mp3player`.
+3. **`ed`**: Ispisuje se kada se poziva konstruktor `ElectronicDevice`.
+
+Kada se objekat deserijalizuje, konstruktor klase `MiniPlayer` se ponovo ne poziva jer serijalizacija i deserijalizacija samo prenose stanje objekta. Dakle, iz `MiniPlayer` i dalje samo `mini` ispisuje. 

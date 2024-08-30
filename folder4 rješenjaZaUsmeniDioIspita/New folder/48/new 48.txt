@@ -1,0 +1,103 @@
+
+import java.io.*; 
+
+public class Players { 
+	public static void main(String[] args) throws IOException, ClassNotFoundException { 
+		System.out.println("Constructing objects:"); 
+		Player1 b1 = new Player1(); 
+		Player2 b2 = new Player2(); 
+		ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("Players.out")); 
+		System.out.println("Saving objects:"); 
+		o.writeObject(b1); 
+		o.writeObject(b2); 
+		o.close(); 
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.out")); 
+		System.out.println("Recovering b1:"); 
+		b1 = (Player1) in .readObject(); 
+		System.out.println("Recovering b2:");
+		b2 = (Player2) in .readObject(); 
+	} 
+}
+class Player1 implements Externalizable { 
+	public Player1() { 
+		System.out.println("Player1 Constructor"); 
+	} 
+	public void writeExternal(ObjectOutput out) throws IOException { 
+		System.out.println("Player1.writeExternal"); 
+	} 
+	public void readExternal(ObjectInput in ) throws IOException, ClassNotFoundException { 
+		System.out.println("Player1.readExternal"); 
+	} 
+} 
+class Player2 implements Externalizable { 
+	Player2() { 
+		System.out.println("Player2 Constructor"); 
+	} 
+	public void writeExternal(ObjectOutput out) throws IOException { 
+		System.out.println("Player2.writeExternal"); 
+	} 
+	public void readExternal(ObjectInput in ) throws IOException, ClassNotFoundException { 
+		System.out.println("Player2.readExternal"); 
+	} 
+}
+
+
+
+
+
+
+Da bismo razumeli kako će program raditi i kakav će biti izlaz, potrebno je da analiziramo kako se koristi `Externalizable` interfejs i kako se objektni tok podataka koristi u Java programu. Evo detaljne analize:
+
+### Program Analiza
+
+1. **Klasa `Player1`:**
+   - Implementira `Externalizable`, što znači da mora da implementira metode `writeExternal` i `readExternal`.
+   - Konstruktor `Player1` se koristi za inicijalizaciju objekta i ispisuje poruku "Player1 Constructor".
+   - Metode `writeExternal` i `readExternal` služe za serijalizaciju i deserializaciju, ali samo ispisuju poruke "Player1.writeExternal" i "Player1.readExternal" bez stvarnog pisanja ili čitanja podataka.
+
+2. **Klasa `Player2`:**
+   - Takođe implementira `Externalizable` i mora da implementira `writeExternal` i `readExternal`.
+   - Konstruktor `Player2` se koristi za inicijalizaciju objekta i ispisuje poruku "Player2 Constructor".
+   - Metode `writeExternal` i `readExternal` ispisuju poruke "Player2.writeExternal" i "Player2.readExternal" bez stvarne serijalizacije ili deserializacije podataka.
+
+### Šta se dešava u `main` metodi:
+
+1. **Kreiranje objekata:**
+   - `Player1 b1 = new Player1();` - Ispisuje "Player1 Constructor".
+   - `Player2 b2 = new Player2();` - Ispisuje "Player2 Constructor".
+
+2. **Serijalizacija objekata:**
+   - Otvara `ObjectOutputStream` za pisanje objekata u fajl "Players.out".
+   - `o.writeObject(b1);` - Poziva `writeExternal` metodu objekta `b1`, što ispisuje "Player1.writeExternal".
+   - `o.writeObject(b2);` - Poziva `writeExternal` metodu objekta `b2`, što ispisuje "Player2.writeExternal".
+   - Zatvara `ObjectOutputStream`.
+
+3. **Deserializacija objekata:**
+   - Otvara `ObjectInputStream` za čitanje objekata iz fajla "Players.out".
+   - `b1 = (Player1) in.readObject();` - Poziva `readExternal` metodu objekta `b1`, što ispisuje "Player1.readExternal".
+   - `b2 = (Player2) in.readObject();` - Poziva `readExternal` metodu objekta `b2`, što ispisuje "Player2.readExternal".
+
+### Rezultat Izlaza
+
+Na osnovu analize, izlaz programa će biti:
+
+```
+Constructing objects:
+Player1 Constructor
+Player2 Constructor
+Saving objects:
+Player1.writeExternal
+Player2.writeExternal
+Recovering b1:
+Player1.readExternal
+Recovering b2:
+Player2.readExternal
+```
+
+### Objašnjenje
+
+- **Konstruktor `Player1`** i **Konstruktor `Player2`** se pozivaju kada se kreiraju objekti, ispisujući odgovarajuće poruke.
+- **Metode `writeExternal`** za oba objekta se pozivaju tokom serijalizacije i ispisuju poruke pre nego što se objekti upišu u fajl.
+- **Metode `readExternal`** za oba objekta se pozivaju tokom deserializacije i ispisuju poruke kada se objekti čitaju iz fajla.
+
+Ovo je način na koji serijalizacija i deserializacija funkcionišu uz `Externalizable` interfejs, koji vam omogućava potpunu kontrolu nad tim kako objekti bivaju serijalizovani i deserializovani. Ako imate dodatnih pitanja ili vam je potrebna pomoć, slobodno pitajte!

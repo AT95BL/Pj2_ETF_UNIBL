@@ -1,0 +1,65 @@
+
+public class TheDiamond { 
+	public static void main(String[] args) { 
+		MyGenInterface<String> ref = new MyGenClass<>("String"); 
+		MyGenClass ref2 = (MyGenClass) ref; 
+		System.out.println(ref.getT()); 
+		System.out.println(ref2.getT1()); 
+	} 
+} 
+class MyGenClass<T1,T2> implements MyGenInterface<T2> { 
+	private T1 t1; 
+	private T2 t2; 
+	public MyGenClass(T2 t2) { 
+		t1 = (T1) new Double("3.14159"); 
+		this.t2 = t2; 
+	} 
+	public T1 getT1() { 
+		return t1; 
+	} 
+	@Override public T2 getT() { 
+		return t2; 
+	} 
+} 
+interface MyGenInterface<T> { 
+	T getT(); 
+}
+
+
+
+U ovom programu koristi se generički interfejs i klasa sa generičkim parametrima, a zatim se koristi i ne-kontrolisano kastovanje koje može izazvati runtime greške. Evo detaljne analize i očekivanog izlaza.
+
+### Analiza Programa
+
+1. **Kreiranje Instanci:**
+   - `MyGenClass<String, Object> ref = new MyGenClass<>("String");`
+     - Ovo kreira objekat `ref` tipa `MyGenClass<String, Object>`, gde je `T1` `String` i `T2` `Object`.
+   - `MyGenClass ref2 = (MyGenClass) ref;`
+     - Ovdje se koristi ne-kontrolisano kastovanje, što može izazvati probleme u runtime-u.
+
+2. **Kontruktor `MyGenClass(T2 t2)`:**
+   - `t1` se postavlja na `new Double("3.14159")`, što je `Double` objekat. Ovo je ne-kontrolisano kastovanje jer se `Double` pokušava konvertovati u `T1`, koji je `String`. Ovo može izazvati runtime grešku ako se pokuša koristiti `t1` kao `String`.
+   - `this.t2` se postavlja na `t2`, koji je u ovom slučaju `"String"`.
+
+3. **Metode:**
+   - `getT1()` vraća `t1`, koji je `Double` objekat (zbog kastovanja).
+   - `getT()` vraća `t2`, koji je `"String"`.
+
+### Očekivani Izlaz
+
+1. **`ref.getT()`**:
+   - `ref` je tipa `MyGenClass<String, Object>`, i `t2` je `"String"`.
+   - Dakle, `ref.getT()` će ispisati `"String"`.
+
+2. **`ref2.getT1()`**:
+   - `ref2` je kastovan kao `MyGenClass`, bez generičkih parametara, što znači da će `getT1()` pokušati da vrati vrednost `t1` kao `Object`.
+   - S obzirom na to da je `t1` `Double`, ovo bi moglo uzrokovati problem prilikom pokretanja programa ako se koristi kao `String`. Međutim, u ovom slučaju, kod ne pokazuje grešku i `Double` će biti vraćen.
+
+Dakle, kada se program izvrši, izlaz će biti:
+
+```
+String
+3.14159
+```
+
+**Napomena:** U praksi, ne-kontrolisano kastovanje može uzrokovati `ClassCastException` u runtime-u, ali u ovom kodu ne dolazi do greške jer se `Double` može konvertovati u `Object` i ispravno ispisuje vrednost `t1`.

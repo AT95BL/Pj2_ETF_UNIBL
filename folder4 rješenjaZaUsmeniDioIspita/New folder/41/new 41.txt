@@ -1,0 +1,53 @@
+
+public class L extends K {
+ public static void main(String args[]) { 
+ L l = new L(); 
+ J j = new J(); 
+ System.out.println(J.i); 
+ //j = (K) l; 
+ System.out.println(j.metoda()); 
+ } 
+}; 
+class J { 
+	static int i; 
+	J() { 
+		++i; 
+	} 
+	private int metoda() { 
+		return ++i; 
+	} 
+}; 
+
+class K extends J { 
+	int i = 0; 
+	K() { 
+		i++; 
+	} 
+	int metoda() {
+		return (i+3); 
+	} 
+};
+
+
+
+
+
+metoda() has private access in J
+System.out.println(j.metoda());\
+
+
+
+Izvinjavam se na grešci. 
+U pravu ste, metoda `metoda()` u klasi `J` je deklarisana kao privatna, što znači da nije dostupna izvan te klase, čak ni u njenim podklasama ili bilo gde drugde u programu.
+
+Dakle, kada pokušate da pozovete `j.metoda();` izvan klase `J`, doći će do kompajlerske greške jer je metoda `metoda()` privatna i nije dostupna u klasi `L` (ili u `main` metodi).
+
+Greška bi bila nešto poput:
+
+```
+error: metoda() has private access in J
+System.out.println(j.metoda());
+```
+
+Ova greška ukazuje na to da ne možete pristupiti metodi `metoda()` jer je ona deklarisana sa modifikatorom pristupa `private` u klasi `J`. 
+Da bi se problem rešio, metoda `metoda()` bi trebala biti deklarisana kao `protected` ili `public` ako želite da joj pristupite izvan klase `J`.

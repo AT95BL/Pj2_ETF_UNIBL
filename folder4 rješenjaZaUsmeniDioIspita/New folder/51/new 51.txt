@@ -1,0 +1,45 @@
+
+public class Testiranje{ 
+	public static void main(String args[]){ 
+		try { 
+			throw new Exc1(); 
+		}catch (Exc0 e0){ 
+			System.out.println("Ex0 caught"); 
+		}catch (Exception e){ 
+			System.out.println("exception caught"); 
+		} 
+	} 
+} 
+class Exc0 extends Exception { } 
+class Exc1 extends Exc0 { }
+
+Ex0 caught
+
+
+
+U ovom programu, kada se pokrene, prva izuzetka `Exc1` se baca i obrađuje pomoću `catch` blokova u `main` metodi. Da bismo razumeli rezultat, pogledajmo kako Java rukuje sa izuzecima i šta se dešava u ovom kodu.
+
+### Analiza Programa
+
+1. **Bacanje Izuzetka:**
+   - `throw new Exc1();` — Izuzetak tipa `Exc1` se baca. `Exc1` je podklasa `Exc0`, koja je takođe podklasa `Exception`.
+
+2. **Obrada Izuzetaka:**
+   - Prvi `catch` blok (`catch (Exc0 e0)`) je za izuzetke tipa `Exc0`. Pošto `Exc1` nasleđuje `Exc0`, ovaj blok može da uhvati `Exc1`. Međutim, kod je pisan tako da je Java proverila redosled `catch` blokova i odabrala najspecifičniji tip izuzetka koji može da bude uhvaćen.
+   - Budući da je `Exc1` specifičniji od `Exc0`, Java će preskočiti prvi `catch` blok i ići na drugi, generalniji `catch` blok (`catch (Exception e)`).
+
+### Rezultat Izlaza
+
+S obzirom na to da je `Exc1` specifičniji tip i da se ne poklapa sa prvim `catch` blokom, izvršava se drugi `catch` blok, koji će ispisati:
+
+```
+exception caught
+```
+
+### Da sumiramo:
+
+- Kada se baca `Exc1`, Java prelazi na `catch` blokove.
+- `Exc1` ne poklapa sa `Exc0`, ali poklapa sa `Exception`.
+- Program ispisuje `"exception caught"`.
+
+Ako imate još pitanja ili treba dodatno objašnjenje, slobodno pitajte!

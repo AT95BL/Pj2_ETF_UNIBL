@@ -1,0 +1,83 @@
+
+public class StrCmp { 
+	public static void main(String ... arg) { 
+		String test1 = "Foo"; 
+		String test2 = new String("Bar"); 
+		String test3 = "Bar"; 
+		String test4 = test1 + test3; 
+		System.out.println(test2 == test3); 
+		System.out.println(test2.equals(test3)); 
+		System.out.println(test2.compareTo(test3)); 
+		System.out.println(test4 == "FooBar"); 
+		System.out.println(test4 == new String("FooBar")); 
+		System.out.println("FooBar".equals(test4)); 
+		System.out.println(("Foo" + "Bar") == "FooBar");
+	} 	
+}
+
+
+
+ili 
+
+false
+true
+0
+false
+false
+true
+true
+
+ili
+
+Da bismo razumeli izlaz programa, potrebno je da analiziramo kako se radi sa stringovima u Javi. Evo analize za svaki deo koda:
+
+### Analiza Programa
+
+1. **String Literali i Kreacija Nove Niti:**
+   - `String test1 = "Foo";`
+     - `test1` je literali string "Foo". Ovaj string se čuva u string poolu.
+   - `String test2 = new String("Bar");`
+     - `test2` se kreira pomoću `new String()`, što stvara novi objekat na heap-u, iako sadržaj stringa je "Bar".
+   - `String test3 = "Bar";`
+     - `test3` je literali string "Bar" koji se takođe nalazi u string poolu.
+   - `String test4 = test1 + test3;`
+     - `test4` je rezultat konkatenacije `test1` i `test3`, što daje "FooBar". Ovaj string se takođe dodaje u pool stringova zbog optimizacije na vreme kompajliranja.
+
+2. **Upitnici u Programu:**
+
+   - `System.out.println(test2 == test3);`
+     - **`test2`** je novi objekat (`new String("Bar")`), dok je **`test3`** literali string koji je deo string poola. **`==`** proverava da li su oba referenca isti objekat. Budući da su različiti objekti, ispisuje **`false`**.
+
+   - `System.out.println(test2.equals(test3));`
+     - **`test2.equals(test3)`** upoređuje sadržaj stringova. Pošto su oba stringa "Bar", ispisuje **`true`**.
+
+   - `System.out.println(test2.compareTo(test3));`
+     - **`test2.compareTo(test3)`** upoređuje leksikografski stringove. Budući da su isti, ispisuje **`0`**.
+
+   - `System.out.println(test4 == "FooBar");`
+     - **`test4`** je rezultat konkatenacije "Foo" + "Bar", što će biti optimizovano na vreme kompajliranja i upisano u string pool. Dakle, **`test4`** i "FooBar" su isti objekat u string poolu, pa ispisuje **`true`**.
+
+   - `System.out.println(test4 == new String("FooBar"));`
+     - **`new String("FooBar")`** stvara novi objekat, dok **`test4`** ukazuje na string u string poolu. Dakle, nisu isti objekat, ispisuje **`false`**.
+
+   - `System.out.println("FooBar".equals(test4));`
+     - **`"FooBar".equals(test4)`** upoređuje sadržaj stringova. Pošto su oba "FooBar", ispisuje **`true`**.
+
+   - `System.out.println(("Foo" + "Bar") == "FooBar");`
+     - **`("Foo" + "Bar")`** se evaluira na vreme kompajliranja kao literali string "FooBar". Ovaj string se nalazi u string poolu, što znači da je referenca ista kao "FooBar" u string poolu, pa ispisuje **`true`**.
+
+### Rezultat Izlaza
+
+Na osnovu analize, izlaz programa je:
+
+```
+false
+true
+0
+true
+false
+true
+true
+```
+
+Ako imate dodatnih pitanja ili vam je potrebna dodatna pomoć, slobodno pitajte!

@@ -1,0 +1,80 @@
+
+public class MyExceptionTest { 
+	public static void main(String[] args) { 
+		try { 
+			second(); 
+		}catch(MyException e) { 
+			System.out.println("Uhvacen i obradjen izuzetak " + e); 
+		}
+	} 
+	public static void second() throws MyException { 
+		first(); 
+	} 
+	public static void first() throws MyException { 
+		throw new MyException("Poruka o gresci"); 
+	} 
+} 
+class MyException extends Exception { 
+	MyException() { 
+		super(); 
+	} 
+	MyException(String s) { 
+		super(s); 
+		System.out.println("MyException super"); 
+	} 
+}
+
+
+
+
+MyException super
+Uhvacen i obradjen izuzetak MyException: Poruka o gresci
+
+
+Da bismo razumjeli šta se dešava u ovom programu, hajde da pogledamo redom:
+
+### Programska struktura:
+
+1. **Klasa `MyExceptionTest`**:
+   - `main` metoda poziva `second()` metodu unutar `try` bloka i obuhvata izuzetak `MyException` u `catch` bloku.
+
+2. **Metoda `second()`**:
+   - Poziva `first()` metodu i deklarira da može baciti izuzetak `MyException`.
+
+3. **Metoda `first()`**:
+   - Baca izuzetak `MyException` sa porukom "Poruka o gresci".
+
+4. **Klasa `MyException`**:
+   - Nasleđuje `Exception`.
+   - Ima konstruktor bez argumenata i konstruktor koji prihvata poruku.
+   - Konstruktor sa porukom ispisuje "MyException super".
+
+### Tok izvršavanja:
+
+1. **`main` metoda**:
+   - Poziva `second()`.
+   
+2. **`second` metoda**:
+   - Poziva `first()`.
+   
+3. **`first` metoda**:
+   - Baca izuzetak `MyException` sa porukom "Poruka o gresci".
+
+4. **Konstruktor `MyException(String s)`**:
+   - Poziva `super(s)` koji poziva konstruktor `Exception` sa stringom.
+   - Ispisuje "MyException super".
+
+5. **`catch` blok u `main`**:
+   - Hvata `MyException` i ispisuje poruku sa tekstom "Uhvacen i obradjen izuzetak" i opisom izuzetka.
+
+### Rezultat ispisa:
+
+1. Kada se kreira objekat `MyException` sa porukom, ispisuje se "MyException super" zbog poziva u konstruktoru `MyException`.
+2. `catch` blok u `main` ispisuje poruku o izuzetku.
+
+Dakle, rezultat ispisa će biti:
+
+```plaintext
+MyException super
+Uhvacen i obradjen izuzetak MyException: Poruka o gresci
+```

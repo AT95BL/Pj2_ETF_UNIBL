@@ -1,0 +1,79 @@
+
+public class Switch { 
+	static int x = 7; 
+	public static void main(String[] args) { 
+	String s = ""; 
+	for(int y = 0; y < 3; y++) { 
+		x++; 
+		switch(x) { 
+			case 8: s += "8 "; 
+			case 9: s += "9 "; 
+			case 10: {
+				s+= "10 "; 
+				break; 
+			} 
+			default: s += "d "; 
+			case 13: 
+			s+= "13 "; 
+		} 
+	} 
+	System.out.println(s); 
+} 
+static { 
+	x++; 
+	} 
+}
+
+
+Hajde da još jednom analiziramo deo po deo da bismo bili sigurni u ispravan rezultat.
+
+### Analiza Programa
+
+1. **Inicijalizacija:**
+   - `static { x++; }` se izvršava kada se klasa učita, što znači da `x` postaje 8 pre nego što `main` metoda počne da se izvršava.
+
+2. **Petlja `for`:**
+   - `for(int y = 0; y < 3; y++)` — Ova petlja se izvršava 3 puta (kada je `y` 0, 1 i 2).
+
+3. **Prva Iteracija (`y = 0`):**
+   - Pre `switch` izjave: `x` je 9 (8 iz `static` bloka + 1 iz `for` petlje).
+   - `switch(x)` sa `x = 9`:
+     - `case 8:` — preskočeno.
+     - `case 9:` — dodaje "9 " u `s`.
+     - `case 10:` — dodaje "10 " u `s` i `break` izlazi iz `switch`.
+   - `default:` se preskoči.
+   - `case 13:` se preskoči.
+
+   - `s` na kraju ove iteracije je `"9 10 "`.
+
+4. **Druga Iteracija (`y = 1`):**
+   - Pre `switch` izjave: `x` je 10.
+   - `switch(x)` sa `x = 10`:
+     - `case 8:` — preskočeno.
+     - `case 9:` — preskočeno.
+     - `case 10:` — dodaje "10 " u `s` i `break` izlazi iz `switch`.
+   - `default:` se preskoči.
+   - `case 13:` se preskoči.
+
+   - `s` na kraju ove iteracije je `"9 10 10 "`.
+
+5. **Treća Iteracija (`y = 2`):**
+   - Pre `switch` izjave: `x` je 11.
+   - `switch(x)` sa `x = 11`:
+     - `case 8:` — preskočeno.
+     - `case 9:` — preskočeno.
+     - `case 10:` — preskočeno.
+     - `default:` — dodaje "d " u `s`.
+     - `case 13:` — dodaje "13 " u `s`.
+
+   - `s` na kraju ove iteracije je `"9 10 10 d 13 "`.
+
+### Rezultat Izlaza
+
+Na osnovu ove detaljne analize, ispravan rezultat ispisa je:
+
+```
+9 10 10 d 13 
+```
+
+Ako imate dodatnih pitanja ili vam treba dodatno objašnjenje, slobodno pitajte!

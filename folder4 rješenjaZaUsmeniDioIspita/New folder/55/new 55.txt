@@ -1,0 +1,173 @@
+
+import java.io.*; 
+
+public class A1{ 
+	private A1 a1; 
+	public A1(){ 
+		System.out.println("A1"); 
+	} 
+	public A1(A1 a1){ 
+		System.out.println("A1(a1)"); 
+		this.a1 = a1; 
+	} 
+	public static void main(String args[]){ 
+		new A4(); 
+	} 
+	void metoda(){ 
+		System.out.println("metoda A1"); 
+	} 
+} 
+class A2 extends A1{ 
+	A1 a1; 
+	public A2(){ 
+		this(new A1()); 
+		System.out.println("A2"); 
+	} 
+	public A2(A1 a1){ 
+		this.a1 = a1; 
+		System.out.println("A2(a1)"); 
+	} 
+} 
+class A3 extends A2 implements Serializable{
+	public A3(){ 
+		System.out.println("A3"); 
+	} 
+} 
+class A4 extends A3{ 
+	private A1 a = new A2(); 
+	private A2 a2 = new A2(new A1(null)); 
+	Serializable a3 = new A3(); 
+	public A4(){ 
+		super(); 
+		System.out.println("A4"); 
+		a.metoda(); 
+	}
+}
+
+
+
+
+ChatGPT je na dobrome putu ali za 1/1 ti treba još nešto..
+
+
+
+
+Pogledajmo detaljno kako se izvršava ovaj program i koji će biti rezultat izlaza.
+
+### Analiza Programa
+
+1. **Instanciranje Klase `A4`:**
+   ```java
+   new A4();
+   ```
+   - Ovaj izraz stvara instancu klase `A4`.
+
+2. **Inicijalizacija `A4`:**
+   - Kada se instancira `A4`, prvo se izvršava inicijalizacija članova klase `A4` pre nego što se izvrši konstruktor klase `A4`.
+
+   - **Inicijalizacija članova:**
+     - `private A1 a = new A2();`
+       - Ovo kreira instancu `A2`, koja pokreće konstruktor `A2`.
+     - `private A2 a2 = new A2(new A1(null));`
+       - Ovo kreira instancu `A2` sa `new A1(null)`, koja kreira instancu `A1` sa `null` i prosleđuje je `A2`.
+     - `Serializable a3 = new A3();`
+       - Ovo kreira instancu `A3`, što pokreće konstruktor `A3`.
+
+3. **Konstruktori i Inicijalizacija:**
+   - **Konstruktor `A1` (prvi poziv):**
+     ```java
+     public A1() { 
+         System.out.println("A1"); 
+     }
+     ```
+     - Ispisuje `"A1"`.
+
+   - **Konstruktor `A2` (prvi poziv):**
+     ```java
+     public A2() { 
+         this(new A1()); 
+         System.out.println("A2"); 
+     }
+     ```
+     - Kreira instancu `A1` (što ispisuje `"A1"`), a zatim poziva `this(new A1())`.
+     - Onda ispisuje `"A2"`.
+
+   - **Konstruktor `A2` (drugi poziv):**
+     ```java
+     public A2(A1 a1) { 
+         this.a1 = a1; 
+         System.out.println("A2(a1)"); 
+     }
+     ```
+     - Ovaj poziv je deo inicijalizacije `private A2 a2 = new A2(new A1(null));`.
+
+   - **Konstruktor `A3`:**
+     ```java
+     public A3() { 
+         System.out.println("A3"); 
+     }
+     ```
+     - Ispisuje `"A3"`.
+
+   - **Konstruktor `A4`:**
+     ```java
+     public A4() { 
+         super(); 
+         System.out.println("A4"); 
+         a.metoda(); 
+     }
+     ```
+     - Kada se pozove konstruktor `A4`, izvršava se konstruktor `A3` (koji se već inicijalizovao ranije).
+     - Nakon toga, ispisuje `"A4"`.
+     - Poziva metodu `a.metoda()`, gde je `a` instanca `A2`. Pošto `A2` nasleđuje `A1`, poziva metodu `A1.metoda()`, koja ispisuje `"metoda A1"`.
+
+### Rezultat Izlaza
+
+Kada se izvrši `new A4()`, izlaz će biti:
+
+```
+A1
+A1
+A2
+A2(a1)
+A1
+A2
+A3
+A4
+metoda A1
+```
+
+- `A1` (iz konstrukcije `A1` kada se poziva iz `A2`)
+- `A1` (iz konstrukcije `A1` kada se poziva iz `A2` sa `new A1(null)`)
+- `A2` (iz konstrukcije `A2`)
+- `A2(a1)` (iz konstrukcije `A2` sa `new A1(null)`)
+- `A1` (iz konstrukcije `A1` kada se poziva iz `A2`)
+- `A2` (iz konstrukcije `A2`)
+- `A3` (iz konstrukcije `A3`)
+- `A4` (iz konstrukcije `A4`)
+- `metoda A1` (pozivanje `a.metoda()`, gde je `a` instanca `A2` koja koristi metodu iz `A1`)
+
+
+
+Vidi i ovo
+
+
+A1
+A1
+A2(a1)
+A2
+A3
+A1
+A1
+A2(a1)
+A2
+A1(a1)
+A1
+A2(a1)
+A1
+A1
+A2(a1)
+A2
+A3
+A4
+metoda A1
