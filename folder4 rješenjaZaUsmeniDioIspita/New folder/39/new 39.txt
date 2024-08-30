@@ -25,3 +25,70 @@ class Klasa66 extends Klasa55{
 		return y-x; 
 	} 
 }
+
+
+
+
+
+
+
+error: constructor Klasa55 in class Klasa55 cannot be applied to given types;
+class Klasa66 extends Klasa55{
+^
+required: int,int
+found: no arguments
+
+
+
+
+
+ili pak ovo...
+
+
+
+
+Analizirajmo ovaj program i vidimo šta će biti rezultat izlaza.
+
+### Analiza programa
+
+1. **Klasa `Klasa55`:**
+   - Sadrži dva atributa `x` i `y`.
+   - Konstruktor prima dva parametra i postavlja ih kao vrednosti za `x` i `y`.
+   - Metoda `zbir()` vraća zbir `x` i `y`.
+   - Metoda `razlika()` vraća razliku `x` i `y`.
+
+2. **Klasa `Klasa66`:**
+   - Nasleđuje klasu `Klasa55`.
+   - Ima svoj metod `zbir()`, koji vraća zbir `y` i `x`.
+   - Metoda `razlika()` u klasi `Klasa66` vraća razliku `y` i `x` (suprotan redosled u odnosu na `Klasa55`).
+
+3. **`main` metoda:**
+   - Kreira objekat `Klasa55` sa vrednostima `x = 1` i `y = 2`.
+   - Kreira objekat `Klasa66` koristeći podrazumevani konstruktor. 
+	 Međutim, `Klasa66` nema svoj konstruktor, pa će se automatski pozvati konstruktor iz `Klasa55` sa vrednostima `x = 0` i `y = 0`.
+   - Poziva `razlika()` metodu za oba objekta i ispisuje rezultate.
+
+### Šta se dešava u programu?
+
+- **`b.razlika()`**:
+  - `b` je objekat klase `Klasa55`, pa će pozvati metodu `razlika()` iz `Klasa55`.
+  - `x - y = 1 - 2 = -1`.
+
+- **`c.razlika()`**:
+  - `c` je objekat klase `Klasa66`, pa će pozvati metodu `razlika()` iz `Klasa66`.
+  - Pošto `x = 0` i `y = 0` (podrazumevane vrednosti), `y - x = 0 - 0 = 0`.
+
+### Očekivani izlaz
+
+Program će ispisati sledeće vrednosti:
+
+```
+-1
+0
+```
+
+Dakle, izlaz programa je:
+```
+-1
+0
+```

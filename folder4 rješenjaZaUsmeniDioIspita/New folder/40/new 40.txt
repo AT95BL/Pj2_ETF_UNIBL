@@ -6,3 +6,10 @@ private class KlasaA {
 	System.out.println(a++ + b); 
 	} 
 }
+
+
+
+
+
+modifier private not allowed here:
+private class KlasaA

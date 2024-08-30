@@ -9,3 +9,48 @@ public class Klasa5 {
 		System.out.println(set); 
 	} 
 }
+
+
+
+Pogledajmo šta ovaj program radi i analizirajmo rezultat izlaza.
+
+### Analiza programa
+
+1. **Lista `list`:**
+   - U `main` metodi, kreira se lista `list` koristeći metodu `Arrays.asList`, koja stvara listu brojeva: `[1, 6, 3, 4, 8, 6, 10, 8, 10, 10]`.
+   - Lista može sadržavati duplikate.
+
+2. **Skup `set`:**
+   - Skup `set` je kreiran koristeći listu `list` kao ulazni parametar za konstruktor `HashSet`.
+   - Skup (`Set`) u Javi ne dozvoljava duplikate, pa će se u skupu pojaviti samo jedinstvene vrednosti.
+
+3. **Ispis:**
+   - Program prvo ispisuje originalnu listu `list`.
+   - Zatim ispisuje skup `set`, koji sadrži jedinstvene vrednosti iz liste.
+
+### Rezultat izlaza
+
+1. **Ispis liste `list`:**
+   - Lista `list` se ispisuje tačno onako kako je definisana, sa svim elementima, uključujući duplikate:
+   ```
+   [1, 6, 3, 4, 8, 6, 10, 8, 10, 10]
+   ```
+
+2. **Ispis skupa `set`:**
+   - Skup `set` ispisuje jedinstvene vrednosti iz liste `list`. Redosled elemenata u `HashSet` nije garantovan jer `HashSet` ne održava redosled umetanja:
+   ```
+   [1, 3, 4, 6, 8, 10]
+   ```
+
+   Zbog prirode `HashSet`, redosled ovih brojeva može varirati, ali će sadržavati samo jedinstvene vrednosti.
+
+### Konačni ispis
+
+Na primer, program bi mogao ispisati:
+
+```
+[1, 6, 3, 4, 8, 6, 10, 8, 10, 10]
+[1, 3, 4, 6, 8, 10]
+```
+
+Važno je napomenuti da redosled elemenata u skupu može varirati, ali sadržaj će uvek biti jedinstven.

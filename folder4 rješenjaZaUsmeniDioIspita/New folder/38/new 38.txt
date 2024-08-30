@@ -27,3 +27,49 @@ public String toString() {
 	return String.format("%s -- %d", name, age);
 	} 
 }
+
+
+
+
+
+ili {37=[Bob -- 37, Ryan -- 37], 24=[Jill -- 24], 25=[Alice -- 25, Jake -- 25]} ili 
+
+Hajde da analiziramo ovaj program i vidimo kakav će biti rezultat izlaza.
+
+### Analiza programa
+
+1. **Klasa `Person`:**
+   - Ima dva svojstva: `name` (ime) i `age` (godine).
+   - Konstruktor postavlja vrednosti za `name` i `age`.
+   - Metode `getName()` i `getAge()` vraćaju ime i godine.
+   - Metoda `toString()` vraća formatiran string u obliku `"ime -- godine"`.
+
+2. **Klasa `Klasa7`:**
+   - Metoda `createPeople()` kreira listu objekata `Person` sa sledećim vrednostima:
+     - "Bob", 37 godina
+     - "Alice", 25 godina
+     - "Jake", 25 godina
+     - "Ryan", 37 godina
+     - "Jill", 24 godine
+   - U `main` metodi se koristi `Stream API` kako bi se lista osoba grupisala po starosti koristeći metodu `collect()` sa `groupingBy(Person::getAge)`.
+
+### Grupisanje koristeći `Stream API`
+
+- **`groupingBy(Person::getAge)`**:
+  - Grupisaće osobe prema njihovoj starosti. Kao rezultat, dobićemo mapu (`Map<Integer, List<Person>>`) gde je ključ godina, a vrednost lista osoba sa tom godinom.
+
+### Očekivani izlaz
+
+Program će ispisati mapu sa grupisanim osobama po starosti:
+
+- `24` će biti vezan za listu sa jednom osobom: `"Jill -- 24"`.
+- `25` će biti vezan za listu sa dve osobe: `"Alice -- 25"` i `"Jake -- 25"`.
+- `37` će biti vezan za listu sa dve osobe: `"Bob -- 37"` i `"Ryan -- 37"`.
+
+**Rezultat ispisan na konzoli će izgledati ovako:**
+
+```
+{24=[Jill -- 24], 25=[Alice -- 25, Jake -- 25], 37=[Bob -- 37, Ryan -- 37]}
+```
+
+Dakle, program ispisuje mapu koja grupiše osobe po godinama.

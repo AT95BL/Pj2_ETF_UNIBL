@@ -1,3 +1,4 @@
+
 public class Klasa4 { 
 	public static void main(String[] args) { 
 		Klasa4 e = new Klasa4(); 
@@ -41,3 +42,51 @@ class CE2 extends CE1 {
 		System.out.println("CE2 - 2"); 
 	} 
 }
+
+
+
+
+
+Pogledajmo program i analizirajmo kako funkcioniše, a zatim ćemo prikazati rezultat izlaza.
+
+### Analiza programa
+
+1. **Klasa `Klasa4`:**
+   - Sadrži metodu `main`, u kojoj se kreiraju objekti `Klasa4` i `Klasa5`.
+   - U metodi `main` se pozivaju metode `metoda()` iz klase `Klasa5` i `Klasa4`.
+   - `metoda()` iz klase `Klasa4` baca izuzetak `CE2`.
+
+2. **Klasa `Klasa5`:**
+   - Nasleđuje klasu `Klasa4`.
+   - Predefiniše metodu `metoda()` koja baca izuzetak `CE1` unutar `try-catch` bloka.
+
+3. **Izuzeci `CE1` i `CE2`:**
+   - `CE1` je klasa izuzetka koja ima dva konstruktora: jedan bez parametra i drugi koji prima string.
+   - `CE2` nasleđuje `CE1` i ima slične konstruktore.
+
+### Redosled izvršavanja
+
+1. U `main` metodi, kreira se objekat `Klasa4` (`e`) i objekat `Klasa5` (`f`).
+2. **Prvi poziv metode:**
+   - `f.metoda()` poziva metodu `metoda()` iz klase `Klasa5`.
+   - Unutar `metoda()` iz `Klasa5`, izuzetak `CE1` je bačen, uhvaćen i ispisano je "catch 2".
+3. **Drugi poziv metode:**
+   - `e.metoda()` poziva metodu `metoda()` iz `Klasa4`.
+   - Ova metoda baca izuzetak `CE2` sa porukom "Error 2".
+   - Ovaj izuzetak nije uhvaćen unutar `metoda()`, pa se prebacuje u `catch` blok u `main` metodi, gde se ispisuje "catch 1".
+4. **`finally` blok:**
+   - `finally` blok se uvek izvršava, i on ispisuje "finally".
+
+### Rezultat izlaza
+
+Program će ispisati:
+
+```
+CE1 - 1
+catch 2
+CE2 - 2
+catch 1
+finally
+```
+
+Ovo je rezultat ispisa zbog načina na koji se izuzeci bacaju i hvataju u različitim delovima programa.
