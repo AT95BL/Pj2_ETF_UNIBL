@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,7 +64,7 @@ public class Election {
          */
 
         ArrayList<ElectionThread> izbornaMjesta = new ArrayList<>();                
-        for (var univerzitet : kandidatikojiSuProsliFakultetske.entrySet()) {       //  .entrySet() će ti vratice sve kljuceve ..
+        for (var univerzitet : kandidatikojiSuProsliFakultetske.entrySet()) {       //  .entrySet() će ti vratiti sve kljuceve ..
             ElectionThread thread = new ElectionThread(univerzitet.getValue());     //  .getvalue() za taj kljuc ti vraća mapiranu-vrijednost 
             izbornaMjesta.add(thread);
             thread.start();

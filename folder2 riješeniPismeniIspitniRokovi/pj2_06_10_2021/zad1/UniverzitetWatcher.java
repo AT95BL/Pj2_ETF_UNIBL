@@ -1,3 +1,4 @@
+
 import java.nio.file.*;
 import java.io.*;
 import java.util.concurrent.*;
@@ -7,7 +8,7 @@ public class UniverzitetWatcher extends Thread{
 	public Path folderPath;
 	public Univerzitet univerzitet;
 	
-	// Konstruktor
+	// Constructor
 	public UniverzitetWatcher(Path folderPath,Univerzitet univerzitet){
 		this.folderPath=folderPath;
 		this.univerzitet=univerzitet;
