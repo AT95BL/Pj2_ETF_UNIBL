@@ -1,0 +1,89 @@
+### Analiza koda
+
+Kod prikazuje rad sa serializacijom i eksternalizacijom u Javi kroz klase `F1`, `F2`, `F31`, `F32`, `F4`, i `F5`.
+
+### Glavni aspekti koda:
+
+1. **Serializacija i eksternalizacija**:
+   - `F5` je serializabilna klasa koja nasleđuje `F2`, koja nije serializabilna, ali `F5` obezbeđuje prilagođene metode `writeObject` i `readObject` za kontrolu serializacije.
+   - `F4` implementira `Externalizable` i zahteva eksplicitnu implementaciju metoda `writeExternal` i `readExternal` za serializaciju.
+
+2. **Transient polja**:
+   - `Transient` polja nisu serializovana po defaultu, ali mogu biti ručno serializovana u prilagođenim metodama `writeObject` i `readObject` ili `writeExternal` i `readExternal`.
+
+3. **Konstrukcija objekata**:
+   - Prilikom deserializacije, konstruktor osnovne klase (koja nije serializabilna) se poziva, dok konstruktori serializabilnih klasa ne budu pozvani.
+
+### Izvršavanje:
+
+1. **Konstrukcija objekata**:
+   - `F5` i `F4` objekti su kreirani, pri čemu svaki ispisuje poruke iz svojih konstruktora.
+   
+2. **Serializacija**:
+   - Objekti `F5` i `F4` se serializuju i upisuju u fajl `F.out`.
+
+3. **Deserializacija**:
+   - Objekti `F5` i `F4` se učitavaju iz fajla `F.out`.
+   - Prilagođene `readObject` i `readExternal` metode se pozivaju tokom deserializacije, i polja koja su serializovana se učitavaju.
+
+4. **Ispisivanje vrednosti**:
+   - Ispisuju se vrednosti atributa deserializovanih objekata.
+
+### Detaljan izlaz:
+
+- **Konstrukcija objekata**:
+  - `F32 Constructor`
+  - `F5 Constructor`
+  - `F31 Constructor`
+  - `F4 Constructor`
+
+- **Serializacija (`writeObject` i `writeExternal`)**:
+  - `F5.writeObject` se poziva za `F5`.
+  - `F32.writeObject` se poziva u okviru `F5.writeObject`.
+  - `F4.writeExternal` se poziva za `F4`.
+
+- **Deserializacija (`readObject` i `readExternal`)**:
+  - `F5.readObject` se poziva za `F5`.
+  - `F32` se deserializuje u okviru `F5.readObject`.
+  - `F4.readExternal` se poziva za `F4`.
+
+### Ispis vrednosti:
+
+1. `f55.a` je `0` jer je `transient` i nije ručno serializovano.
+2. `f55.b` je `1` jer je ručno serializovano i deserializovano.
+3. `f55.f32.x` je `"ghi"` jer `f32` objekat nije `transient`.
+4. `f55.f32.y` je `"jkl"` jer je ručno serializovano u `F32.writeObject`.
+5. `f44.a` je `1` jer je serializovano u `F4.writeExternal`.
+6. `f44.b` je `0` jer je `transient` i nije serializovano.
+7. `f44.f31.x` je `null` jer je `transient` i nije serializovano.
+8. `f44.f31.y` je `null` jer nije bilo ručne serializacije u `F4.writeExternal`.
+
+### Zaključak
+
+Kod se uspešno kompajlira i izvršava, demonstrirajući osnovne koncepte serializacije,
+ eksternalizacije, i korišćenja transient polja u Javi. 
+ Izlaz zavisi od implementacije prilagođenih `writeObject`, `readObject`, `writeExternal`, i `readExternal` metoda,
+ koji omogućavaju kontrolu nad procesom serializacije i deserializacije.
+ 
+ C:\Users\Korisnik.DESKTOP-JVOQTMK\Desktop\test_23_02_2023\z1\f>java F1
+F2 Constructor
+F32 Constructor
+F5 Constructor
+F31 Constructor
+F4 Constructor
+F5.writeObject
+F32.writeObject
+F4.writeExternal
+F2 Constructor
+F5.readObject
+140733193388033
+0
+ghi
+null
+F31 Constructor
+F4 Constructor
+F4.readExternal
+1
+2
+abc
+def
