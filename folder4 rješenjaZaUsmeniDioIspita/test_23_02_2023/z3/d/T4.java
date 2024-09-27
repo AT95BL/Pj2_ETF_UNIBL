@@ -4,9 +4,9 @@ public static void main(String[] args) {
 label:
 for (int i = 0; i < 2; i++) {
 for (int j = 0; j < 12; j++) {
-if (j == 4)
+if (j == 4)		//	tumačiš kao "ne ispisuj i, 4"
 continue;
-if (j == 7)
+if (j == 7)		// skači gore na "i++"
 continue label;
 System.out.println(i + ", " + j);
 }

@@ -65,7 +65,7 @@ Kod se uspešno kompajlira i izvršava, demonstrirajući osnovne koncepte serial
  Izlaz zavisi od implementacije prilagođenih `writeObject`, `readObject`, `writeExternal`, i `readExternal` metoda,
  koji omogućavaju kontrolu nad procesom serializacije i deserializacije.
  
- C:\Users\Korisnik.DESKTOP-JVOQTMK\Desktop\test_23_02_2023\z1\f>java F1
+ C:\Users\Korisnik.DESKTOP-JVOQTMK\Desktop\test_23_02_2023\z1\f>java F1 jesam li siguran??
 F2 Constructor
 F32 Constructor
 F5 Constructor
@@ -76,7 +76,7 @@ F32.writeObject
 F4.writeExternal
 F2 Constructor
 F5.readObject
-140733193388033
+140733193388033--ali nema šanse na ispitu to da se uprati..
 0
 ghi
 null
@@ -87,3 +87,5 @@ F4.readExternal
 2
 abc
 def
+
+Problematičan zadatak..

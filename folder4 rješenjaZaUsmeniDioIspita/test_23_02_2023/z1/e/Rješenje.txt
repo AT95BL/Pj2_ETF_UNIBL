@@ -1,3 +1,11 @@
+
+NAPOMENA:
+U 1. i 3. zadatku, u sekciji 2),
+student treba prvenstveno da nacrta/crta šta se to sve dešava u programu!
+Znači, rođenje "niti", život "niti", gašenje "niti" kao i sve ostalo vezano za te niti..
+Mora da pazi je li ta nit Daemon, dešava li se Thread.join() i sve ostalo što može da se isprati..
+Tako da čitavo moje rješenje koje sam ovdje naveo ne vrijedi ni bod..
+
 ### Analiza koda
 
 Kod se sastoji od tri glavne klase: `E1`, `E2`, i `E3`. Glavna klasa `E1` nasleđuje `Thread` i sadrži metodu `main` koja pokreće različite instance klasa `E2` i `E3`. Klase `E2` i `E3` implementiraju niti sa različitim ponašanjima.

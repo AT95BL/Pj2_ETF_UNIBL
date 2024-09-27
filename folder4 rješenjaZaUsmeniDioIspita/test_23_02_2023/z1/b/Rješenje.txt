@@ -145,3 +145,9 @@ class B3 extends B2 implements BI {
     }
 }
 ```
+
+
+
+
+Ništa, ovaj program se ne može uspješno kompajlirati kompajlirati!!
+Razlog tome je gore naveden..

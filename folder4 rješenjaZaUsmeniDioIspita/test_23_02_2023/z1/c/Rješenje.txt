@@ -169,3 +169,11 @@ Postoje dva načina da rešite ovaj problem:
 
 ### Zaključak:
 Greška se dešava jer konstruktori `CE2` implicitno bacaju checked exception `CE1`, a vaša metoda `metoda()` u klasi `C3` nije pravilno deklarisana ili ne hvata taj izuzetak.
+
+
+Rješenje:
+C2
+C1
+C2.metoda()
+
+i onda ide ova priča opisana u tekstu iznad..

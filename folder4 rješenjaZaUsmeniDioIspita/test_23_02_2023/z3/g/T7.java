@@ -15,7 +15,7 @@ String s1 = new String("1");
 Object arr[] = new Object[2];
 arr[0] = h1;
 arr[1] = s1;
-Arrays.sort(arr);
+Arrays.sort(arr);                           //  ne mogu se sortirati jer se ne radi o istim objektima!!
 for (Object o : arr) {
 System.out.print(o + " ");
 }

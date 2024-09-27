@@ -11,7 +11,7 @@ break;
 case 1:
 System.out.println("c2 is 1");
 break;
-}
+} // tu nema "break" tako da idemo u case 1:
 case 1:
 System.out.println("c1 is 1");
 break;
@@ -21,3 +21,10 @@ break;
 }
 }
 }
+
+/*
+ *  c1 is 0
+ *  c2 is 0
+ *  c1 is 1
+ * 
+ */
