@@ -49,6 +49,49 @@ public class UniverzitetWatcher extends Thread{
 						WatchEvent.Kind<?> kind=event.kind();						//	tip događaja
 						WatchEvent<Path> eventPath=(WatchEvent<Path>)event;			//	lokacija događaja
 						Path path=eventPath.context();								//	uzročnik događaja
+
+/*
+ * Evo objašnjenja ovih triju linija koda u kontekstu praćenja promena u fajl sistemu korišćenjem Java NIO paketa (`java.nio.file`), 
+ * obično sa klasama kao što su **`WatchService`**, **`WatchKey`**, i **`WatchEvent`**.
+
+### 1. **`WatchEvent.Kind<?> kind = event.kind();`**
+- **`WatchEvent`** je interfejs koji predstavlja događaj koji se javlja u fajl sistemu, 
+	kao što su kreiranje, brisanje ili modifikacija fajla.
+- **`kind()`** metoda vraća tip događaja, odnosno njegovu vrstu. 
+	Vrste događaja su predefinisane u `WatchEvent.Kind` interfejsu, kao što su:
+  - `StandardWatchEventKinds.ENTRY_CREATE` (kreiranje fajla)
+  - `StandardWatchEventKinds.ENTRY_DELETE` (brisanje fajla)
+  - `StandardWatchEventKinds.ENTRY_MODIFY` (modifikacija fajla)
+  
+  **`<?>`** u `Kind<?>` znači da tip može biti bilo koji generički tip. 
+  U kontekstu praćenja fajlova, najčešće je to `Path`, ali `Kind<?>` omogućava fleksibilnost za druge tipove događaja.
+
+- Ova linija znači da se iz događaja (`event`) dobija vrsta (tip) događaja i čuva u promenljivoj `kind`.
+
+### 2. **`WatchEvent<Path> eventPath = (WatchEvent<Path>) event;`**
+- Ova linija koristi **downcast** (ručno kastovanje) iz generičkog tipa **`WatchEvent<?>`** u **`WatchEvent<Path>`**.
+  
+- Razlog za kastovanje je taj što, iako je `event` generalno tipa `WatchEvent<?>`, 
+kada radimo sa fajlovima, događaji su povezani sa putanjama (`Path`), tako da je bezbedno pretpostaviti da je stvarni tip 
+događaja `WatchEvent<Path>`.
+
+- **`WatchEvent<Path>`** znači da ovaj događaj odnosi na putanje fajlova (`Path`).
+
+### 3. **`Path path = eventPath.context();`**
+- **`context()`** metoda iz `WatchEvent<Path>` vraća specifičan kontekst događaja. 
+U slučaju događaja vezanih za fajlove, 
+kontekst je obično relativna putanja (`Path`) fajla ili direktorijuma koji je izazvao događaj.
+
+- Ova linija preuzima tu putanju i smešta je u promenljivu **`path`**. 
+
+### Sumirano:
+- Prva linija uzima vrstu događaja (kreiranje, brisanje, modifikacija).
+- Druga linija kastuje generički događaj u tip specifičan za fajlove (`Path`).
+- Treća linija izdvaja putanju fajla ili direktorijuma koji je pogođen događajem.
+
+Ove linije bi se koristile u sistemima za praćenje promena u fajl sistemu kako bi se prepoznalo koji fajl ili direktorijum je promenjen, 
+kreiran, ili obrisan.
+*/
 						if(kind.equals(StandardWatchEventKinds.ENTRY_CREATE)){
 							
 							String fileName=path.getFileName().toString();
