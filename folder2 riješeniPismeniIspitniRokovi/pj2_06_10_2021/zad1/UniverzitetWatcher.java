@@ -34,7 +34,7 @@ public class UniverzitetWatcher extends Thread{
  				* Zbog toga je potreban "hvatač" događaja za obradu tih signala.
  				*/
 
-					//	 3) Treći korak jeste da se u objekat klase WatchKey pohrane događaji..
+				//	 3) Treći korak jeste da se u objekat klase WatchKey pohrane događaji..
 				WatchKey watchKey=null;
 				try{
 					watchKey=watchService.poll(3000,TimeUnit.MILLISECONDS);
