@@ -16,7 +16,7 @@ public class Main{
 		
 		while(!((line=scanner.nextLine()).equals("END"))){
 			
-			if(line.contains("REGISTER")){	//	REGISTER folder naziv_univerziteta
+			if(line.contains("REGISTER")){	//	REGISTER folder(putanja) naziv_univerziteta
 				
 				try{
 					
