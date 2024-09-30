@@ -25,7 +25,7 @@ public class UniverzitetWatcher extends Thread{
  			* 	potrebno je registrirati taj direktorijum sa WatchService-om.
  			* 	Registracija omogućava praćenje događaja poput kreiranja novih fajlova u direktorijumu.
  			*/
-				//	2) Drugi korak jeste da direktorijum regirstrujemo na WatchService, specijalizacija(ENTRY_CREATE) iako ih ukupno ima 4..
+			//	2) Drugi korak jeste da direktorijum regirstrujemo na WatchService, specijalizacija(ENTRY_CREATE) iako ih ukupno ima 4..
 			this.folderPath.register(watchService,StandardWatchEventKinds.ENTRY_CREATE);
 			while(Main.running){
 				/*

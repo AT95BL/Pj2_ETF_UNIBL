@@ -125,7 +125,8 @@ Stream.iterate(2, e -> e + 2)
 
 1. **`Stream.iterate(2, e -> e + 2)`**: Generiše beskonačan stream koji počinje od `2` i svakim korakom dodaje `2`. Tako će generisati brojeve: 2, 4, 6, 8, 10, itd.
 
-2. **`peek(e -> System.out.print("peek"))`**: Za svaki generisani broj, `peek` će ispisati `"peek"` pre nego što ispiše vrednost broja. Ovo je korisno za "špijuniranje" unutar stream-a.
+2. **`peek(e -> System.out.print("peek"))`**: Za svaki generisani broj, `peek` će ispisati `"peek"` pre nego što ispiše vrednost broja.
+ Ovo je korisno za "špijuniranje" unutar stream-a.
 
 3. **`limit(20)`**: Ograničava stream na prvih 20 brojeva.
 
