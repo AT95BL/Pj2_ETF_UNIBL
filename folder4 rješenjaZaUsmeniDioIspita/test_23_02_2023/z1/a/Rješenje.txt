@@ -1,4 +1,4 @@
-java A1:
+PAZI! -ako se slučajno u zadatku desi to da je Constructor neke od navedenih klasa okarakterisan sa "private" --onda nema nikakvih ispisa jer se code neće uspješno kompajlirati!
 
 A1-S --znači, static-block se uvijek prvi izvršava!!
 A1-N --non-static-block ide zatim,
