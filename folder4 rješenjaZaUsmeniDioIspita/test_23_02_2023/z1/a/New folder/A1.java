@@ -21,7 +21,7 @@ new A2(a1);
 void metoda(){
 System.out.println("metoda A1");
 }
-public static void main(String[] args) {
+public static void main(String[] args) {   
 A1 a1 = new A1();
 a1.metoda();
 A4 a4 = new A4();

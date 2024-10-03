@@ -1,4 +1,7 @@
-PAZI! -ako se slučajno u zadatku desi to da je Constructor neke od navedenih klasa okarakterisan sa "private" --onda nema nikakvih ispisa jer se code neće uspješno kompajlirati!
+PAZI! -ako se slučajno u zadatku desi to da je Constructor neke od navedenih klasa okarakterisan sa "private" a onda se kasnije isti taj konstruktor poziva u nekoj drugoj klasi,
+onda program pada!!
+Ili ako imamo odma u prvoj liniji 'main' metode liniju 		A4 a4 = new A4(A2); pri čemu A2 klasa nije definisana...	oba scenarija su kompajlerska greška!
+Dobro pazi čime su okarakterisani konstruktori tj. kakvih specifikatorom pristupa su okarakterisani i dobro pripazi koji/kakvi su im argumenti!!
 
 A1-S --znači, static-block se uvijek prvi izvršava!!
 A1-N --non-static-block ide zatim,
