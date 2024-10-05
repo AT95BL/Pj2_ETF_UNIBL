@@ -27,6 +27,7 @@ public class UniverzitetWatcher extends Thread{
  			*/
 			//	2) Drugi korak jeste da direktorijum regirstrujemo na WatchService, specijalizacija(ENTRY_CREATE) iako ih ukupno ima 4..
 			this.folderPath.register(watchService,StandardWatchEventKinds.ENTRY_CREATE);
+			
 			while(Main.running){
 				/*
  				* U praćenom direktorijumu, svaki put kada se desi neki novi događaj, to se signalizira.
