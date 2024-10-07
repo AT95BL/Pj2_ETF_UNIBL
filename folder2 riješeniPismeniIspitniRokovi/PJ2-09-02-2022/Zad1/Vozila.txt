@@ -1,0 +1,3 @@
+Automobil 1 Marko Markovic DIZEL 120
+Kamion 2 Jelenko Tuzabovic BENZIN 150
+Autobus 3 Nemanja Rokvic DIZEL 170 80
