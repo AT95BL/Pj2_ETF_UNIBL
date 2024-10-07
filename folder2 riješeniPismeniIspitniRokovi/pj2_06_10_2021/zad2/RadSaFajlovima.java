@@ -110,6 +110,44 @@ public class RadSaFajlovima
 }
 
 /*
+ * `\\b` u regularnim izrazima označava **granicu riječi** (*word boundary*).
+
+### Objašnjenje:
+
+- **`\\b`**: Predstavlja poziciju između znaka koji se tretira kao karakter riječi (`\w`) i znaka koji se ne tretira kao karakter riječi (npr. razmaci, interpunkcija ili početak/kraj niza).
+
+### Svrha:
+Granica riječi omogućava da traženje u regularnom izrazu bude preciznije. Na primjer, ako tražiš riječ "cat" bez korištenja granice riječi, moglo bi se dogoditi da pogodiš i riječi poput "catapult" ili "concatenation". Korištenje `\\b` osigurava da ćeš pretraživati **samo cijele riječi** "cat" i izbjeći slučajna podudaranja s djelovima riječi.
+
+### Primjer:
+Ako imaš tekst:
+```txt
+The cat sat on the catapult.
+```
+
+Kada koristiš regularni izraz bez `\\b`:
+```java
+line.replaceAll("cat", "dog");
+```
+Zamijenit će sve pojave "cat", uključujući u riječima kao što je "catapult":
+```
+The dog sat on the dogapult.
+```
+
+Kada koristiš `\\b`:
+```java
+line.replaceAll("\\bcat\\b", "dog");
+```
+Zamijenit će samo cijele riječi "cat", a "catapult" će ostati nepromijenjeno:
+```
+The dog sat on the catapult.
+```
+
+Dakle, **`\\b` pomaže ograničiti zamjenu na cijele riječi**, bez mijenjanja djelova drugih riječi.
+ */
+
+
+/*
  * 	Korisna kombinacija za zapamtiti:
  * 
  * 	List<String> lines = Files.readAllLines(path);
