@@ -1,0 +1,20 @@
+
+Teorijske napomene, tj. iz knjige ono vrijedno a da sam pročitao..
+
+1) Slika hijerarhije Izuzetaka
+
+2) Obrati pažnju na redoslijed 'catch' blokova u try-catch blokovima!
+	Recimo, radi se o više try-catch blokova ili o ugniježdenim try-catch blokovima, pa imaš situaciju kao što je ova
+	try{
+		...
+	}catch(Exception ex){..}
+
+	catch(MyException ex){..}
+
+	i tu vidiš da MyException nikada neće i ne može biti uhvaćen, dolazi do pada programa!
+
+3) Obrati pažnju na ključnu riječ 'throw' u potpisu metode,
+	šta tj. kakav izuzetak ona baca ili ti kakav izuzetak ona može da baca?
+	Koja klasa nasljeđuje koju, kakvi se konstruktori pozivaju, na sve to moraš dobro da obratiš pažnju!
+
+4) Na ispitu, zapitaj se šta to prilikom bacanja izuzetaka može da se desi, pa da se zbog istog program uopšte i ne može kompajlirati!?
