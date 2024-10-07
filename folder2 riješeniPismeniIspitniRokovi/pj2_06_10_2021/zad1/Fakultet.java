@@ -15,7 +15,7 @@ public class Fakultet{
 	public void upisiStudenta(Student s){
 		this.studenti.add(s);
 	}
-	
+		
 	public static void readStudents(Fakultet f,Path path)throws StudentFileException{
 		List<String> lines=null;
 		try{
