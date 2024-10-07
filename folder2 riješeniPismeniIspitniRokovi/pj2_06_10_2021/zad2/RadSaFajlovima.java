@@ -22,9 +22,10 @@ public class RadSaFajlovima
 				 * 						new FileWriter(path.getParent().toString()+File.separator+fileName)));
 				 * 														->	A/B/C/(D, D.search.txt)
 				 */
-				String fileName=path.getFileName()+".search.txt";
+				String fileName=path.getFileName()+".search.txt";	//	A/B/C/D -> A/B/C/	"D.search.txt"
 				PrintWriter writer = 
-					new PrintWriter(new BufferedWriter(new FileWriter(path.getParent().toString()+File.separator+fileName)));
+					new PrintWriter(new BufferedWriter(new FileWriter(path.getParent().toString()+File.separator+fileName))); 
+					//	A/B/C/D -> A/B/C/D.search.txt
 				List<String> lines=Files.readAllLines(path);
 				for(var line:lines)
 				{
