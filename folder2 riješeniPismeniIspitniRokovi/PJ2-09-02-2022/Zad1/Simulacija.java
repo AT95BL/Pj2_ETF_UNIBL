@@ -11,8 +11,8 @@ public class Simulacija
 	public static String[]map=new String[1];
 	public static int SansaZaPrevrtanje=25;
 	
-	private static final String VOZILA_PATH="Vozila.txt";
-	private static final String MAPA_PATH="Mapa.txt";
+	private static final String VOZILA_PATH="datoteke/Vozila.txt";
+	private static final String MAPA_PATH="datoteke/Mapa.txt";
 	
 	public ArrayList<Vozilo> vozila;
 	
