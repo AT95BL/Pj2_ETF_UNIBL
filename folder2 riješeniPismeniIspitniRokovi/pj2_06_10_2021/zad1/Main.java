@@ -55,7 +55,8 @@ public class Main{
 				else{
 					for(var el:Election.kandidatikojiSuProsliFakultetske.entrySet()){
 						try	{
-							ObjectOutputStream output=new ObjectOutputStream(new FileOutputStream(el.getKey().folderPath.toString()+File.separator+"univerzitet.ser"));
+							ObjectOutputStream output=new ObjectOutputStream(
+								new FileOutputStream(el.getKey().folderPath.toString()+File.separator+"univerzitet.ser"));
 							output.writeObject(el.getValue());
 							output.close();
 						}
