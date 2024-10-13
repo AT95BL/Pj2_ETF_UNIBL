@@ -12,19 +12,31 @@ public class Main{
         someMap.put("C++", 2);
         someMap.put("Java", 3);
         someMap.put("JavaScript", 4);
-        
+
         for(Map.Entry<String, Integer> entry : someMap.entrySet()){
-            System.out.println(entry);
+            System.out.println(entry);  //  what will be the output!??
         }
 
         // We can obtain a set of key-value pairs:
         Set<Map.Entry<String, Integer>> entries = someMap.entrySet();
-
+        for (Map.Entry<String, Integer> entry : entries) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            System.out.println("Key: " + key + ", Value: " + value);
+        }
+        
         // We can also get the key set associated with the Map
         Set<String> keySet = someMap.keySet();
+        for (String key : keySet) {
+            System.out.println("Key: " + key);
+        }
+        
         // Or we could work directly with the set of values:
         Collection<Integer> values = someMap.values();
-
+        for (Integer value : values) {
+            System.out.println("Value: " + value);
+        }
+        
         // These each give us an entry point to process those collections by obtaining streams from them:
         Stream<Map.Entry<String, Integer>> entriStream = entries.stream();
         Stream<Integer> valuesStream = values.stream();
