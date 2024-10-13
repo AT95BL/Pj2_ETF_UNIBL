@@ -1,0 +1,26 @@
+Razlog zašto se ništa ne upisuje u datoteku u ovom slučaju je taj što nisi pozvao metodu `printWriter.close()` nakon pisanja u datoteku. Kada koristiš klase poput `PrintWriter`, podaci koje pišeš mogu biti privremeno pohranjeni u međuspremniku (buffer). Ako ne zatvoriš `PrintWriter`, taj međuspremnik se možda neće ispisati u datoteku, pa promjene neće biti vidljive.
+
+Dakle, tvoj kod treba uključiti zatvaranje `printWriter`-a, na primer u `finally` bloku, kako bi osigurao da se resursi pravilno oslobode i svi podaci upišu u datoteku. Evo ispravljenog koda:
+
+```java
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args){
+        PrintWriter printWriter = null;
+
+        try{
+            printWriter = new PrintWriter(new BufferedWriter(new FileWriter("datoteka.txt")));
+            printWriter.print("Ovo je prva recenica!");
+        } catch(IOException ex){
+            System.err.println(ex);
+        } finally {
+            if (printWriter != null) {
+                printWriter.close(); // Zatvori PrintWriter da bi se osigurao upis
+            }
+        }
+    }
+}
+```
+
+Sada će podaci biti pravilno upisani u datoteku kada se program izvrši.
