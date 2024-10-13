@@ -12,6 +12,7 @@ public class Main{
         someMap.put("C++", 2);
         someMap.put("Java", 3);
         someMap.put("JavaScript", 4);
+        
         for(Map.Entry<String, Integer> entry : someMap.entrySet()){
             System.out.println(entry);
         }
