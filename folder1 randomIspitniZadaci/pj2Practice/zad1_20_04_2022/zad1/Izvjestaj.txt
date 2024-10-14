@@ -1,0 +1,3 @@
+Ukupna taksa za automobile: 0
+Ukupna taksa za kamione: 0
+Ukupna taksa za autobuse: 0

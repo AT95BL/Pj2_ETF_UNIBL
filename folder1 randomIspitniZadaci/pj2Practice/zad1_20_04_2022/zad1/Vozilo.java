@@ -110,7 +110,7 @@ public abstract class Vozilo extends Thread{
 				while(duzinaOstatkaMape-- != 0){
 					this.kretanje();
 				}
-				Simulacija.listaTerminala.get(1).procesuirajKamion(this);
+				Simulacija.listaTerminala.get(1).procesuirajKaion(this);
 			}
 		}
 		else{
@@ -125,7 +125,7 @@ public abstract class Vozilo extends Thread{
 				while(duzinaOstatkaMape-- != 0){
 					this.kretanje();
 				}
-				Simulacija.listaTerminala.getLast().procesuirajKamion(this);
+				Simulacija.listaTerminala.getLast().procesuirajAutobus(this);
 			}
 		}
 	}
