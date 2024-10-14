@@ -60,5 +60,9 @@ public class Simulacija{
 		simulacija.listaVozila.stream().forEach(System.out::println);
 		
 		simulacija.pokreniSimulaciju();		
+
+		for(var ter:listaTerminala){
+			ter.podnesiIzvjestaj();
+		}
 	}
 }
