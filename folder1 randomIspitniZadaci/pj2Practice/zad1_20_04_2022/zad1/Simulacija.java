@@ -49,6 +49,13 @@ public class Simulacija{
 	public void pokreniSimulaciju(){
 		for(var vozilo:listaVozila){
 			vozilo.start();
+			/* 
+				try{
+					vozilo.join();
+				}catch(InterruptedException ex){
+					ex.printStackTrace();
+				}
+			*/
 		}
 	}
 	
