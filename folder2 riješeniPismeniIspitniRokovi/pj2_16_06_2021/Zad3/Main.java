@@ -8,7 +8,7 @@ public class Main
 	public static void main(String[]args)throws IOException
 	{
 		Scanner scanner = new Scanner(System.in);
-		String extension = "";
+		String ekstenzija = "";
 		String line = "";
 
 		System.out.println("Unesite pocetnu putanju: ");
@@ -20,9 +20,9 @@ public class Main
 		Path destinacionaPutanja = Paths.get(line);
 
 		System.out.println("Unesite ekstenziju: ");
-		extension = scanner.nextLine();
+		ekstenzija = scanner.nextLine();
 
-		Finder finder=new Finder(extension,destinacionaPutanja);
+		Finder finder=new Finder(ekstenzija,destinacionaPutanja);
 		Files.walkFileTree(pocetnaPutanja,finder);							//	početni direktorijum, implementacija FileVisitor interface-a 
 		System.out.println(finder.getNumOfMatchedFiles());
 		finder.copyAllFiles();
