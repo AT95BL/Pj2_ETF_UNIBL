@@ -61,11 +61,11 @@ public class Main{
                                                         List<ArrayList<T>> lists) {
         ArrayList<T> result = new ArrayList<>();
 
-        for (var list : lists) {
-            for (var el : list) {
-                boolean status = true;
-                for (var pred : predicates) {
-                    if (!pred.test(el)) {
+        for (var list : lists) {                //  prolazis kroz listu listi i svakoj iteraciji select novu listu..
+            for (var el : list) {               //  prolazis kroz select-ovanu listu i u svakoj iteraciji select jedan element..
+                boolean status = true;          
+                for (var pred : predicates) {   //  prolazis kroz listu predikata i u svakoj iteraciji select jedan predikat..
+                    if (pred.test(el)) {       //  pozivas taj predikat nad selektovanim elementom ..
                         status = false;
                         break;
                     }
