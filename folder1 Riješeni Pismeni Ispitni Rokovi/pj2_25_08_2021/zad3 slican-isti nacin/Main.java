@@ -74,7 +74,7 @@ public class Main{
 				for(var element: lista){					//	prolazis kroz selected listu i u svakoj iteraciji select jedan element iz te liste ..
 					boolean status = true;
 					for(var predikat: listaPredikata){		//	prolazis kroz listu predikata i u svakoj iteraciji select jedan element iz te liste ..
-						if(predikat.test(element)){			//	sa selected-predicate ispitujes selected-element
+						if(predikat.test(element)){			//	sa selected-predicate ispitujes selected-element, POZIVAŠ 'test(arg)'!!
 							status = false;
 							break;
 						}
