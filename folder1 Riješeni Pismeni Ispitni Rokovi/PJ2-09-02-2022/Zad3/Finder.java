@@ -63,7 +63,7 @@ public class Finder implements FileVisitor<Path>
 	@Override
 	public FileVisitResult visitFileFailed(Path file,IOException exc)throws IOException
 	{
-		System.err.println("Greska prilikom ")
+		System.err.println("Greska prilikom otvaranja direktorijuma..")
 		return FileVisitResult.CONTINUE;
 	}
 	
