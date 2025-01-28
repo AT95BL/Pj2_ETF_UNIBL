@@ -42,7 +42,7 @@ public class Main{
 		listaFilmova.stream().filter((film)->film.godinaObjavljivanja >= 2000 && film.godinaObjavljivanja < 2010).forEach(System.out::println);
 		
 		// kreirati listu filmova grupisanih po ocjeni u formatu npr. 6,0-6,99, 7,0-7,99,...,9.0-10.0, 
-		Function<Film,String> func=(film)->{
+		Function<Film,String> funkcija=(film)->{
 			if(film.ocjena>=1&& film.ocjena <= 6.99)
 				return "1.0-6.99";
 			else if(film.ocjena>=7.0 && film.ocjena<=7.99)
@@ -53,9 +53,9 @@ public class Main{
 				return "9.0-10.0";	
 		};
 		
-		listaFilmova.stream().collect(Collectors.groupingBy(func)).entrySet().forEach((s)->{
-			System.out.println(s.getKey());
-			s.getValue().forEach(System.out::println);
+		listaFilmova.stream().collect(Collectors.groupingBy(funkcija)).entrySet().forEach((entrySetElement)->{
+			System.out.println(entrySetElement.getKey());
+			entrySetElement.getValue().forEach(System.out::println);
 		});
 		
 		// izračunati prosječnu ocjenu filmova snimljenih 90-ih godina,
