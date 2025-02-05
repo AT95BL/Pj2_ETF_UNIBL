@@ -57,7 +57,7 @@ public class GrupaKnjiga {
 
         // Sortiranje grupe knjiga po godini izdavanja
         prvaGrupa.getKnjige().stream()
-                .sorted(Comparator.comparingInt(Knjiga::getGodinaIzdavanja)) // znači, kao argument omparingInt mi treba neki int..
+                .sorted(Comparator.comparingInt(Knjiga::getGodinaIzdavanja)) // znači, kao argument ComparingInt mi treba neki int..
                 .forEach(System.out::println);
 
         // Sumiranje godina izdavanja svih knjiga iz grupe žanra "putopis"
