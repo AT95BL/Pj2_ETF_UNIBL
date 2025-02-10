@@ -1,0 +1,91 @@
+
+Teorijske napomene, tj. iz knjige ono vrijedno a da sam pročitao..
+
+1) Slika hijerarhije Izuzetaka
+
+2) Obrati pažnju na redoslijed 'catch' blokova u try-catch blokovima!
+	Recimo, radi se o više try-catch blokova ili o ugniježdenim try-catch blokovima, pa imaš situaciju kao što je ova
+	try{
+		...
+	}catch(Exception ex){..}
+
+	catch(MyException ex){..}
+
+	i tu vidiš da MyException nikada neće i ne može biti uhvaćen, dolazi do pada programa!
+
+3) Obrati pažnju na ključnu riječ 'throws' u potpisu metode,
+	šta tj. kakav izuzetak ona baca ili ti kakav izuzetak ona može da baca?
+	Koja klasa nasljeđuje koju, kakvi se konstruktori pozivaju, na sve to moraš dobro da obratiš pažnju!
+
+4) Na ispitu, zapitaj se šta to prilikom bacanja izuzetaka može da se desi, pa da se zbog istog program uopšte i ne može kompajlirati!?
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Da, razumijem tvoje pitanje. Pitaš o upotrebi ključne riječi `throws` u potpisu metode i pravilima vezanim za nju u Javi, kao i o tome šta može dovesti do pada programa kada se koristi.
+
+### **Šta znači `throws` u Javi?**
+
+Kada u potpisu metode koristiš ključnu riječ `throws`, to znači da metoda može baciti jednu ili više izuzetaka (exceptions) dok se izvršava. Ove izuzetke ne mora nužno rukovati sama metoda, već se oni mogu propagirati "gore" u pozivnom lancu metode, dok ne dođu do mjesta gdje će ih neki kod rukovati (catch blok) ili će dovesti do prekida programa ako nisu uhvaćeni.
+
+Na primjer:
+
+```java
+public void metoda() throws IOException, SQLException {
+    // Metoda može baciti IOException ili SQLException
+}
+```
+
+### **Pravila za `throws`:**
+
+1. **Checked Exceptions:** Ako metoda može baciti izuzetak koji je "checked exception" (npr. `IOException`, `SQLException`), onda moraš eksplicitno navesti `throws` u potpisu metode ili uhvatiti izuzetak unutar same metode (koristeći `try-catch` blok). Ako to ne učiniš, program neće prevesti i dobiješ kompajlersku grešku.
+
+    - **Primjer:** `IOException` je checked exception, što znači da ako tvoja metoda može izazvati `IOException`, moraš ili navesti `throws IOException` u potpisu metode ili rukovati tim izuzetkom unutar metode.
+
+2. **Unchecked Exceptions:** Neprovjereni izuzeci (*unchecked exceptions*) poput `NullPointerException`, `ArrayIndexOutOfBoundsException`, ili `IllegalArgumentException` ne moraju biti navedeni u `throws` klauzuli jer su izvedeni iz `RuntimeException`. Ovi izuzeci ne zahtijevaju eksplicitno rukovanje, ali ako nisu pravilno rukovani i pojave se tokom izvršavanja, mogu uzrokovati pad programa.
+
+3. **Bacanje više izuzetaka:** Metoda može baciti više tipova izuzetaka, od kojih su neki checked, a neki unchecked. Unchecked exceptions ne moraju biti deklarirani sa `throws`, ali checked exceptions moraju.
+
+    ```java
+    public void metoda() throws IOException, IllegalArgumentException {
+        // Kod koji može baciti oba izuzetka
+    }
+    ```
+
+### **Šta može dovesti do pada programa?**
+
+1. **Unchecked Exceptions nisu uhvaćeni:** Ako metoda izazove unchecked exception (npr. `NullPointerException` ili `ArrayIndexOutOfBoundsException`) koji nije uhvaćen u `try-catch` bloku, program će se srušiti.
+
+    - **Primjer:** Ako metoda uzrokuje dijeljenje s nulom (`ArithmeticException`), a ti ga ne rukuješ, program će prestati s radom.
+    
+    ```java
+    public void metoda() {
+        int rezultat = 10 / 0; // Ovo će izazvati ArithmeticException
+    }
+    ```
+
+2. **Unchecked Exceptions mogu biti implicitni:** Unchecked izuzetke nije potrebno deklarirati u potpisu metode. Ako ih ne rukuješ i puste se da propagiraju, program će pasti.
+
+3. **Checked Exceptions nisu rukovani:** Ako metoda deklarira checked exception s `throws`, a taj izuzetak nije uhvaćen ni u pozivnom lancu metoda, program će se srušiti kada dođe do tog izuzetka, osim ako ga ne uhvatiš kasnije.
+
+    ```java
+    public void metoda() throws IOException {
+        throw new IOException("Greška u I/O operaciji");
+    }
+
+    public static void main(String[] args) {
+        try {
+            metoda();
+        } catch (IOException e) {
+            // Uhvaćen IOException
+        }
+    }
+    ```
+
+Ako `IOException` nije uhvaćen ili rukovan negdje u pozivnom lancu, program bi se srušio kada bi se izuzetak dogodio.
+
+### **Zaključak:**
+- `throws` u potpisu metode signalizira koji izuzeci mogu biti bačeni iz metode.
+- **Checked exceptions** moraju biti deklarirani s `throws` ili rukovani, inače ćeš dobiti kompajlersku grešku.
+- **Unchecked exceptions** ne moraju biti deklarirani, ali mogu uzrokovati pad programa ako nisu pravilno uhvaćeni.
+- Program se može srušiti ako izuzetak nije pravilno rukovan ili uhvaćen, naročito u slučaju neprovjerenih izuzetaka.
+
+Ako ti je potrebna dodatna pojašnjenja, slobodno pitaj!

@@ -1,0 +1,11 @@
+
+Tvoj output je tačan. Evo objašnjenja:
+
+- **`T11 constructor...`**: Ispisuje se kada se kreira novi objekat `T11` pomoću lambda izraza `() -> new T11()`.
+
+- **`T11@7adf9f5f`**: Ovo je rezultat poziva metode `toString()` na objektu `cube`. `@7adf9f5f` predstavlja hash kod objekta u heksadecimalnom formatu. Ovo je default implementacija `toString()` metode iz `Object` klase, koja ispisuje naziv klase zajedno sa hash kodom objekta. Ako želiš drugačiji format, možeš redefinisati `toString()` metodu u klasi `T11`.
+
+
+Ispis:
+T11 constructor..
+T11@..

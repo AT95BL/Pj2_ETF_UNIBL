@@ -1,0 +1,179 @@
+pogledaj sljedeći Java code snippet:
+
+
+public class C1 {
+C2 c2 = new C2();
+C1() {
+System.out.println("C1");
+}
+public static void main(String[] args) {
+C1 c1 = new C1();
+try {
+c1.metoda();
+System.out.println("main 1");
+} catch (CE2 e) {
+System.out.println("main 2: " + e);
+} catch (CE1 e) {
+System.out.println("main 3: " + e);
+} catch (Error e) {
+System.out.println("main 4: " + e);
+} catch (Throwable e) {
+System.out.println("main 5: " + e);
+} finally {
+System.out.println("finally 1");
+}
+C3 c3 = new C3();
+c3.metoda();
+}
+void metoda() throws Throwable {
+try {
+c2.metoda();
+System.out.println("C1: metoda()");
+} finally {
+System.out.println("finally 2");
+}
+}
+}
+class C2 {
+C3 c3;
+C2() {
+System.out.println("C2");
+}
+void metoda() throws CE1 {
+System.out.println("C2: metoda()");
+c3.metoda();
+}
+}
+class C3 {
+C3() {
+System.out.println("C3");
+}
+C3(String s) {
+this();
+System.out.println("C3 " + s);
+}
+protected void metoda() {
+try{
+System.out.println("C3: metoda()");
+throw new CE2("CE2");
+} catch (CE2 e) {
+System.out.println("C3: catch");
+} finally{
+System.out.println("finally 3");
+}
+}
+}
+class CE1 extends Exception {
+CE1(String s) {
+super(s);
+System.out.println("CE1: " + s);
+}
+}
+class CE2 extends CE1 {
+CE2(String s) throws CE1 {
+super(s);
+System.out.println("CE2: " + s);
+throw new CE1(s);
+}
+}
+
+i objasni mi zašto dobijam ovakav output:
+Microsoft Windows [Version 10.0.22631.4169]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Korisnik.DESKTOP-JVOQTMK\Desktop\test_23_02_2023\z1\c>javac *.java
+C1.java:56: error: unreported exception CE1; must be caught or declared to be thrown
+throw new CE2("CE2");
+      ^
+1 error
+
+
+
+
+
+
+
+
+
+
+
+Greška koju dobijate je uzrokovana pravilima o izuzecima u Javi. Pogledajmo problem detaljno:
+
+### Problem:
+U klasi **`C3`**, u metodi `metoda()`, imate sledeći blok koda:
+```java
+throw new CE2("CE2");
+```
+
+### Objašnjenje:
+1. **Klasa `CE2`**:
+   - `CE2` je podklasa `CE1`, koja je deklarisana kao **checked exception** (nasleđuje `Exception`).
+   - To znači da svaki metod koji baca izuzetak tipa `CE1` (ili `CE2`) mora ili da:
+     - **Deklariše** da baca taj izuzetak koristeći `throws` u potpisu metode, ili
+     - **Uhvatiti** taj izuzetak koristeći `try-catch` blok.
+  
+2. **Bacanje `CE2` u `C3` klasi**:
+   - Kada u klasi `C3` koristite `throw new CE2("CE2");`, pozivate konstruktor `CE2` koji takođe baca izuzetak `CE1` zbog deklaracije:
+     ```java
+     CE2(String s) throws CE1 {
+         super(s);
+         System.out.println("CE2: " + s);
+         throw new CE1(s);  // Bacanje CE1 izuzetka
+     }
+     ```
+   - Konstruktor `CE2` baca izuzetak `CE1`, a to znači da svaki poziv `new CE2("CE2")` implicitno baca izuzetak `CE1`. Međutim, taj izuzetak nije uhvaćen niti je metoda `metoda()` u klasi `C3` deklarisana da može baciti `CE1`.
+
+3. **Greška**:
+   - Metoda `metoda()` u klasi `C3` ne deklariše da baca izuzetak `CE1` u svom potpisu:
+     ```java
+     protected void metoda() {
+     ```
+   - Pošto je `CE1` checked exception, kompilator zahteva da ili:
+     - **Deklarišete** da metoda baca `CE1` koristeći `throws CE1`, ili
+     - **Uhvatite** izuzetak u `try-catch` bloku.
+
+### Kako rešiti problem:
+Postoje dva načina da rešite ovaj problem:
+
+#### 1. Deklarisanje `throws CE1` u metodi `metoda()` u klasi `C3`:
+   - Dodajte `throws CE1` u potpis metode, jer `new CE2("CE2")` implicitno baca `CE1`.
+   ```java
+   protected void metoda() throws CE1 {
+       try {
+           System.out.println("C3: metoda()");
+           throw new CE2("CE2");
+       } catch (CE2 e) {
+           System.out.println("C3: catch");
+       } finally {
+           System.out.println("finally 3");
+       }
+   }
+   ```
+
+#### 2. Uhvatiti izuzetak `CE1` u `try-catch` bloku unutar metode `metoda()`:
+   - Uključite `CE1` u `try-catch` blok:
+   ```java
+   protected void metoda() {
+       try {
+           System.out.println("C3: metoda()");
+           throw new CE2("CE2");
+       } catch (CE2 e) {
+           System.out.println("C3: catch CE2");
+       } catch (CE1 e) {  // Dodavanje hvatanja CE1
+           System.out.println("C3: catch CE1");
+       } finally {
+           System.out.println("finally 3");
+       }
+   }
+   ```
+
+### Zaključak:
+Greška se dešava jer konstruktori `CE2` implicitno bacaju checked exception `CE1`, a vaša metoda `metoda()` u klasi `C3` nije pravilno deklarisana ili ne hvata taj izuzetak.
+
+
+Rješenje:
+C2
+C1
+C2.metoda()
+
+i onda ide ova priča opisana u tekstu iznad..

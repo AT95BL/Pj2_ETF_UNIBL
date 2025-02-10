@@ -1,0 +1,42 @@
+### Analiza koda
+
+Kod ima četiri glavne komponente:
+
+1. **Klasa `D1` sa `main` metodom**:
+   - Glavna metoda pokreće nekoliko operacija na nizu `test` pomoću različitih implementacija funkcionalnog interfejsa `DI`.
+
+2. **Interfejs `DI`**:
+   - `DI` interfejs ima dve metode: apstraktnu metodu `exec(String s)` i podrazumevanu metodu `exec(String s, int i)`.
+
+3. **Klasa `D2`**:
+   - Klasa `D2` implementira metodu `exec(String s)` koja obrće dati string.
+
+4. **Lambda izraz i anonimna klasa**:
+   - Lambda izraz koristi se za obrtanje stringa sa dodatnim pomeranjem na levo za jedan znak.
+   - Anonimna klasa koristi podrazumevanu metodu `exec(String s, int i)` iz interfejsa `DI`.
+
+### Razmatranje i potencijalni problemi
+
+1. **Lambda izraz u prvom pozivu `exec` metode**:
+   - Lambda izraz obrće string ali koristi `--i`, što znači da će svaka iteracija preskočiti jedan karakter, obrćući string sa pomeranjem za jedan unazad. Ovo će rezultirati brisanjem svakog drugog karaktera pri obrtanju.
+   - **Rezultat**: `"gnireenignE lacirtcelE fo ytlucaF"`
+
+2. **Drugi poziv `exec` metode sa `new D2()::exec`**:
+   - Ovo poziva metodu `exec` klase `D2`, koja obrće string bez ikakvih modifikacija.
+   - **Rezultat**: `"!gnireenignE lacirtcelE fo ytlucaF"`
+
+3. **Anonimna klasa koja koristi `exec(String s, int i)`**:
+   - Anonimna klasa redefiniše `exec` metod, ali poziva podrazumevani metod iz `DI` interfejsa koristeći `exec(test, 3)`. Podrazumevana metoda `exec(String s, int i)` vraća substring od indeksa `3` pa do kraja stringa.
+   - **Rezultat**: `"ulty of Electrical Engineering!"`
+
+### Zaključak
+
+Kod će se kompajlirati i izvršavati ispravno, a izlaz će biti sledeći:
+
+```java
+gnireenignE lacirtcelE fo ytlucaF
+!gnireenignE lacirtcelE fo ytlucaF
+ulty of Electrical Engineering!
+```
+
+Nema izuzetaka ili grešaka u izvršavanju, i sve se odvija prema očekivanjima.
