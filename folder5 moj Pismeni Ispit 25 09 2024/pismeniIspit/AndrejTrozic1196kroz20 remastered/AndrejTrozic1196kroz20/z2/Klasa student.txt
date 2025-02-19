@@ -1,0 +1,6 @@
+Student
+- ime String
+- prezime String
+- indeks String
++ brojac ime
++ prijaviIspit (ispit String, datum Date) String

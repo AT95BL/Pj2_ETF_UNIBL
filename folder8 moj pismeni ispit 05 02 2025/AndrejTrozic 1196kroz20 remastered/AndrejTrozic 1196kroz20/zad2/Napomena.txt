@@ -1,0 +1,4 @@
+
+Pretrazivac.java i Main.java su klase koje sam ja napravio na ispitu, te za iste dobio 7-10 bodova..
+
+Klasa Pretrazivac1.java sadrži rješenje postavljenog zadatka..

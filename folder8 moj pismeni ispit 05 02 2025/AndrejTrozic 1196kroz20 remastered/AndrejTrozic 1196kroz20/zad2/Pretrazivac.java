@@ -5,7 +5,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.*;
 
 public class Pretrazivac implements FileVisitor<Path>{
-	
+
 	Path putanjaPocetnogDirektorijuma = null;
 	String ekstenzija = "";
 	

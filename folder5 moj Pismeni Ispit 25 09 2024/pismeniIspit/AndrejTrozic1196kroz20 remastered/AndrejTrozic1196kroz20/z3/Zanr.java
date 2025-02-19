@@ -1,0 +1,7 @@
+
+public enum Zanr{
+	AKCIJA,
+	DRAMA,
+	KOMEDIJA,
+	DOKUMENTARAC
+}
