@@ -1,0 +1,17 @@
+In the context of programming and graphical user interfaces (GUIs), a label is a graphical control element used to display text or an image. 
+It is typically used to provide descriptive text or to display information about other components in the GUI. 
+Labels are non-interactive and serve as a way to give context and guidance to the user.
+Here are some key points about labels:
+Text Labels: The most common type of label displays text. 
+It can be used to provide information, instructions, or headings within a GUI. 
+For example, you might see labels next to input fields to indicate what information should be entered.
+Image Labels: Labels can also display images or icons. Image labels are often used to show visual representations of objects, icons to indicate actions, or logos.
+Non-Interactive: Unlike buttons or other interactive components, labels are non-interactive, meaning they do not respond to user input like mouse clicks or keyboard events. 
+They are primarily used for display purposes.
+Label Components: Different GUI frameworks or libraries have their own implementations of label components.
+For example, in Java Swing, you have JLabel, in HTML, you use the <label> element, and in other frameworks, similar label components exist with different names.
+Styling: Labels can often be customized in terms of font, color, size, alignment, and other appearance-related properties to fit the overall look and feel of the GUI.
+Accessibility: Labels are essential for making user interfaces accessible to people with disabilities. 
+Screen readers and other assistive technologies use labels to convey information to users who may have visual impairments.
+
+Najprostije rečeno. Label se može zamisliti kao pravougli-kontenjer pogodan za skladištenje slike ili teksta.

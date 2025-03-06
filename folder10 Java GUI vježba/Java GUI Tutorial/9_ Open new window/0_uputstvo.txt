@@ -1,0 +1,7 @@
+Ideja ovog tutorial-a jeste smještena u 3 klase:
+1. klasa Main služi za pokretanje programa,
+2. klasa LaunchPage služi za uvođene funkcionalnosti tj. suština ovog tutorial-a jeste
+da se iz Main klase pokrene program, klikom na dugme koje pripada LaunchPage klasi
+pa da se kao posljedica svega toga otvori novi prozor koji je dizajniran NewWindow klasom,
+3. klasa NewWindow služi za kreiranje prozora koji će se otvoriti.
+Rezime: Pokreni program, klikni na dugme, otvora ti se novi prozor.

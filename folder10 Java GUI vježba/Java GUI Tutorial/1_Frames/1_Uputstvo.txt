@@ -1,0 +1,14 @@
+1) Sav materijal se nalazi u datoteci Main.java tako da desni klik na nju i open with Notepad++/Notepad/MS_Visual_STudio Code	..
+
+
+Kompajliranje & pokretanje programa ide preko cmd-a:
+2) javac *.java
+3) java Main
+
+4) MyFrame klasa sluzi kao utility klasa i zašto je ona tu?
+Ako se vratimo u Main klasu i udjemo u tijelo main() metode ono što vidimo jeste
+nekoliko code-line u njoj..nije to neka preporučljiva praksa tako da je zamisao
+da se sav taj code za pravljenje Java GUI-ja prenese u MyFrame klasu i da se u Main
+klasi napravi i referencira objekat te klase MyFrame kako bi zadržali funkcionalnost
+ali popravili čitljivost tijela main() metode..Za vježbu je potrebno /**/ tijelo main
+metode pa inicijalizovati objekat klase MyFrame i uporediti rezultat.
