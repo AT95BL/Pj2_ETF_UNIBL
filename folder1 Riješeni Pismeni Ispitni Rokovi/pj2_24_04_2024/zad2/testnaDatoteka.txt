@@ -1,0 +1,10 @@
+a
+ee
+iii
+oooo
+uuuuu
+
+Recept za pokretanje:
+1) Obriši sve direktorijume u direktorijumu testiranje!
+2) java Main n testiranje
+3) kopiraj "testnaDatoteka" i ubaci u neki od novokreiranih direktorijuma
