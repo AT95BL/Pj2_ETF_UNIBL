@@ -44,7 +44,8 @@ public class Main{
 			sekcija.listaPolica.forEach(polica -> {
 				System.out.println("  Polica ID: " + polica.id);
 				
-				polica.listaKnjiga.stream().sorted(Comparator.comparing(knjiga -> knjiga.naslov, Comparator.reverseOrder())).forEach(knjiga -> {
+				polica.listaKnjiga.stream().sorted(Comparator.comparing(knjiga -> knjiga.naslov, Comparator.reverseOrder()))
+				.forEach(knjiga -> {
 					System.out.println(knjiga);
 				});
 			});

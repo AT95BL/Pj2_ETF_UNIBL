@@ -40,17 +40,16 @@ public class FileWatcher implements Runnable {
 					Path dirPath = (Path) key.watchable(); // Direktan direktorijum u kojem se desila promena
 					Path fullPath = dirPath.resolve(fileName);
 
-				if (fileName.toString().endsWith(".txt")) {
-					System.out.println("Dodana datoteka: " + fullPath);
+                    if (fileName.toString().endsWith(".txt")) {
+                        System.out.println("Dodana datoteka: " + fullPath);
 
-					long brojac = brojacSamoglasnikaUDatoteci(fullPath);
-					UKUPAN_BROJ_SAMOGLASNIKA += brojac;
+                        long brojac = brojacSamoglasnikaUDatoteci(fullPath);
+                        UKUPAN_BROJ_SAMOGLASNIKA += brojac;
 
-					System.out.println("Broj samoglasnika: " + brojac + " u datoteci: " + fullPath);
-					System.out.println("Ukupan broj samoglasnika do sada: " + UKUPAN_BROJ_SAMOGLASNIKA);
-				}
-}
-
+                        System.out.println("Broj samoglasnika: " + brojac + " u datoteci: " + fullPath);
+                        System.out.println("Ukupan broj samoglasnika do sada: " + UKUPAN_BROJ_SAMOGLASNIKA);
+                    }
+                }   
             }
 
             boolean valid = key.reset();
