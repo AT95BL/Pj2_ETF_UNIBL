@@ -39,7 +39,8 @@ public class Main{
 		
 		// kreirati listu filmova koji su objavljeni u prvoj deceniji 2000-tih,
 		System.out.println("Filmovi koji su objavljeni u prvoj deceniji 2000-tih..");
-		listaFilmova.stream().filter((film)->film.godinaObjavljivanja >= 2000 && film.godinaObjavljivanja < 2010).forEach(System.out::println);
+		listaFilmova.stream().filter((film)->film.godinaObjavljivanja >= 2000 && film.godinaObjavljivanja < 2010)
+		.forEach(System.out::println);
 		
 		// kreirati listu filmova grupisanih po ocjeni u formatu npr. 6,0-6,99, 7,0-7,99,...,9.0-10.0, 
 		Function<Film,String> funkcija=(film)->{
