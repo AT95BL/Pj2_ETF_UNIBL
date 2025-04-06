@@ -1,0 +1,8 @@
+Radimo sa klasom RandomAccessFile, koristimo referencu -raf- na objekat te klase..
+
+*Pozicioniranje:							raf.seek(pozicija.get(i));
+	
+*Čitanje(Znak po znak):							char c = (char)raf.read();
+
+*Za provjeravanje, 
+možda se na poziciji nalazi whiteSpace ili znak interpunkcije:		!Character.isLetterOrDigit(c);
