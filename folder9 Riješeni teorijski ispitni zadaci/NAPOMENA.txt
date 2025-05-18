@@ -1,0 +1,2 @@
+1) Za 1. zadatak, koristiti debugger a ne AI!!
+2) U napisanim rješenjima, postoji mogućnost da se ipak negdje nalazi neka greška ..
