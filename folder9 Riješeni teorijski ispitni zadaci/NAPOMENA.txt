@@ -1,2 +1,16 @@
 1) Za 1. zadatak, koristiti debugger a ne AI!!
-2) U napisanim rješenjima, postoji mogućnost da se ipak negdje nalazi neka greška ..
+2) U napisanim rješenjima, postoji mogućnost da se ipak negdje nalazi neka pogrešna misao, rješenje i tome slično ..
+
+
+3)
+
+1.Zadatak, 
+a) moguće greške su:
+-poziv privatnog Constructor-a, klasična kompajlerska greška..
+-poziv nepostojećeg Constructor-a, poziv Constructor-a sa pogrešnim brojem/redoslijedom argumenata, ...opet klasična kompajlerska greška ..
+-tokom izvršavanja programa može se desiti StackOverflow Exception ..
+
+U slučaju kompajlerskih grešaka, program se uopšte neće ni kompajlirati.
+Potrebno je naći grešku, podvući liniju code-a u kojoj nastaje ista i time je zadatak 100% kompletiran!
+
+U slučaju StackOverflow Exception-a, potrebno je pisati output code-a sve do momenta dok ne dođe do Exception-a!!
